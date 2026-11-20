@@ -1,0 +1,17 @@
+# Dependencies
+node_modules/
+
+# Secrets - never commit these
+.env
+.env.*
+
+# Uploaded product images (will move to Cloudinary later)
+backend/uploads/
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
+.vscode/
+*.log
+*.zip
+*.backup

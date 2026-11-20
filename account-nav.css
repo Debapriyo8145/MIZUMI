@@ -1,0 +1,18 @@
+
+/* Customer account login indicator */
+
+.account-nav-button {
+    position: relative;
+}
+
+.account-nav-button.account-logged-in::after {
+    content: "";
+    position: absolute;
+    width: 9px;
+    height: 9px;
+    right: 2px;
+    bottom: 2px;
+    border: 2px solid var(--ivory, #f8f7f1);
+    border-radius: 50%;
+    background: #4b9b63;
+}

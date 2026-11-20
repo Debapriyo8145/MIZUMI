@@ -1,0 +1,558 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#173d35">
+
+    <title>MIZUMI Aquatics | Freshwater Fish & Aquarium Essentials</title>
+    <meta name="description" content="Explore freshwater ornamental fish, aquarium plants, equipment, aquascaping and custom aquarium services at MIZUMI Aquatics, Ranaghat.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="account-nav.css">
+</head>
+
+<body>
+
+    <!-- ANNOUNCEMENT -->
+    <div class="announcement">
+        WELCOME TO MIZUMI AQUATICS
+        <span>&nbsp; | &nbsp; WHERE AQUATIC LIFE COMES ALIVE</span>
+    </div>
+
+    <!-- NAVIGATION -->
+    <nav class="main-nav">
+        <div class="container-custom nav-inner">
+
+            <button class="mobile-toggle" id="mobileToggle"
+                    type="button" aria-label="Open navigation"
+                    aria-expanded="false" aria-controls="navLinks">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+            <a href="index.html" class="brand" aria-label="MIZUMI Aquatics home">
+                <div class="brand-mark">
+                    <i class="fa-solid fa-fish-fins"></i>
+                </div>
+                <div>
+                    <div class="brand-name">MIZUMI</div>
+                    <div class="brand-subtitle">A Q U A T I C S</div>
+                </div>
+            </a>
+
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html" aria-current="page">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="shop.html?category=fish">Freshwater Fish</a></li>
+                <li><a href="shop.html?category=plants">Aquatic Plants</a></li>
+                <li><a href="shop.html?category=equipment">Equipment</a></li>
+                <li><a href="#services">Our Services</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <button class="nav-icon" type="button"
+                        aria-label="Search products" id="searchToggle"
+                        aria-expanded="false" aria-controls="searchPanel">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+
+                <a class="nav-icon account-nav-button"
+                   href="account.html" aria-label="My Account">
+                    <i class="fa-regular fa-user"></i>
+                </a>
+
+                <a href="cart.html" class="nav-icon" aria-label="Shopping cart">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span class="cart-count" id="cartCount">0</span>
+                </a>
+            </div>
+        </div>
+
+        <form id="searchPanel" class="container-custom py-3 d-none" role="search">
+            <label class="visually-hidden" for="siteSearch">Search products</label>
+            <div class="input-group">
+                <input type="search" id="siteSearch" class="form-control"
+                       placeholder="Search fish, plants and aquarium essentials..."
+                       autocomplete="off">
+                <button class="btn btn-outline-secondary" type="submit"
+                        aria-label="Submit search">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </form>
+    </nav>
+
+    <main>
+
+        <!-- HERO -->
+        <section class="hero">
+            <div class="container-custom">
+                <div class="hero-content">
+                    <div class="eyebrow">A WORLD BENEATH THE SURFACE</div>
+
+                    <h1>
+                        Bring Nature<br>
+                        <em>Into Your</em><br>
+                        Living Space.
+                    </h1>
+
+                    <p>
+                        Discover extraordinary freshwater fish, thoughtfully
+                        selected aquarium essentials and everything you need
+                        to create your own underwater world.
+                    </p>
+
+                    <a href="shop.html" class="btn-primary-custom">
+                        Explore Our Collection
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+
+                    <a href="#services" class="btn-outline-custom">
+                        Our Services
+                    </a>
+                </div>
+            </div>
+
+            <div class="hero-note">
+                INSPIRED BY NATURE. CREATED FOR AQUATIC LIFE.
+            </div>
+        </section>
+
+        <!-- BENEFITS -->
+        <section class="benefits">
+            <div class="container-custom">
+                <div class="row g-3">
+
+                    <div class="col-6 col-lg-3">
+                        <div class="benefit">
+                            <i class="fa-solid fa-fish"></i>
+                            <div>
+                                <strong>Selected Fish</strong>
+                                <small>Thoughtfully sourced</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-6 col-lg-3">
+                        <div class="benefit">
+                            <i class="fa-solid fa-leaf"></i>
+                            <div>
+                                <strong>Aquatic Living</strong>
+                                <small>Plants & aquascaping</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-6 col-lg-3">
+                        <div class="benefit">
+                            <i class="fa-solid fa-water"></i>
+                            <div>
+                                <strong>Aquarium Expertise</strong>
+                                <small>Equipment & guidance</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-6 col-lg-3">
+                        <div class="benefit">
+                            <i class="fa-solid fa-house"></i>
+                            <div>
+                                <strong>Custom Setups</strong>
+                                <small>Designed for your space</small>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- CATEGORIES -->
+        <section class="section categories-section" id="categories">
+            <div class="container-custom">
+
+                <div class="section-heading">
+                    <div class="eyebrow">EXPLORE OUR WORLD</div>
+                    <h2>Find Your Aquatic Passion</h2>
+                    <p>
+                        From captivating freshwater fish to the smallest
+                        details of your aquarium, find everything in one place.
+                    </p>
+                </div>
+
+                <div class="row row-cols-3 row-cols-md-4 row-cols-lg-6 g-4">
+
+                    <div class="col">
+                        <a href="shop.html?category=fish" class="category-card">
+                            <div class="category-image">
+                                <img src="https://images.unsplash.com/photo-1524704654690-b56c05c78a00?w=400"
+                                     alt="Ornamental freshwater fish" loading="lazy">
+                            </div>
+                            <h3>Live Fish</h3>
+                            <span>Explore species</span>
+                        </a>
+                    </div>
+
+                    <div class="col">
+                        <a href="shop.html?category=plants" class="category-card">
+                            <div class="category-image">
+                                <img src="https://images.unsplash.com/photo-1535591273668-578e31182c4f?w=400"
+                                     alt="Aquatic plants" loading="lazy">
+                            </div>
+                            <h3>Aquatic Plants</h3>
+                            <span>Natural greenery</span>
+                        </a>
+                    </div>
+
+                    <div class="col">
+                        <a href="shop.html?category=equipment" class="category-card">
+                            <div class="category-image">
+                                <img src="https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=400"
+                                     alt="Aquarium equipment" loading="lazy">
+                            </div>
+                            <h3>Equipment</h3>
+                            <span>Build your setup</span>
+                        </a>
+                    </div>
+
+                    <div class="col">
+                        <a href="shop.html?category=hardscape" class="category-card">
+                            <div class="category-image">
+                                <img src="https://images.unsplash.com/photo-1546026423-cc4642628d2b?w=400"
+                                     alt="Aquarium hardscape" loading="lazy">
+                            </div>
+                            <h3>Hardscape</h3>
+                            <span>Rocks & driftwood</span>
+                        </a>
+                    </div>
+
+                    <div class="col">
+                        <a href="shop.html?category=food" class="category-card">
+                            <div class="category-image">
+                                <img src="https://images.unsplash.com/photo-1574269909862-7e1d70bb8078?w=400"
+                                     alt="Aquarium fish food" loading="lazy">
+                            </div>
+                            <h3>Fish Food</h3>
+                            <span>Daily nutrition</span>
+                        </a>
+                    </div>
+
+                    <div class="col">
+                        <a href="#services" class="category-card">
+                            <div class="category-image">
+                                <img src="https://images.unsplash.com/photo-1530053969600-caed2596d242?w=400"
+                                     alt="Aquascaping design" loading="lazy">
+                            </div>
+                            <h3>Custom Tanks</h3>
+                            <span>Made for you</span>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- FEATURE BANNER -->
+        <section class="feature-banner">
+            <div class="container-custom">
+                <div class="feature-content">
+                    <div class="eyebrow">THE BEAUTY OF FRESHWATER</div>
+                    <h2>Every Aquarium<br>Has a Story.</h2>
+                    <p>
+                        Discover a world of vibrant colours, fascinating
+                        freshwater species and living underwater landscapes.
+                    </p>
+                    <a href="shop.html?category=fish" class="btn-primary-custom">
+                        Discover Freshwater Fish
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- FRESHWATER FISH -->
+        <section class="section collection-section" id="fish">
+            <div class="container-custom">
+
+                <div class="section-topline">
+                    <div>
+                        <div class="eyebrow">CURATED FOR AQUARISTS</div>
+                        <h2>Freshwater Collection</h2>
+                        <p>Find the perfect additions to your underwater world.</p>
+                    </div>
+                    <a href="shop.html?category=fish" class="text-link">
+                        VIEW ALL FISH &nbsp; →
+                    </a>
+                </div>
+
+                <div class="filter-row" id="fishFilters">
+                    <button class="filter-btn active" type="button" data-filter="all">All Fish</button>
+                    <button class="filter-btn" type="button" data-filter="betta">Betta</button>
+                    <button class="filter-btn" type="button" data-filter="guppy">Guppy</button>
+                    <button class="filter-btn" type="button" data-filter="goldfish">Goldfish</button>
+                    <button class="filter-btn" type="button" data-filter="cichlid">Cichlids</button>
+                </div>
+
+                <div class="row g-3" id="fishProducts" aria-live="polite">
+                    <div class="col-12">
+                        <p class="text-muted small">Loading freshwater collection...</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- AQUARIUM ESSENTIALS -->
+        <section class="section" id="essentials">
+            <div class="container-custom">
+
+                <div class="section-topline">
+                    <div>
+                        <div class="eyebrow">THE RIGHT TOOLS MATTER</div>
+                        <h2>Aquarium Essentials</h2>
+                        <p>Everything your aquatic ecosystem needs to thrive.</p>
+                    </div>
+                    <a href="shop.html" class="text-link">
+                        EXPLORE PRODUCTS &nbsp; →
+                    </a>
+                </div>
+
+                <div class="row g-3" id="essentialProducts" aria-live="polite">
+                    <div class="col-12">
+                        <p class="text-muted small">Loading aquarium essentials...</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- BRAND STORY -->
+        <section class="section story-section" id="about">
+            <div class="container-custom">
+                <div class="row align-items-center g-4">
+
+                    <div class="col-lg-6">
+                        <div class="story-image"
+                             role="img" aria-label="Freshwater aquarium"></div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="story-content">
+                            <div class="eyebrow">MORE THAN AN AQUARIUM STORE</div>
+                            <h2>Inspired by Nature.<br>Driven by Passion.</h2>
+
+                            <p>
+                                At MIZUMI Aquatics, we believe an aquarium is more
+                                than a glass tank. It is a living ecosystem, a
+                                creative expression and a little piece of nature
+                                inside your everyday life.
+                            </p>
+
+                            <p>
+                                Our focus is freshwater aquatic life, carefully
+                                chosen equipment, aquascaping and helping aquarists
+                                create healthier, more beautiful aquatic environments.
+                            </p>
+
+                            <div class="story-stat">
+                                <div>
+                                    <strong>01</strong>
+                                    <span>Passion for Aquatics</span>
+                                </div>
+                                <div>
+                                    <strong>02</strong>
+                                    <span>Nature-Inspired Design</span>
+                                </div>
+                                <div>
+                                    <strong>03</strong>
+                                    <span>Customer Guidance</span>
+                                </div>
+                            </div>
+
+                            <a href="contact.html" class="btn-primary-custom">
+                                Talk to Our Team
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- SERVICES -->
+        <section class="section services-section" id="services">
+            <div class="container-custom">
+
+                <div class="section-heading">
+                    <div class="eyebrow">DESIGN YOUR OWN UNDERWATER WORLD</div>
+                    <h2>Beyond the Aquarium Store</h2>
+                    <p>
+                        We bring your aquatic ideas to life through thoughtful
+                        aquarium design and professional services.
+                    </p>
+                </div>
+
+                <div class="row g-3">
+
+                    <div class="col-md-6 col-lg-4">
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fa-solid fa-cubes-stacked"></i>
+                            </div>
+                            <h3>Custom Aquarium Building</h3>
+                            <p>
+                                Aquariums designed around your space, dimensions,
+                                aesthetic preferences and aquatic requirements.
+                            </p>
+                            <a href="contact.html" class="text-link d-inline-block mt-4">
+                                ENQUIRE NOW →
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-4">
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fa-solid fa-leaf"></i>
+                            </div>
+                            <h3>Aquascaping</h3>
+                            <p>
+                                Nature-inspired underwater landscapes using
+                                aquatic plants, rocks, driftwood and thoughtful composition.
+                            </p>
+                            <a href="contact.html" class="text-link d-inline-block mt-4">
+                                EXPLORE SERVICE →
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-4">
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fa-solid fa-building"></i>
+                            </div>
+                            <h3>Commercial Installations</h3>
+                            <p>
+                                Custom aquarium solutions for restaurants, hotels,
+                                offices and other commercial spaces.
+                            </p>
+                            <a href="contact.html" class="text-link d-inline-block mt-4">
+                                DISCUSS YOUR PROJECT →
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- CALL TO ACTION -->
+        <section class="cta-section">
+            <div class="container-custom">
+                <div class="eyebrow justify-content-center">LET'S CREATE SOMETHING BEAUTIFUL</div>
+                <h2>Your Underwater Journey Starts Here.</h2>
+                <p>
+                    Whether you're starting your first aquarium or building
+                    your next aquascape, we're here to help.
+                </p>
+                <a href="contact.html" class="btn-primary-custom">
+                    Get in Touch
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer" id="contact">
+        <div class="container-custom">
+
+            <div class="row g-5">
+
+                <div class="col-lg-4">
+                    <a href="index.html" class="brand" aria-label="MIZUMI Aquatics home">
+                        <div class="brand-mark">
+                            <i class="fa-solid fa-fish-fins"></i>
+                        </div>
+                        <div>
+                            <div class="brand-name">MIZUMI</div>
+                            <div class="brand-subtitle">A Q U A T I C S</div>
+                        </div>
+                    </a>
+
+                    <p class="footer-about">
+                        A destination for freshwater aquatic life,
+                        aquarium essentials and nature-inspired
+                        underwater experiences.
+                    </p>
+
+                    <p class="footer-about mb-0">
+                        <i class="fa-solid fa-location-dot me-2"></i>
+                        Ranaghat, Nadia, West Bengal
+                    </p>
+
+                    <a href="contact.html" class="text-link d-inline-block mt-3">
+                        CONTACT MIZUMI →
+                    </a>
+                </div>
+
+                <div class="col-6 col-lg-2">
+                    <h4>Explore</h4>
+                    <ul class="footer-links">
+                        <li><a href="shop.html">Shop All</a></li>
+                        <li><a href="shop.html?category=fish">Freshwater Fish</a></li>
+                        <li><a href="shop.html?category=plants">Aquatic Plants</a></li>
+                        <li><a href="shop.html?category=equipment">Equipment</a></li>
+                        <li><a href="shop.html?category=food">Fish Food</a></li>
+                        <li><a href="#services">Our Services</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-6 col-lg-2">
+                    <h4>Customer Care</h4>
+                    <ul class="footer-links">
+                        <li><a href="account.html">My Account</a></li>
+                        <li><a href="cart.html">Shopping Cart</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                        <li><a href="#about">About MIZUMI</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-4">
+                    <h4>Need Aquarium Guidance?</h4>
+                    <p class="footer-about">
+                        Have a question about fish, aquarium equipment,
+                        custom tanks or aquascaping? Get in touch with us.
+                    </p>
+
+                    <a href="contact.html" class="btn-primary-custom">
+                        Talk to Us
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+                <span>© <span id="currentYear"></span> MIZUMI Aquatics. All rights reserved.</span>
+                <span>Inspired by Nature. Created for Aquatic Life.</span>
+            </div>
+
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="main.js"></script>
+    <script src="account-nav.js"></script>
+</body>
+</html>

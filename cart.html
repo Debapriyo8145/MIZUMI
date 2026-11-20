@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#173d35">
+  <title>Your Shopping Bag | MIZUMI Aquatics</title>
+  <meta name="description" content="Review your MIZUMI Aquatics shopping bag and prepare your freshwater aquarium order.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="cart-page.css">
+  <link rel="stylesheet" href="account-nav.css">
+</head>
+<body class="mizumi-cart-page">
+  <div class="announcement">WELCOME TO MIZUMI AQUATICS <span>&nbsp; | &nbsp; THOUGHTFULLY SELECTED FOR YOUR UNDERWATER WORLD</span></div>
+
+  <nav class="main-nav">
+    <div class="container-custom nav-inner">
+      <button class="mobile-toggle" id="cartMobileToggle" type="button" aria-label="Open navigation" aria-expanded="false"><i class="fa-solid fa-bars"></i></button>
+      <a href="index.html" class="brand" aria-label="MIZUMI Aquatics home">
+        <div class="brand-mark"><i class="fa-solid fa-fish-fins"></i></div>
+        <div><div class="brand-name">MIZUMI</div><div class="brand-subtitle">A Q U A T I C S</div></div>
+      </a>
+      <ul class="nav-links" id="cartNavLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="shop.html?category=fish">Freshwater Fish</a></li>
+        <li><a href="shop.html?category=plants">Aquatic Plants</a></li>
+        <li><a href="index.html#services">Aquascaping</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a class="nav-icon" href="shop.html" aria-label="Search products"><i class="fa-solid fa-magnifying-glass"></i></a>
+<a class="nav-icon account-nav-button"
+   href="account.html"
+   aria-label="My Account">
+    <i class="fa-regular fa-user"></i>
+</a>
+        <a class="nav-icon is-current" href="cart.html" aria-label="Shopping bag"><i class="fa-solid fa-bag-shopping"></i><span class="cart-nav-count" id="cartNavCount">0</span></a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <section class="cart-hero">
+      <div class="container-custom">
+        <div class="cart-breadcrumb"><a href="index.html">Home</a><span>/</span><a href="shop.html">Shop</a><span>/</span><span>Your bag</span></div>
+        <div class="cart-hero-copy">
+          <span class="eyebrow">YOUR MIZUMI SELECTION</span>
+          <h1>A few good things<br>for your <em>underwater world.</em></h1>
+          <p>Review your selection before moving ahead. Every thriving aquarium starts with the right choices.</p>
+        </div>
+        <div class="cart-hero-watermark" aria-hidden="true"><i class="fa-solid fa-water"></i></div>
+      </div>
+    </section>
+
+    <section class="cart-main-section">
+      <div class="container-custom">
+        <div class="cart-step-line">
+          <div class="cart-step is-active"><span>01</span><div><strong>Shopping bag</strong><small>Review your items</small></div></div>
+          <span class="cart-step-rule"></span>
+          <div class="cart-step"><span>02</span><div><strong>Delivery details</strong><small>Coming at checkout</small></div></div>
+          <span class="cart-step-rule"></span>
+          <div class="cart-step"><span>03</span><div><strong>Confirmation</strong><small>Order review</small></div></div>
+        </div>
+
+        <div class="cart-page-heading">
+          <div><span class="eyebrow">YOUR COLLECTION</span><h2>Shopping bag <span id="cartItemCountLabel">(0 items)</span></h2></div>
+          <a href="shop.html" class="cart-continue-link"><i class="fa-solid fa-arrow-left"></i> Continue shopping</a>
+        </div>
+
+        <div class="cart-layout" id="cartLayout">
+          <section class="cart-items-panel" aria-label="Items in your shopping bag">
+            <div class="cart-table-head"><span>PRODUCT</span><span>PRICE</span><span>QUANTITY</span><span>TOTAL</span></div>
+            <div id="cartItemsList" class="cart-items-list" aria-live="polite"></div>
+            <div class="cart-panel-bottom">
+              <a href="shop.html" class="cart-back-link"><i class="fa-solid fa-arrow-left"></i> Keep exploring</a>
+              <button class="cart-clear-btn" type="button" id="cartClearBtn">Clear bag</button>
+            </div>
+          </section>
+
+          <aside class="cart-summary-card" aria-label="Order summary">
+            <div class="cart-summary-heading"><span class="eyebrow">THE DETAILS</span><h3>Order summary</h3></div>
+            <div class="cart-summary-row"><span>Subtotal</span><strong id="cartSubtotal">₹0</strong></div>
+            <div class="cart-summary-row"><span>Shipping</span><span class="cart-summary-muted">Calculated later</span></div>
+            <div class="cart-summary-row"><span>Taxes</span><span class="cart-summary-muted">If applicable</span></div>
+            <div class="cart-summary-total"><span>Estimated total</span><strong id="cartEstimatedTotal">₹0</strong></div>
+            <p class="cart-summary-caption">Final delivery charges and applicable taxes will be confirmed before payment.</p>
+            <button type="button" class="cart-checkout-btn" id="cartCheckoutBtn" disabled>Continue to checkout <i class="fa-solid fa-arrow-right"></i></button>
+            <div class="cart-payment-note"><i class="fa-solid fa-lock"></i><span>Secure checkout will be available when online payments are connected.</span></div>
+            <div class="cart-summary-help"><i class="fa-regular fa-circle-question"></i><p>Need help choosing the right fish or equipment? <a href="contact.html">Talk to our team.</a></p></div>
+          </aside>
+        </div>
+
+        <section class="cart-empty-state" id="cartEmptyState" hidden>
+          <div class="cart-empty-icon"><i class="fa-solid fa-basket-shopping"></i></div>
+          <span class="eyebrow">NOTHING IN THE BAG — YET</span>
+          <h2>Your next aquatic favourite<br><em>is waiting to be found.</em></h2>
+          <p>Explore freshwater fish, aquatic plants and aquarium essentials selected for your setup.</p>
+          <a href="shop.html" class="cart-primary-link">Explore the shop <i class="fa-solid fa-arrow-right"></i></a>
+          <div class="cart-empty-footnote">A thoughtful aquarium begins with a thoughtful selection.</div>
+        </section>
+
+        <div class="cart-live-note" id="cartLiveNote">
+          <div class="cart-live-note-icon"><i class="fa-solid fa-fish-fins"></i></div>
+          <div><strong>A note about live aquatic life</strong><p>Fish availability, health checks and delivery suitability may vary. Live fish orders should be confirmed with MIZUMI before payment or dispatch.</p></div>
+          <a href="contact.html">Ask us <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="cart-reassurance">
+      <div class="container-custom cart-reassurance-grid">
+        <div><i class="fa-solid fa-leaf"></i><div><strong>Thoughtful selection</strong><span>Chosen with aquarists in mind.</span></div></div>
+        <div><i class="fa-solid fa-hand-holding-heart"></i><div><strong>Care-first guidance</strong><span>Ask before you bring home.</span></div></div>
+        <div><i class="fa-solid fa-droplet"></i><div><strong>Healthy habitats</strong><span>Better choices for aquatic life.</span></div></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" id="contact">
+    <div class="container-custom">
+      <div class="row g-5">
+        <div class="col-lg-4">
+          <a href="index.html" class="brand"><div class="brand-mark"><i class="fa-solid fa-fish-fins"></i></div><div><div class="brand-name">MIZUMI</div><div class="brand-subtitle">A Q U A T I C S</div></div></a>
+          <p class="footer-about">A destination for freshwater aquatic life, aquarium essentials and nature-inspired underwater experiences.</p>
+          <div class="social-links mt-4"><a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a><a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a><a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a></div>
+        </div>
+        <div class="col-6 col-lg-2"><h4>Explore</h4><ul class="footer-links"><li><a href="shop.html">Shop All</a></li><li><a href="shop.html?category=fish">Freshwater Fish</a></li><li><a href="shop.html?category=plants">Aquatic Plants</a></li><li><a href="shop.html?category=equipment">Accessories</a></li><li><a href="index.html#services">Services</a></li></ul></div>
+        <div class="col-6 col-lg-2"><h4>Information</h4><ul class="footer-links"><li><a href="contact.html">Contact Us</a></li><li><a href="#">Shipping Policy</a></li><li><a href="#">Live Fish Policy</a></li><li><a href="#">Privacy Policy</a></li></ul></div>
+        <div class="col-lg-4"><h4>Join Our Aquatic Community</h4><p class="footer-about">Get updates on new arrivals, aquarium inspiration and useful tips for your aquatic journey.</p><a class="cart-footer-shop-link" href="shop.html">DISCOVER THE COLLECTION <i class="fa-solid fa-arrow-right"></i></a></div>
+      </div>
+      <div class="footer-bottom"><span>© <span id="cartCurrentYear"></span> MIZUMI Aquatics. All rights reserved.</span><span>Inspired by Nature. Created for Aquatic Life.</span></div>
+    </div>
+  </footer>
+
+  <div class="cart-feedback" id="cartFeedback" role="status" aria-live="polite"></div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="cart.js"></script>
+  <script src="account-nav.js"></script>
+</body>
+</html>

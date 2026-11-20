@@ -1,0 +1,605 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Orders | MIZUMI Aquatics</title>
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="theme-color" content="#173d35">
+    <meta name="description" content="Manage customer orders for MIZUMI Aquatics.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/orders.css">
+
+    <script src="js/auth.js" defer></script>
+    <script src="js/orders.js" defer></script>
+</head>
+
+<body class="admin-body">
+
+<div class="admin-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar" id="adminSidebar">
+
+        <a href="../index.html" class="admin-brand">
+            <span class="brand-mark">M</span>
+
+            <span class="brand-text">
+                <strong>MIZUMI</strong>
+                <small>AQUATICS</small>
+            </span>
+        </a>
+
+        <div class="sidebar-divider"></div>
+
+        <div class="sidebar-label">STORE MANAGEMENT</div>
+
+        <nav class="sidebar-nav">
+
+            <a href="index.html" class="sidebar-link">
+                <span class="nav-symbol">◈</span>
+                <span>Overview</span>
+            </a>
+
+            <a href="products.html" class="sidebar-link">
+                <span class="nav-symbol">▦</span>
+                <span>Products</span>
+            </a>
+
+            <a href="orders.html" class="sidebar-link active">
+                <span class="nav-symbol">▤</span>
+                <span>Orders</span>
+                <span class="orders-sidebar-count" id="sidebarPendingCount">0</span>
+            </a>
+
+            <a href="#" class="sidebar-link disabled" aria-disabled="true">
+                <span class="nav-symbol">♙</span>
+                <span>Customers</span>
+                <small>SOON</small>
+            </a>
+
+        </nav>
+
+        <div class="sidebar-label sidebar-label-secondary">BUSINESS</div>
+
+        <nav class="sidebar-nav">
+
+            <a href="#" class="sidebar-link disabled" aria-disabled="true">
+                <span class="nav-symbol">▥</span>
+                <span>Analytics</span>
+                <small>SOON</small>
+            </a>
+
+            <a href="#" class="sidebar-link disabled" aria-disabled="true">
+                <span class="nav-symbol">⚙</span>
+                <span>Settings</span>
+                <small>SOON</small>
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <div class="sidebar-store-card">
+                <span class="store-status-dot"></span>
+
+                <div>
+                    <strong>MIZUMI Store</strong>
+                    <small>Administration panel</small>
+                </div>
+            </div>
+
+            <a href="../index.html" class="sidebar-website-link">
+                <span>↗</span>
+                View storefront
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN AREA -->
+    <main class="admin-main">
+
+        <!-- TOPBAR -->
+        <header class="admin-topbar">
+
+            <div class="topbar-left">
+
+                <button
+                    type="button"
+                    class="mobile-menu-button"
+                    id="sidebarToggle"
+                    aria-label="Open navigation"
+                    aria-expanded="false"
+                >
+                    ☰
+                </button>
+
+                <div class="breadcrumb">
+                    <span>Administration</span>
+                    <span class="breadcrumb-separator">/</span>
+                    <strong>Orders</strong>
+                </div>
+
+            </div>
+
+            <div class="topbar-right">
+
+                <div class="admin-user">
+                    <div class="admin-avatar">A</div>
+
+                    <div class="admin-user-info">
+                        <strong id="adminUserName">Administrator</strong>
+                        <small>Store Admin</small>
+                    </div>
+                </div>
+
+                <button type="button" class="logout-button" id="logoutBtn">
+                    Sign out <span>↗</span>
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <!-- ORDERS CONTENT -->
+        <div class="orders-page">
+
+            <!-- PAGE HEADING -->
+            <section class="orders-page-heading">
+
+                <div>
+                    <span class="section-eyebrow">STORE MANAGEMENT</span>
+
+                    <h1>Customer Orders<span>.</span></h1>
+
+                    <p>
+                        Track purchases, manage fulfilment and keep
+                        every customer order moving.
+                    </p>
+                </div>
+
+                <button
+                    type="button"
+                    class="orders-refresh-btn"
+                    id="refreshOrdersBtn"
+                >
+                    <i class="fa-solid fa-rotate"></i>
+                    Refresh Orders
+                </button>
+
+            </section>
+
+
+            <!-- ORDER STATISTICS -->
+            <section class="orders-stats-grid">
+
+                <article class="order-stat-card">
+                    <div class="order-stat-top">
+                        <span>Total orders</span>
+                        <div class="order-stat-icon forest">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                        </div>
+                    </div>
+                    <strong id="totalOrdersStat">—</strong>
+                    <small>All recorded orders</small>
+                </article>
+
+                <article class="order-stat-card">
+                    <div class="order-stat-top">
+                        <span>Pending orders</span>
+                        <div class="order-stat-icon amber">
+                            <i class="fa-solid fa-clock"></i>
+                        </div>
+                    </div>
+                    <strong id="pendingOrdersStat">—</strong>
+                    <small>Awaiting confirmation</small>
+                </article>
+
+                <article class="order-stat-card">
+                    <div class="order-stat-top">
+                        <span>Processing</span>
+                        <div class="order-stat-icon blue">
+                            <i class="fa-solid fa-box-open"></i>
+                        </div>
+                    </div>
+                    <strong id="processingOrdersStat">—</strong>
+                    <small>Being prepared or shipped</small>
+                </article>
+
+                <article class="order-stat-card">
+                    <div class="order-stat-top">
+                        <span>Delivered</span>
+                        <div class="order-stat-icon green">
+                            <i class="fa-solid fa-circle-check"></i>
+                        </div>
+                    </div>
+                    <strong id="deliveredOrdersStat">—</strong>
+                    <small>Successfully delivered</small>
+                </article>
+
+                <article class="order-stat-card">
+                    <div class="order-stat-top">
+                        <span>Collected revenue</span>
+                        <div class="order-stat-icon gold">
+                            <i class="fa-solid fa-indian-rupee-sign"></i>
+                        </div>
+                    </div>
+                    <strong id="revenueStat">₹0</strong>
+                    <small>Paid orders only</small>
+                </article>
+
+            </section>
+
+
+            <!-- STATUS FILTERS -->
+            <section
+                class="orders-status-tabs"
+                id="orderStatusTabs"
+                aria-label="Filter orders by status"
+            >
+
+                <button
+                    type="button"
+                    class="order-status-tab active"
+                    data-status="all"
+                >
+                    All orders
+                    <span id="allOrdersCount">0</span>
+                </button>
+
+                <button type="button" class="order-status-tab" data-status="pending">
+                    Pending
+                </button>
+
+                <button type="button" class="order-status-tab" data-status="confirmed">
+                    Confirmed
+                </button>
+
+                <button type="button" class="order-status-tab" data-status="processing">
+                    Processing
+                </button>
+
+                <button type="button" class="order-status-tab" data-status="shipped">
+                    Shipped
+                </button>
+
+                <button type="button" class="order-status-tab" data-status="delivered">
+                    Delivered
+                </button>
+
+                <button type="button" class="order-status-tab" data-status="cancelled">
+                    Cancelled
+                </button>
+
+            </section>
+
+
+            <!-- ORDER MANAGEMENT -->
+            <section class="orders-table-panel">
+
+                <!-- TABLE TOOLBAR -->
+                <div class="orders-toolbar">
+
+                    <div class="orders-toolbar-heading">
+                        <h2>Order management</h2>
+                        <span id="ordersResultCount">0 orders</span>
+                    </div>
+
+                    <div class="orders-toolbar-controls">
+
+                        <div class="orders-search-box">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+
+                            <input
+                                type="search"
+                                id="orderSearchInput"
+                                placeholder="Search order, customer or phone..."
+                                autocomplete="off"
+                                aria-label="Search orders"
+                            >
+                        </div>
+
+                        <div class="orders-filter-control">
+                            <select
+                                id="orderDateFilter"
+                                aria-label="Filter orders by date"
+                            >
+                                <option value="all">All dates</option>
+                                <option value="today">Today</option>
+                                <option value="7days">Last 7 days</option>
+                                <option value="30days">Last 30 days</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- BULK ACTIONS -->
+                <section class="orders-bulk-actions" aria-label="Bulk order actions">
+
+                    <div class="orders-bulk-info">
+                        <div>
+                            <strong>Bulk order actions</strong>
+                            <span id="bulkSelectedCount">0 selected</span>
+                        </div>
+                    </div>
+
+                    <div class="orders-bulk-buttons">
+
+                        <button
+                            type="button"
+                            id="selectAllPendingBtn"
+                        >
+                            <i class="fa-solid fa-list-check"></i>
+                            Select all pending
+                        </button>
+
+                        <button
+                            type="button"
+                            id="bulkConfirmBtn"
+                            disabled
+                        >
+                            <i class="fa-solid fa-check"></i>
+                            Confirm selected
+                        </button>
+
+                        <button
+                            type="button"
+                            id="bulkCancelBtn"
+                            disabled
+                        >
+                            <i class="fa-solid fa-xmark"></i>
+                            Cancel selected
+                        </button>
+
+                        <button
+                            type="button"
+                            id="confirmAllPendingBtn"
+                        >
+                            <i class="fa-solid fa-check-double"></i>
+                            Confirm all pending
+                        </button>
+
+                        <button
+                            type="button"
+                            id="cancelAllPendingBtn"
+                        >
+                            <i class="fa-solid fa-ban"></i>
+                            Cancel all pending
+                        </button>
+
+                    </div>
+
+                </section>
+
+
+                <!-- ORDERS TABLE -->
+                <div class="orders-table-wrapper">
+
+                    <table class="orders-table">
+
+                        <thead>
+                            <tr>
+                                <th class="order-select-column">
+                                    <input
+                                        type="checkbox"
+                                        id="selectCurrentPageOrders"
+                                        aria-label="Select pending orders on this page"
+                                    >
+                                </th>
+                                <th>ORDER</th>
+                                <th>CUSTOMER</th>
+                                <th>DATE</th>
+                                <th>ITEMS</th>
+                                <th>TOTAL</th>
+                                <th>PAYMENT</th>
+                                <th>STATUS</th>
+                                <th>ACTION</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="ordersTableBody">
+
+                            <tr>
+                                <td colspan="9" class="orders-loading">
+                                    <i class="fa-solid fa-spinner fa-spin"></i>
+                                    Loading orders...
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+                <!-- EMPTY STATE -->
+                <div
+                    class="orders-empty-state d-none"
+                    id="ordersEmptyState"
+                >
+
+                    <div class="orders-empty-icon">
+                        <i class="fa-solid fa-box-open"></i>
+                    </div>
+
+                    <h3>No orders found</h3>
+
+                    <p>
+                        Customer orders will appear here when
+                        someone purchases from your store.
+                    </p>
+
+                </div>
+
+
+                <!-- PAGINATION -->
+                <div class="orders-pagination">
+
+                    <span id="ordersPaginationInfo">
+                        Showing 0 orders
+                    </span>
+
+                    <div class="orders-pagination-buttons">
+
+                        <button
+                            type="button"
+                            id="ordersPrevPage"
+                            disabled
+                            aria-label="Previous page"
+                        >
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </button>
+
+                        <span id="ordersCurrentPage">1</span>
+
+                        <button
+                            type="button"
+                            id="ordersNextPage"
+                            disabled
+                            aria-label="Next page"
+                        >
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ORDER DETAILS MODAL -->
+            <div
+                class="orders-modal-backdrop d-none"
+                id="orderDetailsModal"
+                aria-hidden="true"
+            >
+
+                <section
+                    class="orders-details-modal"
+                    role="dialog"
+                    aria-modal="true"
+                    aria-labelledby="orderDetailsTitle"
+                >
+
+                    <header class="orders-modal-header">
+
+                        <div>
+                            <span class="section-eyebrow">ORDER INFORMATION</span>
+
+                            <h2 id="orderDetailsTitle">Order Details</h2>
+
+                            <p id="orderDetailsNumber">—</p>
+                        </div>
+
+                        <button
+                            type="button"
+                            class="orders-modal-close"
+                            id="closeOrderDetailsBtn"
+                            aria-label="Close order details"
+                        >
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+
+                    </header>
+
+
+                    <div
+                        class="orders-modal-body"
+                        id="orderDetailsContent"
+                    >
+                        <div class="orders-loading">
+                            Loading order details...
+                        </div>
+                    </div>
+
+
+                    <footer class="orders-modal-footer">
+
+                        <button
+                            type="button"
+                            class="orders-secondary-btn"
+                            id="closeOrderFooterBtn"
+                        >
+                            Close
+                        </button>
+
+                        <button
+                            type="button"
+                            class="orders-primary-btn"
+                            id="saveOrderStatusBtn"
+                            disabled
+                        >
+                            Save Status
+                        </button>
+
+                    </footer>
+
+                </section>
+
+            </div>
+
+
+            <!-- TOAST NOTIFICATION -->
+            <div
+                class="orders-toast"
+                id="ordersToast"
+                role="status"
+                aria-live="polite"
+            >
+                <i class="fa-solid fa-circle-check"></i>
+
+                <span id="ordersToastMessage">Done</span>
+            </div>
+
+
+            <!-- FOOTER -->
+            <footer class="admin-footer">
+
+                <span>
+                    © 2026 MIZUMI Aquatics. All rights reserved.
+                </span>
+
+                <span>
+                    Made for aquatic enthusiasts.
+                </span>
+
+            </footer>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- MOBILE SIDEBAR BACKDROP -->
+<div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+</body>
+</html>

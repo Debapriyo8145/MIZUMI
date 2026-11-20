@@ -1,0 +1,602 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#173d35">
+
+    <title>My Account | MIZUMI Aquatics</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="account-page.css">
+    <link rel="stylesheet" href="account-nav.css">
+</head>
+
+<body class="account-page">
+
+    <div class="announcement">
+        WELCOME TO MIZUMI AQUATICS
+        <span>&nbsp; | &nbsp; WHERE AQUATIC LIFE COMES ALIVE</span>
+    </div>
+
+    <nav class="main-nav">
+        <div class="container-custom nav-inner">
+
+            <a href="index.html" class="brand">
+                <div class="brand-mark">
+                    <i class="fa-solid fa-fish-fins"></i>
+                </div>
+                <div>
+                    <div class="brand-name">MIZUMI</div>
+                    <div class="brand-subtitle">A Q U A T I C S</div>
+                </div>
+            </a>
+
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <a href="cart.html" class="nav-icon" aria-label="Shopping cart">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                </a>
+            </div>
+
+        </div>
+    </nav>
+
+    <main class="account-main">
+        <div class="account-container">
+
+            <!-- INTRO -->
+            <section class="account-intro">
+                <span class="eyebrow">YOUR MIZUMI EXPERIENCE</span>
+
+                <h1>
+                    Your aquatic world,<br>
+                    <em>all in one place.</em>
+                </h1>
+
+                <p>
+                    Sign in to manage your account, keep track of your
+                    orders and make your next aquarium purchase easier.
+                </p>
+
+                <div class="account-benefits">
+                    <div>
+                        <i class="fa-solid fa-box"></i>
+                        <span>Track your orders</span>
+                    </div>
+
+                    <div>
+                        <i class="fa-solid fa-location-dot"></i>
+                        <span>Save delivery addresses</span>
+                    </div>
+
+                    <div>
+                        <i class="fa-solid fa-user-shield"></i>
+                        <span>Manage your account</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ACCOUNT CARD -->
+            <section class="account-card">
+
+                <!-- LOGGED-OUT SIDEBAR -->
+                <aside id="authSidebar" class="auth-sidebar">
+
+                    <div class="auth-sidebar-heading">
+                        <i class="fa-solid fa-user-circle"></i>
+                        <span>MY ACCOUNT</span>
+                    </div>
+
+                    <div class="auth-sidebar-menu">
+
+                        <button type="button" class="auth-sidebar-item" disabled>
+                            <i class="fa-regular fa-user"></i>
+                            My Profile
+                        </button>
+
+                        <button type="button" class="auth-sidebar-item" disabled>
+                            <i class="fa-solid fa-box"></i>
+                            My Orders
+                        </button>
+
+                        <button type="button" class="auth-sidebar-item" disabled>
+                            <i class="fa-solid fa-location-dot"></i>
+                            Saved Addresses
+                        </button>
+
+                        <button type="button" class="auth-sidebar-item" disabled>
+                            <i class="fa-solid fa-shield-halved"></i>
+                            Account Security
+                        </button>
+
+                        <div class="auth-sidebar-divider"></div>
+
+                        <button type="button" class="auth-sidebar-item auth-tab active" id="loginTab">
+                            <i class="fa-solid fa-right-to-bracket"></i>
+                            Sign In
+                        </button>
+
+                        <button type="button" class="auth-sidebar-item auth-tab" id="registerTab">
+                            <i class="fa-solid fa-user-plus"></i>
+                            Create Account
+                        </button>
+
+                    </div>
+                </aside>
+
+                <div id="accountMessage" class="account-message" role="status" aria-live="polite"></div>
+
+                <!-- LOGIN FORM -->
+                <form id="loginForm" class="account-form">
+
+                    <div class="form-heading">
+                        <span class="eyebrow">WELCOME BACK</span>
+                        <h2>Sign in to your account.</h2>
+                        <p>Enter your details to access your MIZUMI account.</p>
+                    </div>
+
+                    <div class="account-field">
+                        <label for="loginEmail">Email address</label>
+                        <input
+                            type="email"
+                            id="loginEmail"
+                            name="email"
+                            placeholder="you@example.com"
+                            autocomplete="email"
+                            required
+                        >
+                    </div>
+
+                    <div class="account-field">
+                        <label for="loginPassword">Password</label>
+
+                        <div class="password-wrapper">
+                            <input
+                                type="password"
+                                id="loginPassword"
+                                name="password"
+                                placeholder="Enter your password"
+                                autocomplete="current-password"
+                                required
+                            >
+
+                            <button type="button" class="password-toggle" data-target="loginPassword" aria-label="Show password">
+                                <i class="fa-regular fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="account-submit" id="loginSubmit">
+                        Sign In
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+
+                    <p class="account-switch">
+                        Don't have an account?
+                        <button type="button" data-switch="register">Create one</button>
+                    </p>
+
+                </form>
+
+                <!-- REGISTRATION FORM -->
+                <form id="registerForm" class="account-form hidden">
+
+                    <div class="form-heading">
+                        <span class="eyebrow">JOIN MIZUMI</span>
+                        <h2>Create your account.</h2>
+                        <p>Join MIZUMI and make your aquarium journey easier.</p>
+                    </div>
+
+                    <div class="account-field">
+                        <label for="registerName">Full name</label>
+                        <input
+                            type="text"
+                            id="registerName"
+                            name="name"
+                            placeholder="Your full name"
+                            minlength="2"
+                            maxlength="100"
+                            autocomplete="name"
+                            required
+                        >
+                    </div>
+
+                    <div class="account-field">
+                        <label for="registerEmail">Email address</label>
+                        <input
+                            type="email"
+                            id="registerEmail"
+                            name="email"
+                            placeholder="you@example.com"
+                            autocomplete="email"
+                            required
+                        >
+                    </div>
+
+                    <div class="account-field">
+                        <label for="registerPhone">Mobile number</label>
+                        <input
+                            type="tel"
+                            id="registerPhone"
+                            name="phone"
+                            placeholder="9876543210"
+                            minlength="10"
+                            maxlength="20"
+                            autocomplete="tel"
+                            required
+                        >
+                    </div>
+
+                    <div class="account-field">
+                        <label for="registerPassword">Create password</label>
+
+                        <div class="password-wrapper">
+                            <input
+                                type="password"
+                                id="registerPassword"
+                                name="password"
+                                placeholder="Minimum 8 characters"
+                                minlength="8"
+                                maxlength="72"
+                                autocomplete="new-password"
+                                required
+                            >
+
+                            <button type="button" class="password-toggle" data-target="registerPassword" aria-label="Show password">
+                                <i class="fa-regular fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="account-submit" id="registerSubmit">
+                        Create Account
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+
+                    <p class="account-terms">
+                        By creating an account, you agree to provide accurate
+                        information for account and order management.
+                    </p>
+
+                    <p class="account-switch">
+                        Already have an account?
+                        <button type="button" data-switch="login">Sign in</button>
+                    </p>
+
+                </form>
+
+                <!-- LOGGED-IN CUSTOMER DASHBOARD -->
+                <div id="loggedInPanel" class="customer-dashboard hidden">
+
+                    <aside class="dashboard-sidebar">
+
+                        <div class="dashboard-user">
+                            <div class="dashboard-avatar" id="customerAvatar">M</div>
+
+                            <div class="dashboard-user-details">
+                                <strong id="dashboardCustomerName">Customer</strong>
+                                <span id="dashboardCustomerEmail">customer@email.com</span>
+                            </div>
+                        </div>
+
+                        <nav class="dashboard-menu">
+
+                            <button type="button" class="dashboard-menu-item active" data-section="profileSection">
+                                <i class="fa-regular fa-user"></i>
+                                My Profile
+                            </button>
+
+                            <button type="button" class="dashboard-menu-item" data-section="ordersSection">
+                                <i class="fa-solid fa-box"></i>
+                                My Orders
+                            </button>
+
+                            <button type="button" class="dashboard-menu-item" data-section="addressesSection">
+                                <i class="fa-solid fa-location-dot"></i>
+                                Saved Addresses
+                            </button>
+
+                            <button type="button" class="dashboard-menu-item" data-section="securitySection">
+                                <i class="fa-solid fa-shield-halved"></i>
+                                Account Security
+                            </button>
+
+                            <button type="button" class="dashboard-menu-item dashboard-logout" id="logoutButton">
+                                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                                Sign Out
+                            </button>
+
+                        </nav>
+                    </aside>
+
+                    <div class="dashboard-content">
+
+                        <!-- PROFILE -->
+                        <section class="dashboard-section" id="profileSection">
+
+                            <div class="dashboard-heading">
+                                <span class="eyebrow">YOUR ACCOUNT</span>
+                                <h2>My Profile</h2>
+                                <p>Manage your personal information.</p>
+                            </div>
+
+                            <form id="profileForm" class="dashboard-form">
+
+                                <div class="account-field">
+                                    <label for="profileName">Full name</label>
+                                    <input type="text" id="profileName" maxlength="100" required>
+                                </div>
+
+                                <div class="account-field">
+                                    <label for="profileEmail">Email address</label>
+                                    <input type="email" id="profileEmail" disabled>
+                                    <small>Email address cannot currently be changed.</small>
+                                </div>
+
+                                <div class="account-field">
+                                    <label for="profilePhone">Mobile number</label>
+                                    <input type="tel" id="profilePhone" maxlength="20" required>
+                                </div>
+
+                                <button type="submit" class="account-submit" id="profileSaveButton">
+                                    Save Changes
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+
+                            </form>
+                        </section>
+
+                        <!-- CUSTOMER ORDER HISTORY -->
+                        <section class="dashboard-section hidden" id="ordersSection">
+
+                            <div class="dashboard-heading">
+                                <span class="eyebrow">PURCHASE HISTORY</span>
+                                <h2>My Orders</h2>
+                                <p>View your purchases and follow their delivery progress.</p>
+                            </div>
+
+                            <!-- ORDER LIST VIEW -->
+                            <div id="orderListView">
+
+                                <!-- ORDER SUMMARY -->
+                                <div class="order-overview" id="orderOverview" aria-label="Order summary">
+
+                                    <article class="order-overview-card">
+                                        <span class="order-overview-label">Total Orders</span>
+                                        <strong id="orderStatTotal">—</strong>
+                                        <i class="fa-solid fa-bag-shopping" aria-hidden="true"></i>
+                                    </article>
+
+                                    <article class="order-overview-card">
+                                        <span class="order-overview-label">Delivered</span>
+                                        <strong id="orderStatDelivered">—</strong>
+                                        <i class="fa-solid fa-box-open" aria-hidden="true"></i>
+                                    </article>
+
+                                    <article class="order-overview-card">
+                                        <span class="order-overview-label">In Progress</span>
+                                        <strong id="orderStatProgress">—</strong>
+                                        <i class="fa-solid fa-truck-fast" aria-hidden="true"></i>
+                                    </article>
+
+                                </div>
+
+                                <!-- FILTER -->
+                                <div class="orders-toolbar">
+                                    <label for="orderStatusFilter">Filter orders</label>
+
+                                    <select id="orderStatusFilter">
+                                        <option value="">All Orders</option>
+                                        <option value="pending">Pending</option>
+                                        <option value="confirmed">Confirmed</option>
+                                        <option value="processing">Processing</option>
+                                        <option value="shipped">Shipped</option>
+                                        <option value="delivered">Delivered</option>
+                                        <option value="cancelled">Cancelled</option>
+                                    </select>
+                                </div>
+
+                                <div
+                                    id="ordersMessage"
+                                    class="account-message"
+                                    role="status"
+                                    aria-live="polite"
+                                ></div>
+
+                                <!-- DYNAMIC ORDER CARDS -->
+                                <div id="ordersList" class="orders-list">
+                                    <div class="orders-loading">
+                                        <i class="fa-solid fa-spinner fa-spin"></i>
+                                        Loading your orders...
+                                    </div>
+                                </div>
+
+                                <!-- PAGINATION -->
+                                <div id="ordersPagination" class="orders-pagination hidden">
+                                    <button type="button" id="ordersPrevious">Previous</button>
+                                    <span id="ordersPageInfo">Page 1</span>
+                                    <button type="button" id="ordersNext">Next</button>
+                                </div>
+
+                            </div>
+
+                            <!-- SINGLE ORDER DETAIL VIEW -->
+                            <div id="orderDetailView" class="hidden">
+
+                                <button type="button" id="backToOrders" class="order-back-button">
+                                    <i class="fa-solid fa-arrow-left"></i>
+                                    Back to My Orders
+                                </button>
+
+                                <div id="orderDetailContent"></div>
+
+                            </div>
+
+                        </section>
+
+                        <!-- SAVED ADDRESSES -->
+                        <section class="dashboard-section hidden" id="addressesSection">
+
+                            <div class="dashboard-heading">
+                                <span class="eyebrow">DELIVERY DETAILS</span>
+                                <h2>Saved Addresses</h2>
+                                <p>Manage up to two delivery addresses.</p>
+                            </div>
+
+                            <div id="addressMessage" class="account-message" role="status" aria-live="polite"></div>
+
+                            <div class="address-toolbar">
+                                <div>
+                                    <strong id="addressCount">0 of 2 addresses saved</strong>
+                                    <p>Your saved delivery locations.</p>
+                                </div>
+
+                                <button type="button" id="addAddressButton" class="address-add-button">
+                                    <i class="fa-solid fa-plus"></i>
+                                    Add Address
+                                </button>
+                            </div>
+
+                            <div id="addressList" class="address-list">
+                                <div class="address-loading">Loading your saved addresses...</div>
+                            </div>
+
+                            <!-- ADD / EDIT ADDRESS FORM -->
+                            <form id="addressForm" class="address-form hidden">
+
+                                <div class="address-form-heading">
+                                    <h3 id="addressFormTitle">Add New Address</h3>
+
+                                    <button type="button" id="cancelAddressButton" aria-label="Close address form">
+                                        <i class="fa-solid fa-xmark"></i>
+                                    </button>
+                                </div>
+
+                                <input type="hidden" id="editingAddressId">
+
+                                <div class="account-field">
+                                    <label for="addressLabel">Address type</label>
+
+                                    <select id="addressLabel" required>
+                                        <option value="Home">Home</option>
+                                        <option value="Work">Work</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+
+                                <div class="account-field">
+                                    <label for="addressLine1">Address line 1</label>
+                                    <input
+                                        type="text"
+                                        id="addressLine1"
+                                        maxlength="150"
+                                        placeholder="House number, building, street"
+                                        required
+                                    >
+                                </div>
+
+                                <div class="account-field">
+                                    <label for="addressLine2">Address line 2 (optional)</label>
+                                    <input
+                                        type="text"
+                                        id="addressLine2"
+                                        maxlength="150"
+                                        placeholder="Area, landmark"
+                                    >
+                                </div>
+
+                                <div class="address-fields-grid">
+
+                                    <div class="account-field">
+                                        <label for="addressCity">City</label>
+                                        <input type="text" id="addressCity" maxlength="80" required>
+                                    </div>
+
+                                    <div class="account-field">
+                                        <label for="addressState">State</label>
+                                        <input type="text" id="addressState" maxlength="80" required>
+                                    </div>
+
+                                    <div class="account-field">
+                                        <label for="addressPostalCode">Postal code</label>
+                                        <input type="text" id="addressPostalCode" maxlength="12" required>
+                                    </div>
+
+                                    <div class="account-field">
+                                        <label for="addressCountry">Country</label>
+                                        <input type="text" id="addressCountry" value="India" required>
+                                    </div>
+
+                                </div>
+
+                                <label class="address-default-option">
+                                    <input type="checkbox" id="addressIsDefault">
+                                    <span>Set as my default delivery address</span>
+                                </label>
+
+                                <div class="address-form-actions">
+
+                                    <button type="button" id="cancelAddressButtonSecondary">
+                                        Cancel
+                                    </button>
+
+                                    <button type="submit" id="saveAddressButton" class="account-submit">
+                                        Save Address
+                                        <i class="fa-solid fa-arrow-right"></i>
+                                    </button>
+
+                                </div>
+
+                            </form>
+
+                        </section>
+
+                        <!-- ACCOUNT SECURITY -->
+                        <section class="dashboard-section hidden" id="securitySection">
+
+                            <div class="dashboard-heading">
+                                <span class="eyebrow">ACCOUNT PROTECTION</span>
+                                <h2>Account Security</h2>
+                                <p>Manage your account access and password.</p>
+                            </div>
+
+                            <div class="dashboard-empty">
+                                <i class="fa-solid fa-shield-halved"></i>
+                                <h3>Password management is coming next.</h3>
+                                <p>We'll add a secure change-password feature with current-password verification.</p>
+                            </div>
+
+                        </section>
+
+                    </div>
+                </div>
+
+            </section>
+        </div>
+    </main>
+
+    <footer class="account-footer">
+        <a href="index.html">MIZUMI AQUATICS</a>
+        <span>Inspired by nature. Created for aquatic life.</span>
+    </footer>
+
+    <script src="account.js"></script>
+    <script src="account-nav.js"></script>
+
+</body>
+</html>

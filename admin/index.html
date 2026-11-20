@@ -1,0 +1,444 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard | MIZUMI Aquatics</title>
+    <meta name="robots" content="noindex, nofollow">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="css/dashboard.css">
+
+    <script src="js/dashboard.js" defer></script>
+</head>
+
+<body class="admin-body">
+
+    <div class="admin-layout">
+
+        <!-- SIDEBAR -->
+        <aside class="admin-sidebar" id="adminSidebar">
+
+            <a href="../index.html" class="admin-brand">
+                <span class="brand-mark">M</span>
+
+                <span class="brand-text">
+                    <strong>MIZUMI</strong>
+                    <small>AQUATICS</small>
+                </span>
+            </a>
+
+            <div class="sidebar-divider"></div>
+
+            <div class="sidebar-label">STORE MANAGEMENT</div>
+
+            <nav class="sidebar-nav">
+
+                <a href="index.html" class="sidebar-link active">
+                    <span class="nav-symbol">◈</span>
+                    <span>Overview</span>
+                </a>
+
+                <a href="products.html" class="sidebar-link">
+                    <span class="nav-symbol">▦</span>
+                    <span>Products</span>
+                </a>
+
+                <a href="orders.html" class="sidebar-link">
+                    <span class="nav-symbol">▤</span>
+                    <span>Orders</span>
+                </a>
+
+                <a href="#" class="sidebar-link disabled" aria-disabled="true">
+                    <span class="nav-symbol">♙</span>
+                    <span>Customers</span>
+                    <small>SOON</small>
+                </a>
+
+            </nav>
+
+            <div class="sidebar-label sidebar-label-secondary">
+                BUSINESS
+            </div>
+
+            <nav class="sidebar-nav">
+
+                <a href="#" class="sidebar-link disabled" aria-disabled="true">
+                    <span class="nav-symbol">▥</span>
+                    <span>Analytics</span>
+                    <small>SOON</small>
+                </a>
+
+                <a href="#" class="sidebar-link disabled" aria-disabled="true">
+                    <span class="nav-symbol">⚙</span>
+                    <span>Settings</span>
+                    <small>SOON</small>
+                </a>
+
+            </nav>
+
+            <div class="sidebar-bottom">
+
+                <div class="sidebar-store-card">
+                    <span class="store-status-dot"></span>
+
+                    <div>
+                        <strong>MIZUMI Store</strong>
+                        <small>Administration panel</small>
+                    </div>
+                </div>
+
+                <a href="../index.html" class="sidebar-website-link">
+                    <span>↗</span>
+                    View storefront
+                </a>
+
+            </div>
+
+        </aside>
+
+
+        <!-- MAIN AREA -->
+        <main class="admin-main">
+
+            <!-- TOPBAR -->
+            <header class="admin-topbar">
+
+                <div class="topbar-left">
+
+                    <button
+                        type="button"
+                        class="mobile-menu-button"
+                        id="mobileMenuButton"
+                        aria-label="Open navigation"
+                        aria-expanded="false"
+                    >
+                        ☰
+                    </button>
+
+                    <div class="breadcrumb">
+                        <span>Administration</span>
+                        <span class="breadcrumb-separator">/</span>
+                        <strong>Overview</strong>
+                    </div>
+
+                </div>
+
+                <div class="topbar-right">
+
+                    <div class="admin-user">
+                        <div class="admin-avatar">A</div>
+
+                        <div class="admin-user-info">
+                            <strong id="adminEmail">Administrator</strong>
+                            <small>Store Admin</small>
+                        </div>
+                    </div>
+
+                    <button
+                        type="button"
+                        class="logout-button"
+                        id="logoutButton"
+                    >
+                        Sign out <span>↗</span>
+                    </button>
+
+                </div>
+
+            </header>
+
+
+            <!-- DASHBOARD CONTENT -->
+            <div class="dashboard-content">
+
+                <!-- PAGE HEADING -->
+                <section class="dashboard-heading">
+
+                    <div>
+                        <span class="section-eyebrow">
+                            STORE OVERVIEW
+                        </span>
+
+                        <h1>Dashboard<span>.</span></h1>
+
+                        <p>
+                            Welcome to your MIZUMI Aquatics administration panel.
+                            Here's an overview of your store.
+                        </p>
+                    </div>
+
+                    <div class="dashboard-date">
+                        <span>Today</span>
+                        <strong id="currentDate">—</strong>
+                    </div>
+
+                </section>
+
+
+                <!-- QUICK ACTIONS -->
+                <section class="quick-actions">
+
+                    <div class="quick-action-heading">
+                        <span>QUICK ACTIONS</span>
+                    </div>
+
+                    <a href="products.html" class="quick-action-button">
+                        <span>＋</span>
+                        Add new product
+                    </a>
+
+                    <a href="products.html" class="quick-action-secondary">
+                        Manage products <span>→</span>
+                    </a>
+
+                </section>
+
+
+                <!-- STATISTICS -->
+                <section class="stats-grid">
+
+                    <!-- TOTAL PRODUCTS -->
+                    <article class="stat-card">
+
+                        <div class="stat-card-top">
+                            <span>Total products</span>
+                            <span class="stat-icon">▦</span>
+                        </div>
+
+                        <strong class="stat-number" id="totalProducts">
+                            —
+                        </strong>
+
+                        <small>Active catalogue products</small>
+
+                    </article>
+
+
+                    <!-- IN STOCK -->
+                    <article class="stat-card">
+
+                        <div class="stat-card-top">
+                            <span>In stock</span>
+                            <span class="stat-icon">✓</span>
+                        </div>
+
+                        <strong class="stat-number" id="inStockProducts">
+                            —
+                        </strong>
+
+                        <small>Products currently available</small>
+
+                    </article>
+
+
+                    <!-- OUT OF STOCK -->
+                    <article class="stat-card">
+
+                        <div class="stat-card-top">
+                            <span>Out of stock</span>
+                            <span class="stat-icon">!</span>
+                        </div>
+
+                        <strong class="stat-number" id="outOfStockProducts">
+                            —
+                        </strong>
+
+                        <small>Products needing restocking</small>
+
+                    </article>
+
+
+                    <!-- TOTAL ORDERS -->
+                    <article class="stat-card">
+
+                        <div class="stat-card-top">
+                            <span>Total orders</span>
+                            <span class="stat-icon">▤</span>
+                        </div>
+
+                        <strong class="stat-number" id="totalOrders">
+                            —
+                        </strong>
+
+                        <small>
+                            <a href="orders.html">View order management →</a>
+                        </small>
+
+                    </article>
+
+                </section>
+
+
+                <!-- MAIN DASHBOARD GRID -->
+                <section class="dashboard-main-grid">
+
+                    <!-- RECENT PRODUCTS -->
+                    <div class="dashboard-panel products-panel">
+
+                        <div class="panel-heading">
+
+                            <div>
+                                <span class="panel-eyebrow">CATALOGUE</span>
+                                <h2>Recent products</h2>
+                            </div>
+
+                            <a href="products.html" class="panel-link">
+                                View all <span>→</span>
+                            </a>
+
+                        </div>
+
+                        <div class="table-wrapper">
+
+                            <table class="products-table">
+
+                                <thead>
+                                    <tr>
+                                        <th>PRODUCT</th>
+                                        <th>CATEGORY</th>
+                                        <th>PRICE</th>
+                                        <th>STOCK</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="recentProductsBody">
+
+                                    <tr>
+                                        <td colspan="4" class="table-loading">
+                                            Loading products...
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                        <div id="productsError" class="panel-error" hidden>
+                            Unable to load product information.
+                        </div>
+
+                    </div>
+
+
+                    <!-- STORE SUMMARY -->
+                    <div class="dashboard-panel store-panel">
+
+                        <div class="panel-heading">
+                            <div>
+                                <span class="panel-eyebrow">YOUR BUSINESS</span>
+                                <h2>Store summary</h2>
+                            </div>
+                        </div>
+
+                        <div class="store-summary-item">
+
+                            <span class="summary-label">Store name</span>
+                            <strong>MIZUMI Aquatics</strong>
+
+                        </div>
+
+                        <div class="store-summary-item">
+
+                            <span class="summary-label">Business location</span>
+                            <strong>Ranaghat, West Bengal</strong>
+
+                        </div>
+
+                        <div class="store-summary-item">
+
+                            <span class="summary-label">Catalogue status</span>
+                            <strong class="summary-status">
+                                <span class="store-status-dot"></span>
+                                Connected
+                            </strong>
+
+                        </div>
+
+                        <div class="store-summary-footer">
+                            <span>Store administration</span>
+                            <span>Version 1.0</span>
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- BUSINESS MANAGEMENT -->
+                <section class="coming-soon-section">
+
+                    <div class="coming-soon-heading">
+
+                        <div>
+                            <span class="panel-eyebrow">MORE CONTROL</span>
+                            <h2>Grow your business.</h2>
+                        </div>
+
+                        <span class="coming-soon-label">COMING SOON</span>
+
+                    </div>
+
+                    <div class="future-features">
+
+                        <!-- ORDER MANAGEMENT -->
+                        <a href="orders.html" class="future-feature">
+                            <span class="future-icon">▤</span>
+                            <strong>Order management</strong>
+                            <small>Track and manage customer orders.</small>
+                        </a>
+
+                        <!-- CUSTOMER MANAGEMENT -->
+                        <div class="future-feature">
+                            <span class="future-icon">♙</span>
+                            <strong>Customer management</strong>
+                            <small>Understand your customer base.</small>
+                        </div>
+
+                        <!-- BUSINESS ANALYTICS -->
+                        <div class="future-feature">
+                            <span class="future-icon">▥</span>
+                            <strong>Business analytics</strong>
+                            <small>Monitor revenue and store performance.</small>
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- FOOTER -->
+                <footer class="admin-footer">
+
+                    <span>
+                        © 2026 MIZUMI Aquatics. All rights reserved.
+                    </span>
+
+                    <span>
+                        Made for aquatic enthusiasts.
+                    </span>
+
+                </footer>
+
+            </div>
+
+        </main>
+
+    </div>
+
+    <!-- MOBILE SIDEBAR BACKDROP -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+</body>
+</html>
