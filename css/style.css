@@ -185,7 +185,7 @@
       position: relative;
       background:
         linear-gradient(90deg, rgba(10,31,25,.82), rgba(10,31,25,.32) 55%, rgba(10,31,25,.05)),
-        url("https://images.unsplash.com/photo-1524704654690-b56c05c78a00?auto=format&fit=crop&w=2000&q=85")
+        url("backend/img/ststic_img/plant01.jpg")
         center 48% / cover no-repeat;
       display: flex;
       align-items: center;
@@ -414,7 +414,7 @@
       min-height: 350px;
       background:
         linear-gradient(90deg, rgba(13,38,31,.9), rgba(13,38,31,.35)),
-        url("https://images.unsplash.com/photo-1546026423-cc4642628d2b?auto=format&fit=crop&w=1800&q=85")
+        url("backend/img/ststic_img/betta01.jpg")
         center / cover;
       display: flex;
       align-items: center;
@@ -605,13 +605,13 @@
       background: white;
     }
 
-    .story-image {
-      min-height: 450px;
-      background:
-        url("https://images.unsplash.com/photo-1524704654690-b56c05c78a00?auto=format&fit=crop&w=1200&q=85")
-        center / cover;
-    }
 
+.story-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;   /* fills the box without stretching */
+    display: block;
+}
     .story-content {
       padding: 45px 0 45px 55px;
     }
