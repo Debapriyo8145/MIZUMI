@@ -84,7 +84,21 @@ const elements = {
     imagePreview: document.getElementById("productImagePreview"),
     previewImg: document.getElementById("productPreviewImg"),
     removeImage: document.getElementById("removeProductImage"),
-
+    galleryFiles: document.getElementById("productGalleryFiles"),
+    galleryExisting: document.getElementById("productGalleryExisting"),
+    gallerySelected: document.getElementById("productGallerySelected"),
+    specifications: {
+        scientificName: document.getElementById("specScientificName"),
+        origin: document.getElementById("specOrigin"),
+        adultSize: document.getElementById("specAdultSize"),
+        temperament: document.getElementById("specTemperament"),
+        diet: document.getElementById("specDiet"),
+        waterTemperature: document.getElementById("specWaterTemperature"),
+        phRange: document.getElementById("specPhRange"),
+        minimumTankSize: document.getElementById("specMinimumTankSize"),
+        careLevel: document.getElementById("specCareLevel"),
+        notes: document.getElementById("specNotes")
+    }
 };
 
 
@@ -103,7 +117,8 @@ const state = {
     sort: "newest",
     deleteProductId: null,
     isSaving: false,
-    isDeleting: false
+    isDeleting: false,
+    currentGallery: []
 };
 
 
@@ -271,6 +286,80 @@ function uploadSelectedProductImage(productId) {
     });
 }
 
+
+async function uploadSelectedGalleryImages(productId) {
+    const files = Array.from(elements.galleryFiles.files || []);
+    if (!files.length) return null;
+
+    const formData = new FormData();
+    files.forEach(file => formData.append("images", file));
+
+    const response = await fetch(`${API_URL}/products/${encodeURIComponent(productId)}/gallery`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+        body: formData
+    });
+    const data = await response.json().catch(() => ({}));
+    if (response.status === 401 || response.status === 403) {
+        sessionStorage.removeItem(TOKEN_KEY);
+        sessionStorage.removeItem(EMAIL_KEY);
+        window.location.replace("login.html");
+        throw new Error("Your admin session has expired.");
+    }
+    if (!response.ok || data.success !== true) throw new Error(data.message || "Gallery upload failed.");
+    return data;
+}
+
+function renderAdminGallery(images = []) {
+    state.currentGallery = Array.isArray(images) ? images : [];
+    elements.galleryExisting.innerHTML = "";
+    state.currentGallery.forEach((url, index) => {
+        const wrap = document.createElement("div");
+        wrap.className = "product-gallery-thumb";
+        const img = document.createElement("img");
+        img.src = url;
+        img.alt = `Product gallery image ${index + 1}`;
+        const button = document.createElement("button");
+        button.type = "button";
+        button.textContent = "Remove image";
+        button.addEventListener("click", () => removeGalleryImage(index));
+        wrap.append(img, button);
+        elements.galleryExisting.append(wrap);
+    });
+}
+
+async function removeGalleryImage(index) {
+    const productId = elements.productId.value;
+    if (!productId || !window.confirm("Remove this gallery image?")) return;
+    try {
+        const data = await apiRequest(`/products/${encodeURIComponent(productId)}/gallery/${index}`, { method: "DELETE" });
+        renderAdminGallery(data.gallery || []);
+        showToast("Gallery image removed.");
+    } catch (error) {
+        showToast(error.message || "Unable to remove image.", "error");
+    }
+}
+
+function setSpecificationFields(specifications = {}) {
+    Object.entries(elements.specifications).forEach(([key, input]) => {
+        input.value = specifications[key] || "";
+    });
+}
+
+function renderSelectedGalleryPreviews(files) {
+    elements.gallerySelected.innerHTML = "";
+    files.forEach((file, index) => {
+        const wrap = document.createElement("div");
+        wrap.className = "product-gallery-thumb selected";
+        const img = document.createElement("img");
+        img.src = URL.createObjectURL(file);
+        img.alt = `Selected gallery image ${index + 1}`;
+        const caption = document.createElement("small");
+        caption.textContent = file.name;
+        wrap.append(img, caption);
+        elements.gallerySelected.append(wrap);
+    });
+}
 
 function setSaveLoading(loading) {
     state.isSaving = loading;
@@ -539,6 +628,10 @@ function openProductModal(product = null) {
     elements.form.reset();
     hideFormMessage();
     elements.imageFile.value = "";
+    elements.galleryFiles.value = "";
+    elements.gallerySelected.innerHTML = "";
+    renderAdminGallery([]);
+    setSpecificationFields({});
     showProductImagePreview(null);
     elements.productId.value = "";
 
@@ -558,6 +651,8 @@ function openProductModal(product = null) {
         elements.image.value = product.image || "";
         showProductImagePreview(product.image || null);
         elements.description.value = product.description || "";
+        renderAdminGallery(product.gallery || []);
+        setSpecificationFields(product.specifications || {});
 
         elements.sku.readOnly = true;
         elements.sku.placeholder = "Existing SKU";
@@ -659,7 +754,10 @@ function getProductFormData() {
         care: elements.care.value,
         tag: elements.tag.value.trim(),
         image,
-        description: elements.description.value.trim()
+        description: elements.description.value.trim(),
+        specifications: Object.fromEntries(
+            Object.entries(elements.specifications).map(([key, input]) => [key, input.value.trim()])
+        )
     };
 }
 
@@ -723,11 +821,21 @@ async function saveProduct(event) {
             }
         }
 
+        let galleryUploadFailed = false;
+        if (elements.galleryFiles.files.length > 0) {
+            try {
+                await uploadSelectedGalleryImages(savedProductId);
+            } catch (galleryError) {
+                galleryUploadFailed = true;
+                console.error("Gallery upload error:", galleryError);
+            }
+        }
+
         closeProductModal();
 
-        if (imageUploadFailed) {
+        if (imageUploadFailed || galleryUploadFailed) {
             showToast(
-                "Product saved, but photo upload failed. Edit the product to try again.",
+                "Product saved, but one or more photo uploads failed. Edit the product to try again.",
                 "error"
             );
         } else {
@@ -961,6 +1069,26 @@ elements.removeImage.addEventListener("click", () => {
     elements.imageFile.value = "";
     elements.image.value = "";
     showProductImagePreview(null);
+});
+
+elements.galleryFiles.addEventListener("change", () => {
+    const files = Array.from(elements.galleryFiles.files || []);
+    const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+    if (state.currentGallery.length + files.length > 8) {
+        elements.galleryFiles.value = "";
+        elements.gallerySelected.innerHTML = "";
+        showFormMessage(`You can add only ${8 - state.currentGallery.length} more gallery image(s). Maximum is 8.`);
+        return;
+    }
+    const invalid = files.find(file => !allowedTypes.includes(file.type) || file.size > 5 * 1024 * 1024);
+    if (invalid) {
+        elements.galleryFiles.value = "";
+        elements.gallerySelected.innerHTML = "";
+        showFormMessage(!allowedTypes.includes(invalid.type) ? "Gallery images must be JPG, PNG or WEBP." : "Each gallery image must be 5 MB or smaller.");
+        return;
+    }
+    hideFormMessage();
+    renderSelectedGalleryPreviews(files);
 });
 
 elements.form.addEventListener("submit", saveProduct);

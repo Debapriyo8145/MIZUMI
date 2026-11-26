@@ -13,9 +13,9 @@ import authRoutes from "./routes/authRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 import customerAuthRoutes from "./routes/customerAuthRoutes.js";
 import customerAddressRoutes from "./routes/customerAddressRoutes.js";
-
+import announcementRoutes from "./routes/announcementRoutes.js";
 import contactRoutes from "./routes/contactRoutes.js";
-
+import heroRoutes from "./routes/heroRoutes.js";
 import {
     uploadDirectory,
     ensureUploadDirectory
@@ -88,6 +88,8 @@ app.use("/api/v1/orders", orderRoutes);
 app.use("/api/v1/customer-auth", customerAuthRoutes);
 app.use("/api/v1/customer-addresses", customerAddressRoutes);
 app.use("/api/v1/contact", contactRoutes);
+app.use("/api/v1/announcement", announcementRoutes);
+app.use("/api/v1/hero", heroRoutes);
 // =====================================================
 // WELCOME ROUTE
 // =====================================================

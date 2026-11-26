@@ -1,0 +1,683 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Products | MIZUMI Aquatics</title>
+    <meta name="robots" content="noindex, nofollow">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/products.css">
+
+    <script src="js/products.js" defer></script>
+</head>
+
+<body class="admin-body">
+
+<div class="admin-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar" id="adminSidebar">
+
+        <a href="../index.html" class="admin-brand">
+            <span class="brand-mark">M</span>
+
+            <span class="brand-text">
+                <strong>MIZUMI</strong>
+                <small>AQUATICS</small>
+            </span>
+        </a>
+
+        <div class="sidebar-divider"></div>
+
+        <div class="sidebar-label">STORE MANAGEMENT</div>
+
+        <nav class="sidebar-nav">
+
+            <a href="index.html" class="sidebar-link">
+                <span class="nav-symbol">◈</span>
+                <span>Overview</span>
+            </a>
+
+            <a href="products.html" class="sidebar-link active">
+                <span class="nav-symbol">▦</span>
+                <span>Products</span>
+            </a>
+
+            <a href="orders.html" class="sidebar-link disabled" aria-disabled="true">
+                <span class="nav-symbol">▤</span>
+                <span>Orders</span>
+                <span class="orders-sidebar-count" id="sidebarPendingCount">0</span>
+            </a>
+
+            <a href="#" class="sidebar-link disabled" aria-disabled="true">
+                <span class="nav-symbol">♙</span>
+                <span>Customers</span>
+                <small>SOON</small>
+            </a>
+
+        </nav>
+
+        <div class="sidebar-label sidebar-label-secondary">
+            BUSINESS
+        </div>
+
+        <nav class="sidebar-nav">
+
+            <a href="#" class="sidebar-link disabled" aria-disabled="true">
+                <span class="nav-symbol">▥</span>
+                <span>Analytics</span>
+                <small>SOON</small>
+            </a>
+
+            <a href="#" class="sidebar-link disabled" aria-disabled="true">
+                <span class="nav-symbol">⚙</span>
+                <span>Settings</span>
+                <small>SOON</small>
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <div class="sidebar-store-card">
+                <span class="store-status-dot"></span>
+
+                <div>
+                    <strong>MIZUMI Store</strong>
+                    <small>Administration panel</small>
+                </div>
+            </div>
+
+            <a href="../index.html" class="sidebar-website-link">
+                <span>↗</span>
+                View storefront
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="admin-main">
+
+        <!-- TOPBAR -->
+        <header class="admin-topbar">
+
+            <div class="topbar-left">
+
+                <button
+                    type="button"
+                    class="mobile-menu-button"
+                    id="mobileMenuButton"
+                    aria-label="Open navigation"
+                    aria-expanded="false"
+                >
+                    ☰
+                </button>
+
+                <div class="breadcrumb">
+                    <span>Administration</span>
+                    <span class="breadcrumb-separator">/</span>
+                    <strong>Products</strong>
+                </div>
+
+            </div>
+
+            <div class="topbar-right">
+
+                <div class="admin-user">
+                    <div class="admin-avatar">A</div>
+
+                    <div class="admin-user-info">
+                        <strong id="adminEmail">Administrator</strong>
+                        <small>Store Admin</small>
+                    </div>
+                </div>
+
+                <button
+                    type="button"
+                    class="logout-button"
+                    id="logoutButton"
+                >
+                    Sign out <span>↗</span>
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <!-- PAGE -->
+        <div class="products-content">
+
+            <!-- HEADING -->
+            <section class="products-page-heading">
+
+                <div>
+                    <span class="section-eyebrow">
+                        CATALOGUE MANAGEMENT
+                    </span>
+
+                    <h1>Your products<span>.</span></h1>
+
+                    <p>
+                        Manage your aquatic collection, pricing and inventory.
+                    </p>
+                </div>
+
+                <button
+                    type="button"
+                    class="add-product-button"
+                    id="addProductButton"
+                >
+                    <span>＋</span>
+                    Add new product
+                </button>
+
+            </section>
+
+
+            <!-- PRODUCT SUMMARY -->
+            <section class="product-summary-grid">
+
+                <article class="product-summary-card">
+                    <span>Total products</span>
+                    <strong id="summaryTotal">—</strong>
+                </article>
+
+                <article class="product-summary-card">
+                    <span>In stock</span>
+                    <strong id="summaryInStock">—</strong>
+                </article>
+
+                <article class="product-summary-card">
+                    <span>Out of stock</span>
+                    <strong id="summaryOutOfStock">—</strong>
+                </article>
+
+            </section>
+
+
+            <!-- CATALOGUE PANEL -->
+            <section class="catalogue-panel">
+
+                <div class="catalogue-heading">
+
+                    <div>
+                        <span class="panel-eyebrow">YOUR INVENTORY</span>
+                        <h2>Product catalogue</h2>
+                    </div>
+
+                    <span id="productResultCount" class="result-count">
+                        Loading products...
+                    </span>
+
+                </div>
+
+
+                <!-- SEARCH AND FILTERS -->
+                <div class="product-toolbar">
+
+                    <div class="product-search">
+
+                        <span>⌕</span>
+
+                        <input
+                            type="search"
+                            id="productSearch"
+                            placeholder="Search product name or SKU..."
+                            autocomplete="off"
+                        >
+
+                    </div>
+
+
+                    <select id="categoryFilter" aria-label="Filter by category">
+
+                        <option value="">All categories</option>
+                        <option value="fish">Fish</option>
+                        <option value="cichlid">Cichlids</option>
+                        <option value="goldfish">Goldfish</option>
+                        <option value="plants">Aquatic plants</option>
+                        <option value="equipment">Equipment</option>
+                        <option value="food">Fish food</option>
+                        <option value="hardscape">Hardscape</option>
+
+                    </select>
+
+
+                    <select id="availabilityFilter" aria-label="Filter by stock">
+
+                        <option value="">All availability</option>
+                        <option value="in-stock">In stock</option>
+                        <option value="out-of-stock">Out of stock</option>
+
+                    </select>
+
+
+                    <select id="sortFilter" aria-label="Sort products">
+
+                        <option value="newest">Newest first</option>
+                        <option value="featured">Featured</option>
+                        <option value="price-low">Price: Low to high</option>
+                        <option value="price-high">Price: High to low</option>
+                        <option value="name">Name: A to Z</option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- TABLE -->
+                <div class="catalogue-table-wrapper">
+
+                    <table class="catalogue-table">
+
+                        <thead>
+                            <tr>
+                                <th>PRODUCT</th>
+                                <th>SKU</th>
+                                <th>CATEGORY</th>
+                                <th>PRICE</th>
+                                <th>STOCK</th>
+                                <th>STATUS</th>
+                                <th>ACTIONS</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="productTableBody">
+
+                            <tr>
+                                <td colspan="7" class="catalogue-loading">
+                                    Loading your catalogue...
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+                <!-- EMPTY STATE -->
+                <div class="catalogue-empty" id="emptyState" hidden>
+
+                    <div class="empty-icon">▦</div>
+
+                    <h3>No products found</h3>
+
+                    <p>
+                        Try changing your search or filters,
+                        or add a new product.
+                    </p>
+
+                    <button
+                        type="button"
+                        id="emptyAddButton"
+                        class="empty-add-button"
+                    >
+                        Add your first product
+                    </button>
+
+                </div>
+
+
+                <!-- PAGINATION -->
+                <div class="catalogue-pagination">
+
+                    <span id="paginationInfo">
+                        Showing products
+                    </span>
+
+                    <div class="pagination-buttons" id="paginationButtons">
+
+                        <button type="button" id="previousPage" disabled>
+                            ←
+                        </button>
+
+                        <span id="currentPage">1</span>
+
+                        <button type="button" id="nextPage" disabled>
+                            →
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- FOOTER -->
+            <footer class="admin-footer">
+
+                <span>
+                    © 2026 MIZUMI Aquatics. All rights reserved.
+                </span>
+
+                <span>
+                    Made for aquatic enthusiasts.
+                </span>
+
+            </footer>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- MOBILE SIDEBAR BACKDROP -->
+<div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+
+<!-- PRODUCT FORM MODAL -->
+<div
+    class="product-modal"
+    id="productModal"
+    aria-hidden="true"
+>
+
+    <div class="product-modal-backdrop" id="modalBackdrop"></div>
+
+    <section
+        class="product-modal-content"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="productModalTitle"
+    >
+
+        <div class="modal-heading">
+
+            <div>
+                <span class="panel-eyebrow">CATALOGUE MANAGEMENT</span>
+                <h2 id="productModalTitle">Add a product</h2>
+                <p>Enter the details of your aquatic product.</p>
+            </div>
+
+            <button
+                type="button"
+                class="modal-close"
+                id="closeProductModal"
+                aria-label="Close modal"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <form id="productForm">
+
+            <input type="hidden" id="productId">
+
+            <div class="product-form-grid">
+
+                <div class="form-field">
+                    <label for="productName">Product name *</label>
+                    <input
+                        type="text"
+                        id="productName"
+                        required
+                        maxlength="120"
+                        placeholder="e.g. Red Cap Guppy"
+                    >
+                </div>
+
+
+                <div class="form-field">
+                    <label for="productSKU">Product SKU *</label>
+                <input
+                    type="text"
+                    id="productSKU"
+                    maxlength="50"
+                    readonly
+                    placeholder="Generated automatically when saved"
+                >
+                </div>
+
+
+                <div class="form-field">
+                    <label for="productCategory">Category *</label>
+
+                    <select id="productCategory" required>
+                        <option value="">Select category</option>
+                        <option value="fish">Fish</option>
+                        <option value="cichlid">Cichlids</option>
+                        <option value="goldfish">Goldfish</option>
+                        <option value="plants">Plants</option>
+                        <option value="equipment">Equipment</option>
+                        <option value="food">Food</option>
+                        <option value="hardscape">Hardscape</option>
+                    </select>
+                </div>
+
+
+                <div class="form-field">
+                    <label for="productSubcategory">Subcategory *</label>
+                    <input
+                        type="text"
+                        id="productSubcategory"
+                        required
+                        maxlength="80"
+                        placeholder="e.g. Guppy"
+                    >
+                </div>
+
+
+                <div class="form-field">
+                    <label for="productPrice">Price (₹) *</label>
+                    <input
+                        type="number"
+                        id="productPrice"
+                        min="0"
+                        step="0.01"
+                        required
+                        placeholder="150"
+                    >
+                </div>
+
+
+                <div class="form-field">
+                    <label for="productStock">Stock quantity</label>
+                    <input
+                        type="number"
+                        id="productStock"
+                        min="0"
+                        step="1"
+                        value="0"
+                    >
+                </div>
+
+
+                <div class="form-field">
+                    <label for="productSize">Product size</label>
+                    <input
+                        type="text"
+                        id="productSize"
+                        maxlength="50"
+                        placeholder="e.g. Small"
+                    >
+                </div>
+
+
+                <div class="form-field">
+                    <label for="productCare">Care level</label>
+
+                    <select id="productCare">
+                        <option value="Beginner">Beginner</option>
+                        <option value="Intermediate">Intermediate</option>
+                        <option value="Advanced">Advanced</option>
+                    </select>
+                </div>
+
+
+                <div class="form-field form-field-full">
+                    <label for="productTag">Product tag</label>
+                    <input
+                        type="text"
+                        id="productTag"
+                        maxlength="40"
+                        placeholder="e.g. Popular, Best Seller"
+                    >
+                </div>
+
+
+                
+                <div class="form-field form-field-full">
+                    <label for="productImageFile">Product photo</label>
+                
+                    <input
+                        type="file"
+                        id="productImageFile"
+                        accept="image/jpeg,image/png,image/webp"
+                    >
+                
+                    <small>
+                        Select a photo from your device. JPG, PNG or WEBP. Maximum 5 MB.
+                    </small>
+                
+                    <div class="product-image-preview" id="productImagePreview" hidden>
+                        <img id="productPreviewImg" src="" alt="Product image preview">
+                    
+                        <button
+                            type="button"
+                            id="removeProductImage"
+                            class="remove-product-image"
+                        >
+                            Remove selected photo
+                        </button>
+                    </div>
+                
+                    <input type="hidden" id="productImage">
+                </div>
+
+                <div class="form-field form-field-full">
+                    <label for="productGalleryFiles">Additional fish photographs</label>
+                    <input type="file" id="productGalleryFiles" accept="image/jpeg,image/png,image/webp" multiple>
+                    <small>Choose up to 8 additional JPG, PNG or WEBP images per product. Maximum 5 MB each.</small>
+                    <div id="productGalleryExisting" class="product-gallery-admin" aria-live="polite"></div>
+                    <div id="productGallerySelected" class="product-gallery-admin"></div>
+                </div>
+
+                <div class="form-field form-field-full product-specifications-fieldset">
+                    <h3>Fish specifications</h3>
+                    <p>These details can be displayed on the customer-facing product page.</p>
+                    <div class="product-specifications-grid">
+                        <div class="form-field"><label for="specScientificName">Scientific name</label><input id="specScientificName" type="text" maxlength="120"></div>
+                        <div class="form-field"><label for="specOrigin">Origin</label><input id="specOrigin" type="text" maxlength="120"></div>
+                        <div class="form-field"><label for="specAdultSize">Adult size</label><input id="specAdultSize" type="text" maxlength="80"></div>
+                        <div class="form-field"><label for="specTemperament">Temperament</label><input id="specTemperament" type="text" maxlength="120"></div>
+                        <div class="form-field"><label for="specDiet">Diet</label><input id="specDiet" type="text" maxlength="120"></div>
+                        <div class="form-field"><label for="specWaterTemperature">Water temperature</label><input id="specWaterTemperature" type="text" maxlength="80" placeholder="e.g. 22–26 °C"></div>
+                        <div class="form-field"><label for="specPhRange">pH range</label><input id="specPhRange" type="text" maxlength="80"></div>
+                        <div class="form-field"><label for="specMinimumTankSize">Minimum tank size</label><input id="specMinimumTankSize" type="text" maxlength="80"></div>
+                        <div class="form-field"><label for="specCareLevel">Care level</label><input id="specCareLevel" type="text" maxlength="80"></div>
+                        <div class="form-field"><label for="specNotes">Additional notes</label><input id="specNotes" type="text" maxlength="250"></div>
+                    </div>
+                </div>
+
+                <div class="form-field form-field-full">
+                    <label for="productDescription">Description *</label>
+                    <textarea
+                        id="productDescription"
+                        required
+                        maxlength="2000"
+                        rows="4"
+                        placeholder="Describe your product..."
+                    ></textarea>
+                </div>
+
+            </div>
+
+
+            <div class="modal-form-message" id="formMessage" hidden></div>
+
+
+            <div class="modal-actions">
+
+                <button
+                    type="button"
+                    id="cancelProductForm"
+                    class="modal-cancel-button"
+                >
+                    Cancel
+                </button>
+
+                <button
+                    type="submit"
+                    id="saveProductButton"
+                    class="modal-save-button"
+                >
+                    Save product
+                </button>
+
+            </div>
+
+        </form>
+
+    </section>
+
+</div>
+
+
+<!-- DELETE CONFIRMATION -->
+<div class="confirm-modal" id="deleteModal" aria-hidden="true">
+
+    <div class="confirm-backdrop" id="deleteBackdrop"></div>
+
+    <div
+        class="confirm-content"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="deleteModalTitle"
+    >
+
+        <div class="confirm-icon">!</div>
+
+        <h2 id="deleteModalTitle">Delete this product?</h2>
+
+        <p>
+            This product will be removed from your public catalogue.
+            You can no longer edit it through the normal product list.
+        </p>
+
+        <div class="confirm-actions">
+
+            <button type="button" id="cancelDelete">
+                Cancel
+            </button>
+
+            <button type="button" id="confirmDelete">
+                Delete product
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- NOTIFICATION -->
+<div
+    class="admin-toast"
+    id="adminToast"
+    role="status"
+    aria-live="polite"
+></div>
+
+</body>
+</html>

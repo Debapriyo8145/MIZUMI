@@ -165,22 +165,22 @@ function renderShopProduct(product) {
 
     const badgeClass = product.stock ? "" : "sold";
 
+    const productUrl = `product_view.html?id=${encodeURIComponent(product.id)}`;
+
     const imageHTML = product.image
         ? `
-            <img
-                src="${shopEscape(product.image)}"
-                alt="${shopEscape(product.name)}"
-                loading="lazy"
-            >
+            <a class="shop-product-detail-link" href="${productUrl}" aria-label="View ${shopEscape(product.name)} details">
+                <img
+                    src="${shopEscape(product.image)}"
+                    alt="${shopEscape(product.name)}"
+                    loading="lazy"
+                >
+            </a>
         `
         : `
-            <div
-                class="shop-product-image-placeholder"
-                role="img"
-                aria-label="Image coming soon"
-            >
+            <a class="shop-product-image-placeholder shop-product-detail-link" href="${productUrl}" aria-label="View ${shopEscape(product.name)} details">
                 <i class="fa-solid fa-fish"></i>
-            </div>
+            </a>
         `;
 
     return `
@@ -211,7 +211,7 @@ function renderShopProduct(product) {
                     ${shopEscape(product.subcategory)}
                 </span>
 
-                <h3>${shopEscape(product.name)}</h3>
+                <h3><a class="shop-product-title-link" href="${productUrl}">${shopEscape(product.name)}</a></h3>
 
                 <p class="shop-product-description">
                     ${shopEscape(product.description)}
@@ -242,6 +242,8 @@ function renderShopProduct(product) {
                                 : "Currently unavailable"}
                         </small>
                     </span>
+
+                    <a class="shop-view-details" href="${productUrl}">Details <i class="fa-solid fa-arrow-right"></i></a>
 
                     <button
                         class="shop-add-btn"

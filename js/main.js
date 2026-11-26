@@ -1,3 +1,4 @@
+
 /* =========================================================
    MIZUMI AQUATICS — HOMEPAGE JAVASCRIPT
    Vanilla JavaScript + Express API
@@ -40,121 +41,219 @@ function formatPrice(amount) {
     }).format(Number(amount) || 0);
 }
 
+function getImageUrl(imagePath) {
+    if (!imagePath) return "";
+
+    try {
+        return new URL(
+            imagePath,
+            new URL(MIZUMI_CONFIG.apiBaseUrl).origin
+        ).href;
+    } catch (error) {
+        console.warn("Invalid image URL:", imagePath);
+        return "";
+    }
+}
+
+/* -------------------- ANNOUNCEMENT -------------------- */
+
+async function loadAnnouncement() {
+    const bar = $("#announcementBar");
+    const primary = $("#announcementPrimary");
+    const secondary = $("#announcementSecondary");
+
+    if (!bar || !primary || !secondary) return;
+
+    try {
+        const response = await fetch(
+            `${MIZUMI_CONFIG.apiBaseUrl}/announcement`,
+            {
+                headers: { Accept: "application/json" }
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error(`Announcement API: ${response.status}`);
+        }
+
+        const result = await response.json();
+        const announcement = result.announcement;
+
+        if (!result.success || !announcement) {
+            throw new Error("Invalid announcement response.");
+        }
+
+        if (!announcement.isActive) {
+            bar.hidden = true;
+            return;
+        }
+
+        primary.textContent = announcement.primaryText || "";
+
+        secondary.textContent = announcement.secondaryText
+            ? ` | ${announcement.secondaryText}`
+            : "";
+
+        bar.hidden = false;
+
+    } catch (error) {
+        console.warn("Could not load announcement:", error);
+        // Keep the default announcement visible.
+    }
+}
+
+/* -------------------- DYNAMIC HOMEPAGE HERO -------------------- */
+
+async function loadHero() {
+    const heroSection = $("#homepageHero");
+
+    if (!heroSection) {
+        console.warn("Homepage hero element #homepageHero was not found.");
+        return;
+    }
+
+    try {
+        const response = await fetch(
+            `${MIZUMI_CONFIG.apiBaseUrl}/hero`,
+            {
+                headers: { Accept: "application/json" }
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error(`Hero API: ${response.status}`);
+        }
+
+        const result = await response.json();
+        const hero = result.hero;
+
+        if (!result.success || !hero) {
+            throw new Error("Invalid hero response.");
+        }
+
+        if (!hero.isActive) {
+            heroSection.hidden = true;
+            return;
+        }
+
+        heroSection.hidden = false;
+
+        // Eyebrow
+        const eyebrow = $("#heroEyebrow");
+        if (eyebrow) {
+            eyebrow.textContent = hero.eyebrow || "";
+        }
+
+        // Heading
+        const heading = $("#heroHeading");
+        if (heading) {
+            heading.textContent = hero.heading || "";
+            heading.style.whiteSpace = "pre-line";
+        }
+
+        // Description
+        const description = $("#heroDescription");
+        if (description) {
+            description.textContent = hero.description || "";
+        }
+
+        // Primary button
+        const primaryButton = $("#heroPrimaryButton");
+
+        if (primaryButton) {
+            primaryButton.href = hero.primaryButtonUrl || "shop.html";
+
+            primaryButton.replaceChildren(
+                document.createTextNode(hero.primaryButtonText || "")
+            );
+
+            const arrow = document.createElement("i");
+            arrow.className = "fa-solid fa-arrow-right";
+            arrow.setAttribute("aria-hidden", "true");
+
+            primaryButton.appendChild(arrow);
+        }
+
+        // Secondary button
+        const secondaryButton = $("#heroSecondaryButton");
+
+        if (secondaryButton) {
+            secondaryButton.href = hero.secondaryButtonUrl || "#services";
+            secondaryButton.textContent = hero.secondaryButtonText || "";
+        }
+
+        // Bottom note
+        const note = $("#heroNote");
+
+        if (note) {
+            note.textContent = hero.heroNote || "";
+        }
+
+        // Background image and overlay
+        if (hero.imageUrl) {
+            const imageUrl = getImageUrl(hero.imageUrl);
+
+            if (imageUrl) {
+                const opacity = Math.min(
+                    100,
+                    Math.max(0, Number(hero.overlayOpacity ?? 65))
+                ) / 100;
+
+                const positionX = Math.min(
+                    100,
+                    Math.max(0, Number(hero.imagePositionX ?? 50))
+                );
+
+                const positionY = Math.min(
+                    100,
+                    Math.max(0, Number(hero.imagePositionY ?? 48))
+                );
+
+                heroSection.style.backgroundImage = `
+                    linear-gradient(
+                        90deg,
+                        rgba(10,31,25,${opacity}),
+                        rgba(10,31,25,${opacity * 0.4}) 55%,
+                        rgba(10,31,25,0.05)
+                    ),
+                    url("${imageUrl}")
+                `;
+
+                heroSection.style.backgroundPosition =
+                    `${positionX}% ${positionY}%`;
+
+                heroSection.style.backgroundSize = "cover";
+                heroSection.style.backgroundRepeat = "no-repeat";
+            }
+        }
+
+    } catch (error) {
+        console.error("Could not load homepage hero:", error);
+        // The original CSS hero remains as a fallback.
+    }
+}
+
 /* -------------------- PRODUCT DATA -------------------- */
 
 let allProducts = [];
 
+/* -------------------- SHOPPING CART DATA -------------------- */
+
 function loadStoredCart() {
-  try {
-    const saved = JSON.parse(localStorage.getItem("mizumi_cart") || "[]");
-    return Array.isArray(saved) ? saved : [];
-  } catch (error) {
-    console.error("Could not read saved cart:", error);
-    return [];
-  }
+    try {
+        const saved = JSON.parse(
+            localStorage.getItem("mizumi_cart") || "[]"
+        );
+
+        return Array.isArray(saved) ? saved : [];
+
+    } catch (error) {
+        console.error("Could not read saved cart:", error);
+        return [];
+    }
 }
 
 let cart = loadStoredCart();
-
-// Fallback products are displayed only when the API is unavailable.
-const fallbackProducts = [
-    {
-        _id: "demo-betta",
-        sku: "MIZ-BET-001",
-        name: "Premium Betta",
-        category: "fish",
-        subcategory: "Betta",
-        description: "A colourful freshwater centrepiece.",
-        price: 450,
-        image: "https://images.unsplash.com/photo-1524704654690-b56c05c78a00?w=700",
-        tag: "Featured",
-        stock: 8
-    },
-    {
-        _id: "demo-guppy",
-        sku: "MIZ-GUP-001",
-        name: "Fancy Guppy",
-        category: "fish",
-        subcategory: "Guppy",
-        description: "A vibrant addition to suitable community aquariums.",
-        price: 120,
-        image: "https://images.unsplash.com/photo-1546026423-cc4642628d2b?w=700",
-        tag: "Popular",
-        stock: 20
-    },
-    {
-        _id: "demo-goldfish",
-        sku: "MIZ-GOL-001",
-        name: "Fancy Goldfish",
-        category: "goldfish",
-        subcategory: "Goldfish",
-        description: "An elegant ornamental freshwater fish.",
-        price: 350,
-        image: "https://images.unsplash.com/photo-1530053969600-caed2596d242?w=700",
-        tag: "Collection",
-        stock: 10
-    },
-    {
-        _id: "demo-cichlid",
-        sku: "MIZ-CIC-001",
-        name: "Electric Blue Cichlid",
-        category: "cichlid",
-        subcategory: "Cichlid",
-        description: "A striking freshwater aquarium species.",
-        price: 550,
-        image: "https://images.unsplash.com/photo-1535591273668-578e31182c4f?w=700",
-        tag: "Featured",
-        stock: 6
-    },
-    {
-        _id: "demo-filter",
-        sku: "MIZ-FLT-001",
-        name: "Aquarium Filter",
-        category: "equipment",
-        subcategory: "Filtration",
-        description: "Filtration for a healthier aquarium environment.",
-        price: 799,
-        image: "https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=700",
-        tag: "Essential",
-        stock: 5
-    },
-    {
-        _id: "demo-plants",
-        sku: "MIZ-PLT-001",
-        name: "Aquatic Plant Collection",
-        category: "plants",
-        subcategory: "Aquatic Plants",
-        description: "Bring natural greenery into your aquarium.",
-        price: 299,
-        image: "https://images.unsplash.com/photo-1535591273668-578e31182c4f?w=700",
-        tag: "Natural",
-        stock: 12
-    },
-    {
-        _id: "demo-hardscape",
-        sku: "MIZ-HSC-001",
-        name: "Natural Hardscape",
-        category: "hardscape",
-        subcategory: "Hardscape",
-        description: "Create depth with aquarium-safe materials.",
-        price: 499,
-        image: "https://images.unsplash.com/photo-1546026423-cc4642628d2b?w=700",
-        tag: "Aquascaping",
-        stock: 7
-    },
-    {
-        _id: "demo-food",
-        sku: "MIZ-FOO-001",
-        name: "Tropical Fish Food",
-        category: "food",
-        subcategory: "Fish Food",
-        description: "A convenient addition to a balanced feeding routine.",
-        price: 199,
-        image: "https://images.unsplash.com/photo-1574269909862-7e1d70bb8078?w=700",
-        tag: "Daily Care",
-        stock: 15
-    }
-];
 
 /* -------------------- PRODUCT NORMALIZATION -------------------- */
 
@@ -174,7 +273,7 @@ function normalizeProduct(product) {
     };
 }
 
-/* -------------------- LOAD PRODUCTS FROM API -------------------- */
+/* -------------------- SECTION MESSAGES -------------------- */
 
 function showSectionMessage(containerId, message) {
     const container = document.getElementById(containerId);
@@ -190,6 +289,8 @@ function showSectionMessage(containerId, message) {
     `;
 }
 
+/* -------------------- LOAD PRODUCTS FROM API -------------------- */
+
 async function loadProducts() {
     showSectionMessage("fishProducts", "Loading fish...");
     showSectionMessage("essentialProducts", "Loading products...");
@@ -198,14 +299,12 @@ async function loadProducts() {
         const response = await fetch(
             `${MIZUMI_CONFIG.apiBaseUrl}/products?limit=50&sort=featured`,
             {
-                headers: {
-                    Accept: "application/json"
-                }
+                headers: { Accept: "application/json" }
             }
         );
 
         if (!response.ok) {
-            throw new Error(`Product API returned ${response.status}`);
+            throw new Error(`Product API: ${response.status}`);
         }
 
         const result = await response.json();
@@ -217,17 +316,16 @@ async function loadProducts() {
               result.data ||
               [];
 
-        if (!Array.isArray(products) || products.length === 0) {
-            throw new Error("No products were returned by the API.");
+        if (!Array.isArray(products)) {
+            throw new Error("Invalid product response.");
         }
 
         allProducts = products.map(normalizeProduct);
 
-
     } catch (error) {
         console.error("Could not load live products:", error);
 
-        // Never show demo products as if they were real inventory.
+        // Do not present demo products as real store inventory.
         allProducts = [];
     }
 
@@ -259,23 +357,15 @@ function renderHomepageSections() {
 
 /* -------------------- PRODUCT CARD -------------------- */
 
-
 function createProductCard(product) {
-    const imageMarkup = product.image
-        ? `
-            <img
-                src="${escapeHTML(product.image)}"
-                alt="${escapeHTML(product.name)}"
-                loading="lazy"
-                data-product-image
-            >
-        `
-        : `
-            <div class="product-image-fallback" role="img"
-                 aria-label="Product image not available">
-                <i class="fa-solid fa-fish"></i>
-            </div>
-        `;
+    const image = getImageUrl(product.image) ||
+        "https://placehold.co/700x700?text=MIZUMI";
+
+    const productUrl = product.id
+        ? `product_view.html?id=${encodeURIComponent(product.id)}`
+        : "shop.html";
+
+    const isAvailable = product.stock > 0;
 
     return `
         <div class="col-6 col-md-3">
@@ -285,27 +375,53 @@ function createProductCard(product) {
                 data-sku="${escapeHTML(product.sku)}"
                 data-category="${escapeHTML(product.category)}"
             >
-                <div class="product-image">
-                    ${imageMarkup}
 
-                    ${
-                        product.tag
-                            ? `<span class="product-tag">
-                                ${escapeHTML(product.tag)}
-                               </span>`
-                            : ""
-                    }
-                </div>
+                <a
+                    href="${productUrl}"
+                    class="homepage-product-link"
+                    aria-label="View ${escapeHTML(product.name)} details"
+                >
+                    <div class="product-image">
+
+                        <img
+                            src="${escapeHTML(image)}"
+                            alt="${escapeHTML(product.name)}"
+                            loading="lazy"
+                            data-product-image
+                        >
+
+                        ${
+                            product.tag
+                                ? `<span class="product-tag">
+                                    ${escapeHTML(product.tag)}
+                                   </span>`
+                                : ""
+                        }
+
+                    </div>
+                </a>
 
                 <div class="product-info">
+
                     <span class="product-category">
-                        ${escapeHTML(product.subcategory || product.category)}
+                        ${escapeHTML(
+                            product.subcategory || product.category
+                        )}
                     </span>
 
-                    <h3>${escapeHTML(product.name)}</h3>
+                    <h3>
+                        <a
+                            href="${productUrl}"
+                            class="homepage-product-title"
+                        >
+                            ${escapeHTML(product.name)}
+                        </a>
+                    </h3>
+
                     <p>${escapeHTML(product.description)}</p>
 
                     <div class="product-bottom">
+
                         <span class="product-price">
                             ${formatPrice(product.price)}
                         </span>
@@ -315,23 +431,40 @@ function createProductCard(product) {
                             type="button"
                             data-add-to-cart="${escapeHTML(product.id)}"
                             aria-label="Add ${escapeHTML(product.name)} to cart"
-                            ${product.stock <= 0 ? "disabled" : ""}
+                            ${!isAvailable ? "disabled" : ""}
                         >
-                            <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                            <i
+                                class="fa-solid fa-plus"
+                                aria-hidden="true"
+                            ></i>
                         </button>
+
+                    </div>
+
+                    <div class="homepage-product-actions">
+                        <a
+                            href="${productUrl}"
+                            class="homepage-details-link"
+                        >
+                            View Details
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
                     </div>
 
                     ${
-                        product.stock <= 0
+                        !isAvailable
                             ? '<small class="text-muted">Currently unavailable</small>'
                             : ""
                     }
+
                 </div>
+
             </article>
         </div>
     `;
 }
 
+/* -------------------- RENDER PRODUCTS -------------------- */
 
 function renderProducts(products, containerId) {
     const container = document.getElementById(containerId);
@@ -352,7 +485,8 @@ function renderProducts(products, containerId) {
     container.innerHTML = products
         .map(createProductCard)
         .join("");
-    
+
+    // Product image fallback
     container.querySelectorAll("[data-product-image]").forEach(image => {
         image.addEventListener("error", () => {
             const wrapper = image.closest(".product-image");
@@ -367,7 +501,6 @@ function renderProducts(products, containerId) {
             `;
         }, { once: true });
     });
-
 }
 
 /* -------------------- CATEGORY FILTERS -------------------- */
@@ -386,10 +519,11 @@ function setupCategoryFilters() {
 
             button.classList.add("active");
 
-            const category = button.dataset.filter || "all";
+            const category = (
+                button.dataset.filter || "all"
+            ).toLowerCase();
 
             const filtered = allProducts.filter(product => {
-
                 if (!product.isActive || !isFishProduct(product)) {
                     return false;
                 }
@@ -400,8 +534,7 @@ function setupCategoryFilters() {
 
                 return (
                     product.category === category ||
-                    product.subcategory.toLowerCase() ===
-                    category.toLowerCase()
+                    product.subcategory.toLowerCase() === category
                 );
             });
 
@@ -413,35 +546,38 @@ function setupCategoryFilters() {
     });
 }
 
+/* -------------------- CART TOAST -------------------- */
 
 function showCartToast(message) {
-  let toast = document.getElementById("homepageCartToast");
+    let toast = $("#homepageCartToast");
 
-  if (!toast) {
-    toast = document.createElement("div");
-    toast.id = "homepageCartToast";
-    toast.className = "shop-toast";
-    toast.setAttribute("role", "status");
-    toast.setAttribute("aria-live", "polite");
+    if (!toast) {
+        toast = document.createElement("div");
+        toast.id = "homepageCartToast";
+        toast.className = "shop-toast";
+        toast.setAttribute("role", "status");
+        toast.setAttribute("aria-live", "polite");
 
-    document.body.appendChild(toast);
-  }
+        document.body.appendChild(toast);
+    }
 
-  toast.innerHTML = `
-    <i class="fa-solid fa-check"></i>
-    <span>${escapeHTML(message)}</span>
-    <a href="cart.html" class="shop-toast-link">View Cart</a>
-  `;
+    toast.innerHTML = `
+        <i class="fa-solid fa-check"></i>
+        <span>${escapeHTML(message)}</span>
+        <a href="cart.html" class="shop-toast-link">View Cart</a>
+    `;
 
-  toast.classList.add("show");
+    toast.classList.add("show");
 
-  clearTimeout(showCartToast.timer);
+    clearTimeout(showCartToast.timer);
 
-  showCartToast.timer = setTimeout(() => {
-    toast.classList.remove("show");
-  }, 3500);
+    showCartToast.timer = setTimeout(() => {
+        toast.classList.remove("show");
+    }, 3500);
 }
-/* -------------------- SHOPPING CART -------------------- */
+
+/* -------------------- ADD TO CART -------------------- */
+
 function addToCart(productId) {
     const product = allProducts.find(
         item => item.id === productId
@@ -459,7 +595,6 @@ function addToCart(productId) {
     );
 
     if (existing) {
-
         if (existing.quantity >= product.stock) {
             alert("You have reached the available stock quantity.");
             return;
@@ -468,7 +603,6 @@ function addToCart(productId) {
         existing.quantity += 1;
 
     } else {
-
         cart.push({
             productId: product.id,
             sku: product.sku,
@@ -480,9 +614,13 @@ function addToCart(productId) {
     }
 
     updateCart();
-    showCartToast(`${product.name} added to your cart successfully`);
+
+    showCartToast(
+        `${product.name} added to your cart successfully`
+    );
 }
 
+/* -------------------- CHANGE CART QUANTITY -------------------- */
 
 function changeQuantity(productId, change) {
     const item = cart.find(
@@ -498,78 +636,96 @@ function changeQuantity(productId, change) {
     const nextQuantity = item.quantity + change;
 
     if (nextQuantity <= 0) {
-
         cart = cart.filter(
             cartItem => cartItem.productId !== productId
         );
 
     } else if (product && nextQuantity > product.stock) {
-
         alert("You have reached the available stock quantity.");
         return;
 
     } else {
-
         item.quantity = nextQuantity;
     }
 
     updateCart();
 }
 
+/* -------------------- UPDATE CART -------------------- */
+
 function updateCart() {
-  const cartContainer = $("#cartItems");
-  const countElement = $("#cartCount");
-  const totalElement = $("#cartTotal");
+    const cartContainer = $("#cartItems");
+    const countElement = $("#cartCount");
+    const totalElement = $("#cartTotal");
 
-  // Save the same cart format used by shop.js and cart.js.
-  localStorage.setItem("mizumi_cart", JSON.stringify(cart));
+    localStorage.setItem("mizumi_cart", JSON.stringify(cart));
 
-  const quantity = cart.reduce(
-    (sum, item) => sum + Number(item.quantity || 0), 0
-  );
+    const quantity = cart.reduce(
+        (sum, item) => sum + Number(item.quantity || 0),
+        0
+    );
 
-  const subtotal = cart.reduce(
-    (sum, item) => sum + Number(item.price || 0) * Number(item.quantity || 0), 0
-  );
+    const subtotal = cart.reduce(
+        (sum, item) =>
+            sum + Number(item.price || 0) * Number(item.quantity || 0),
+        0
+    );
 
-  if (countElement) countElement.textContent = quantity;
-  if (totalElement) totalElement.textContent = formatPrice(subtotal);
+    if (countElement) {
+        countElement.textContent = quantity;
+    }
 
-  if (!cartContainer) return;
+    if (totalElement) {
+        totalElement.textContent = formatPrice(subtotal);
+    }
 
-  if (!cart.length) {
-    cartContainer.innerHTML =
-      '<p class="text-muted small">Your bag is currently empty.</p>';
-    return;
-  }
+    if (!cartContainer) return;
 
-  cartContainer.innerHTML = cart.map(item => `
-    <div class="cart-item">
-      <img
-        src="${escapeHTML(item.image || "https://placehold.co/100x100?text=MIZUMI")}"
-        alt="${escapeHTML(item.name)}"
-      >
-      <div class="cart-item-info">
-        <h6>${escapeHTML(item.name)}</h6>
-        <p>${formatPrice(item.price)}</p>
-        <div class="quantity-controls">
-          <button type="button"
-            data-quantity="${escapeHTML(item.productId)}"
-            data-change="-1"
-            aria-label="Decrease quantity">−</button>
-          <span>${item.quantity}</span>
-          <button type="button"
-            data-quantity="${escapeHTML(item.productId)}"
-            data-change="1"
-            aria-label="Increase quantity">+</button>
+    if (!cart.length) {
+        cartContainer.innerHTML =
+            '<p class="text-muted small">Your shopping bag is currently empty.</p>';
+        return;
+    }
+
+    cartContainer.innerHTML = cart.map(item => `
+        <div class="cart-item">
+            <img
+                src="${escapeHTML(
+                    getImageUrl(item.image) ||
+                    "https://placehold.co/100x100?text=MIZUMI"
+                )}"
+                alt="${escapeHTML(item.name)}"
+            >
+
+            <div class="cart-item-info">
+                <h6>${escapeHTML(item.name)}</h6>
+                <p>${formatPrice(item.price)}</p>
+
+                <div class="quantity-controls">
+                    <button
+                        type="button"
+                        data-quantity="${escapeHTML(item.productId)}"
+                        data-change="-1"
+                        aria-label="Decrease quantity"
+                    >−</button>
+
+                    <span>${Number(item.quantity) || 0}</span>
+
+                    <button
+                        type="button"
+                        data-quantity="${escapeHTML(item.productId)}"
+                        data-change="1"
+                        aria-label="Increase quantity"
+                    >+</button>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  `).join("");
+    `).join("");
 }
 
-function setupCartEvents() {
+/* -------------------- CART EVENTS -------------------- */
 
+function setupCartEvents() {
     document.addEventListener("click", event => {
 
         const addButton = event.target.closest("[data-add-to-cart]");
@@ -592,7 +748,6 @@ function setupCartEvents() {
     const checkoutButton = $("#checkoutBtn");
 
     if (checkoutButton) {
-
         checkoutButton.addEventListener("click", () => {
 
             if (!cart.length) {
@@ -600,15 +755,14 @@ function setupCartEvents() {
                 return;
             }
 
-            // Checkout is not connected to an order API yet.
-            // The backend must verify prices, stock, delivery
-            // and customer details.
-
-            console.log("Checkout items:", cart.map(item => ({
-                productId: item.productId,
-                sku: item.sku,
-                quantity: item.quantity
-            })));
+            console.log(
+                "Checkout items:",
+                cart.map(item => ({
+                    productId: item.productId,
+                    sku: item.sku,
+                    quantity: item.quantity
+                }))
+            );
 
             alert(
                 "Online checkout is not connected yet. Please contact the store to place your order."
@@ -625,7 +779,6 @@ function setupSearch() {
     const input = $("#siteSearch");
 
     if (toggle && panel) {
-
         toggle.addEventListener("click", () => {
 
             const opening = panel.classList.contains("d-none");
@@ -655,7 +808,6 @@ function setupSearch() {
     }
 
     input.addEventListener("keydown", event => {
-
         if (event.key === "Enter") {
             event.preventDefault();
             goToSearchResults();
@@ -689,18 +841,23 @@ function setupMobileNavigation() {
             String(open)
         );
 
+        toggle.setAttribute(
+            "aria-label",
+            open ? "Close navigation" : "Open navigation"
+        );
+
         toggle.innerHTML = open
             ? '<i class="fa-solid fa-xmark" aria-hidden="true"></i>'
             : '<i class="fa-solid fa-bars" aria-hidden="true"></i>';
     });
 
     $$("a", navLinks).forEach(link => {
-
         link.addEventListener("click", () => {
 
             navLinks.classList.remove("show");
 
             toggle.setAttribute("aria-expanded", "false");
+            toggle.setAttribute("aria-label", "Open navigation");
 
             toggle.innerHTML =
                 '<i class="fa-solid fa-bars" aria-hidden="true"></i>';
@@ -711,21 +868,25 @@ function setupMobileNavigation() {
 /* -------------------- NEWSLETTER -------------------- */
 
 function setupNewsletter() {
-    const form = $("#newsletterForm");
-    const message = $("#newsletterMessage");
+    // Support both the homepage and older newsletter element IDs.
+    const form =
+        $("#newsletterForm") ||
+        $("#shopNewsletterForm");
+
+    const message =
+        $("#newsletterMessage") ||
+        $("#shopNewsletterMessage");
 
     if (!form) return;
 
     form.addEventListener("submit", event => {
-
         event.preventDefault();
 
         const email = $('input[type="email"]', form)?.value.trim();
 
         if (!email) return;
 
-        // Newsletter API endpoint has not been implemented yet.
-
+        // Newsletter API has not been implemented yet.
         if (message) {
             message.textContent =
                 "Newsletter sign-up is not available yet. Please check back soon.";
@@ -735,37 +896,66 @@ function setupNewsletter() {
     });
 }
 
-/* -------------------- INITIALIZATION -------------------- */
+/* -------------------- FOOTER YEAR -------------------- */
+
+function updateFooterYear() {
+    const year = new Date().getFullYear();
+
+    const elements = [
+        $("#currentYear"),
+        $("#shopCurrentYear")
+    ];
+
+    elements.forEach(element => {
+        if (element) {
+            element.textContent = year;
+        }
+    });
+}
+
+/* -------------------- HOMEPAGE INITIALIZATION -------------------- */
 
 function initializeHomepage() {
+    updateFooterYear();
 
-    const year = $("#currentYear");
+    // Dynamic homepage content
+    loadAnnouncement();
+    loadHero();
+    loadProducts();
 
-    if (year) {
-        year.textContent = new Date().getFullYear();
-    }
-
+    // User interactions
     setupMobileNavigation();
     setupSearch();
     setupCategoryFilters();
     setupCartEvents();
     setupNewsletter();
 
+    // Shopping cart
     updateCart();
-
-    loadProducts();
 }
 
-/* Wait until the HTML has loaded before attaching events. */
+/* -------------------- START APPLICATION -------------------- */
 
 if (document.readyState === "loading") {
-
     document.addEventListener(
         "DOMContentLoaded",
-        initializeHomepage
+        initializeHomepage,
+        { once: true }
     );
-
 } else {
-
     initializeHomepage();
 }
+
+
+// MIZUMI PAGE LOADER
+window.addEventListener("load", function () {
+    const loader = document.getElementById("pageLoader");
+
+    if (!loader) return;
+
+    loader.classList.add("loaded");
+
+    setTimeout(() => {
+        loader.remove();
+    }, 650);
+});

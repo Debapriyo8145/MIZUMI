@@ -1,11 +1,19 @@
 import mongoose from "mongoose";
 import ContactMessage from "../models/ContactMessage.js";
+import nodemailer from "nodemailer";
 
 /* =========================================
    SUBMIT CONTACT MESSAGE
    POST /api/v1/contact
    Public (rate-limited)
 ========================================= */
+const mailTransporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+        user: process.env.GMAIL_USER,
+        pass: process.env.GMAIL_APP_PASSWORD
+    }
+});
 
 export const submitContact = async (req, res) => {
     try {
@@ -322,3 +330,161 @@ export const deleteContact = async (req, res) => {
         });
     }
 };
+
+/* =========================================
+   REPLY TO CUSTOMER
+   POST /api/v1/contact/:id/reply
+   Admin only
+========================================= */
+
+
+export const replyToContact = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const message = String(req.body.message || "").trim();
+
+        // Validate contact ID
+        if (!mongoose.isValidObjectId(id)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid contact ID."
+            });
+        }
+
+        // Validate reply
+        if (!message || message.length < 2 || message.length > 5000) {
+            return res.status(400).json({
+                success: false,
+                message: "Reply must contain 2–5000 characters."
+            });
+        }
+
+        // Check email configuration
+        if (!process.env.GMAIL_USER || !process.env.GMAIL_APP_PASSWORD) {
+            return res.status(503).json({
+                success: false,
+                message: "Email service is not configured."
+            });
+        }
+
+        // Find customer message
+        const contact = await ContactMessage.findById(id);
+
+        if (!contact) {
+            return res.status(404).json({
+                success: false,
+                message: "Customer message not found."
+            });
+        }
+
+        const senderName =
+            process.env.CONTACT_FROM_NAME || "MIZUMI Aquatics";
+
+        const sentAt = new Date();
+
+        // Save reply before attempting email delivery
+        contact.replies.push({
+            message,
+            sentAt,
+            sentBy: req.admin?.email || "admin",
+            emailStatus: "pending"
+        });
+
+        const replyRecord = contact.replies[
+            contact.replies.length - 1
+        ];
+
+        contact.status = "replied";
+        contact.lastRepliedAt = sentAt;
+
+        await contact.save();
+
+        // Escape HTML to prevent injected markup
+        const escapeHtml = (value) =>
+            String(value)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+
+        const safeName = escapeHtml(contact.name);
+        const safeMessage = escapeHtml(message).replace(/\n/g, "<br>");
+
+        let emailResult;
+
+        // Attempt email delivery
+        try {
+            emailResult = await mailTransporter.sendMail({
+                from: {
+                    name: senderName,
+                    address: process.env.GMAIL_USER
+                },
+                to: contact.email,
+                replyTo: process.env.GMAIL_USER,
+                subject: `Re: ${contact.topic} | MIZUMI Aquatics`,
+                text:
+                    `Hello ${contact.name},\n\n` +
+                    `${message}\n\n` +
+                    `Regards,\nMIZUMI Aquatics`,
+                html: `
+                    <div style="font-family:Arial,sans-serif;max-width:600px;margin:auto;color:#263b35;line-height:1.7">
+                        <h2 style="color:#173f35">MIZUMI Aquatics</h2>
+                        <p>Hello ${safeName},</p>
+                        <p>${safeMessage}</p>
+                        <br>
+                        <p>Regards,<br><strong>MIZUMI Aquatics</strong></p>
+                    </div>
+                `
+            });
+        } catch (emailError) {
+            console.error("Email delivery failed:", emailError);
+
+            replyRecord.emailStatus = "failed";
+
+            try {
+                await contact.save();
+            } catch (saveError) {
+                console.error("Failed to save email failure status:", saveError);
+            }
+
+            return res.status(502).json({
+                success: false,
+                message: "Email delivery failed. The reply has been saved but was not sent."
+            });
+        }
+
+        // Email sent successfully — update delivery record
+        replyRecord.emailStatus = "sent";
+        replyRecord.emailMessageId = emailResult.messageId || "";
+
+        try {
+            await contact.save();
+        } catch (saveError) {
+            console.error("Email sent but delivery status update failed:", saveError);
+
+            return res.status(202).json({
+                success: true,
+                emailSent: true,
+                message: "Email sent, but delivery status could not be updated. The reply remains pending in the database."
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            emailSent: true,
+            message: "Reply sent successfully.",
+            emailMessageId: emailResult.messageId,
+            contact
+        });
+
+    } catch (error) {
+        console.error("Customer reply error:", error);
+
+        return res.status(500).json({
+            success: false,
+            message: "Unable to process the email reply."
+        });
+    }
+};
+

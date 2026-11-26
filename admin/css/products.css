@@ -1076,3 +1076,17 @@
 .remove-product-image:hover {
     background: #f5e9e5;
 }
+
+
+/* Product gallery and fish specifications */
+.product-gallery-admin { display:flex; flex-wrap:wrap; gap:12px; margin-top:12px; }
+.product-gallery-thumb { position:relative; width:112px; min-width:0; }
+.product-gallery-thumb img { width:112px; height:88px; object-fit:cover; border:1px solid var(--border, #d9ded8); border-radius:8px; display:block; }
+.product-gallery-thumb button { margin-top:6px; width:100%; border:1px solid #b84b42; background:#fff; color:#9e3932; border-radius:6px; padding:6px; font-size:11px; cursor:pointer; }
+.product-gallery-thumb small { display:block; margin-top:5px; overflow-wrap:anywhere; font-size:10px; color:var(--muted, #68736e); }
+.product-specifications-fieldset { border-top:1px solid var(--border, #d9ded8); padding-top:18px; margin-top:8px; }
+.product-specifications-fieldset h3 { margin:0 0 5px; color:var(--forest, #173d35); font-size:16px; }
+.product-specifications-fieldset > p { margin:0 0 14px; color:var(--muted, #68736e); font-size:12px; }
+.product-specifications-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+.product-specifications-grid .form-field { min-width:0; }
+@media (max-width:640px) { .product-specifications-grid { grid-template-columns:1fr; } }

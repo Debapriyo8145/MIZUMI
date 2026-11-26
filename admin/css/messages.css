@@ -1,0 +1,1389 @@
+
+/* =========================================================
+   MIZUMI AQUATICS — CUSTOMER MESSAGES
+   Design system aligned with Orders & Products pages
+========================================================= */
+
+:root {
+    --forest: #173d35;
+    --forest-dark: #102e28;
+    --sage: #78947b;
+    --sage-light: #e5ebdf;
+    --ivory: #f8f7f1;
+    --cream: #eeede2;
+    --white: #ffffff;
+    --ink: #25352f;
+    --muted: #78817a;
+    --border: #e8e9e1;
+    --gold: #b59a68;
+
+    --heading: "Cormorant Garamond", serif;
+    --body: "DM Sans", sans-serif;
+}
+
+/* =========================================================
+   PAGE LAYOUT
+========================================================= */
+
+.messages-page {
+    width: min(1500px, 100%);
+    margin: 0 auto;
+    padding: 42px 4.2% 25px;
+    font-family: var(--body);
+    color: var(--ink);
+}
+
+.messages-page *,
+.messages-page *::before,
+.messages-page *::after {
+    box-sizing: border-box;
+}
+
+/* =========================================================
+   PAGE HEADING
+========================================================= */
+
+.messages-heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 25px;
+    margin-bottom: 32px;
+}
+
+.messages-eyebrow,
+.messages-section-label,
+.message-content-label {
+    display: block;
+    color: var(--sage);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+}
+
+.messages-heading h1 {
+    margin: 10px 0 7px;
+    color: var(--forest);
+    font-family: var(--heading);
+    font-size: 57px;
+    font-weight: 600;
+    line-height: 1;
+}
+
+.messages-heading h1 span {
+    color: var(--gold);
+}
+
+.messages-heading p {
+    max-width: 520px;
+    margin: 0;
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.8;
+}
+
+/* REFRESH BUTTON */
+
+.messages-refresh-button {
+    min-height: 43px;
+    padding: 0 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    background: var(--forest);
+    border: 1px solid var(--forest);
+    color: var(--white);
+
+    font-family: var(--body);
+    font-size: 10px;
+    font-weight: 700;
+
+    cursor: pointer;
+    transition: .25s ease;
+}
+
+.messages-refresh-button:hover {
+    background: var(--sage);
+    border-color: var(--sage);
+    transform: translateY(-2px);
+}
+
+.messages-refresh-button:disabled {
+    opacity: .6;
+    cursor: wait;
+    transform: none;
+}
+
+/* =========================================================
+   SUMMARY CARDS
+========================================================= */
+
+.messages-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 15px;
+    margin-bottom: 24px;
+}
+
+.message-stat-card {
+    min-width: 0;
+    min-height: 112px;
+    padding: 20px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    background: var(--white);
+    border: 1px solid var(--border);
+    transition: .25s ease;
+}
+
+.message-stat-card:hover {
+    border-color: #cbd8c9;
+    transform: translateY(-2px);
+}
+
+.message-stat-card > span {
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.message-stat-card > strong {
+    display: block;
+    margin: 10px 0 4px;
+
+    color: var(--forest);
+    font-family: var(--heading);
+    font-size: 36px;
+    font-weight: 600;
+    line-height: 1;
+}
+
+.message-stat-card > small {
+    color: var(--muted);
+    font-size: 9px;
+}
+
+/* =========================================================
+   INBOX + DETAILS LAYOUT
+========================================================= */
+
+.messages-workspace {
+    display: grid;
+    grid-template-columns: minmax(310px, .88fr) minmax(0, 1.45fr);
+    align-items: stretch;
+    gap: 18px;
+    margin-bottom: 30px;
+}
+
+.messages-inbox-panel,
+.message-details-panel {
+    min-width: 0;
+    background: var(--white);
+    border: 1px solid var(--border);
+}
+
+/* =========================================================
+   INBOX PANEL HEADER
+========================================================= */
+
+.messages-panel-heading {
+    min-height: 83px;
+    padding: 19px 21px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    border-bottom: 1px solid var(--border);
+}
+
+.messages-panel-heading h2 {
+    margin: 6px 0 0;
+    color: var(--forest);
+    font-family: var(--heading);
+    font-size: 31px;
+    font-weight: 600;
+    line-height: 1;
+}
+
+.messages-panel-heading > span {
+    color: var(--muted);
+    font-size: 9px;
+    white-space: nowrap;
+}
+
+/* =========================================================
+   FILTER TABS
+========================================================= */
+
+.messages-tabs {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    padding: 13px 17px 0;
+    overflow-x: auto;
+
+    border-bottom: 1px solid var(--border);
+    scrollbar-width: thin;
+}
+
+.message-tab {
+    position: relative;
+    min-height: 38px;
+    flex-shrink: 0;
+    padding: 0 11px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+
+    background: transparent;
+    border: 0;
+
+    color: var(--muted);
+    font-family: var(--body);
+    font-size: 9px;
+    font-weight: 600;
+
+    white-space: nowrap;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.message-tab:hover {
+    color: var(--forest);
+}
+
+.message-tab.active {
+    color: var(--forest);
+}
+
+.message-tab.active::after {
+    position: absolute;
+    right: 7px;
+    bottom: -1px;
+    left: 7px;
+    height: 2px;
+    background: var(--forest);
+    content: "";
+}
+
+.message-tab span {
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+
+    display: inline-grid;
+    place-items: center;
+
+    background: var(--sage-light);
+    color: var(--forest);
+    font-size: 8px;
+    font-weight: 700;
+}
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+.messages-search {
+    height: 41px;
+    margin: 16px 17px;
+    padding: 0 12px;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    background: var(--ivory);
+    border: 1px solid var(--border);
+}
+
+.messages-search > span {
+    flex-shrink: 0;
+    color: var(--sage);
+    font-size: 18px;
+}
+
+.messages-search input {
+    width: 100%;
+    min-width: 0;
+    height: 100%;
+
+    background: transparent;
+    border: 0;
+    outline: none;
+
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 10px;
+}
+
+.messages-search input::placeholder {
+    color: #929b93;
+}
+
+.messages-search:focus-within {
+    border-color: var(--sage);
+}
+
+/* =========================================================
+   MESSAGE LIST
+========================================================= */
+
+.messages-list {
+    min-height: 360px;
+    max-height: 610px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5c9 transparent;
+}
+
+.messages-loading {
+    padding: 50px 20px;
+    color: var(--muted);
+    font-size: 11px;
+    text-align: center;
+}
+
+/* Message item styles — compatible with message-item markup */
+
+.message-item {
+    width: 100%;
+    padding: 16px 17px;
+
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+
+    background: var(--white);
+    border: 0;
+    border-bottom: 1px solid var(--border);
+
+    color: var(--ink);
+    font-family: var(--body);
+    text-align: left;
+
+    cursor: pointer;
+    transition: background .2s ease;
+}
+
+.message-item:hover {
+    background: #fbfbf8;
+}
+
+.message-item.active {
+    background: var(--sage-light);
+    box-shadow: inset 3px 0 var(--forest);
+}
+
+.message-item.unread .message-item-name {
+    color: var(--forest);
+    font-weight: 700;
+}
+
+.message-avatar {
+    width: 37px;
+    height: 37px;
+    flex: 0 0 37px;
+
+    display: grid;
+    place-items: center;
+
+    background: var(--sage-light);
+    color: var(--forest);
+    border-radius: 50%;
+
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.message-item-main {
+    min-width: 0;
+    flex: 1;
+}
+
+.message-item-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.message-item-name {
+    overflow: hidden;
+    color: var(--ink);
+    font-size: 10px;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.message-item-date {
+    flex-shrink: 0;
+    color: var(--muted);
+    font-size: 8px;
+}
+
+.message-item-topic {
+    display: block;
+    margin-top: 5px;
+    overflow: hidden;
+
+    color: var(--forest);
+    font-size: 10px;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.message-item-preview {
+    display: block;
+    margin-top: 5px;
+    overflow: hidden;
+
+    color: var(--muted);
+    font-size: 9px;
+    line-height: 1.6;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.message-item-bottom {
+    margin-top: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* =========================================================
+   STATUS BADGES
+========================================================= */
+
+.message-status,
+.message-status-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: fit-content;
+    padding: 5px 9px;
+
+    background: #f0f1ed;
+    color: var(--muted);
+
+    font-size: 8px;
+    font-weight: 700;
+    text-transform: capitalize;
+}
+
+.message-status.new,
+.message-status-badge.new {
+    background: #f5f0df;
+    color: #927a38;
+}
+
+.message-status.read,
+.message-status-badge.read {
+    background: #e8edf5;
+    color: #526d9a;
+}
+
+.message-status.replied,
+.message-status-badge.replied {
+    background: var(--sage-light);
+    color: var(--forest);
+}
+
+.message-unread-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--gold);
+}
+
+/* =========================================================
+   EMPTY AND LOADING STATES
+========================================================= */
+
+.messages-loading,
+.messages-empty-state,
+.messages-error-state {
+    padding: 50px 20px;
+    color: var(--muted);
+    font-size: 10px;
+    line-height: 1.7;
+    text-align: center;
+}
+
+/* =========================================================
+   PAGINATION
+========================================================= */
+
+.messages-pagination {
+    min-height: 62px;
+    padding: 14px 17px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    border-top: 1px solid var(--border);
+}
+
+.messages-pagination > span {
+    color: var(--muted);
+    font-size: 9px;
+}
+
+.messages-pagination > div {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.messages-pagination button {
+    width: 30px;
+    height: 30px;
+
+    background: var(--white);
+    border: 1px solid var(--border);
+    color: var(--forest);
+
+    font-family: var(--body);
+    font-size: 12px;
+
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.messages-pagination button:hover:not(:disabled) {
+    background: var(--forest);
+    border-color: var(--forest);
+    color: var(--white);
+}
+
+.messages-pagination button:disabled {
+    opacity: .35;
+    cursor: not-allowed;
+}
+
+/* =========================================================
+   MESSAGE DETAILS PANEL
+========================================================= */
+
+.message-details-panel {
+    min-height: 600px;
+    overflow: hidden;
+}
+
+.message-details-header {
+    min-height: 87px;
+    padding: 19px 23px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+
+    border-bottom: 1px solid var(--border);
+}
+
+.message-details-header h2 {
+    margin: 7px 0 0;
+    color: var(--forest);
+    font-family: var(--heading);
+    font-size: 29px;
+    font-weight: 600;
+    line-height: 1.1;
+    overflow-wrap: anywhere;
+}
+
+/* DELETE BUTTON */
+
+.message-delete-button {
+    min-height: 34px;
+    padding: 0 13px;
+
+    background: var(--white);
+    border: 1px solid #e8d4d0;
+    color: #a05b4e;
+
+    font-family: var(--body);
+    font-size: 9px;
+    font-weight: 700;
+
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.message-delete-button:hover {
+    background: #f5e9e5;
+    border-color: #d9b8b1;
+}
+
+.message-delete-button:disabled {
+    opacity: .5;
+    cursor: wait;
+}
+
+/* =========================================================
+   CUSTOMER INFORMATION
+========================================================= */
+
+.message-customer-info {
+    padding: 19px 23px;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    border-bottom: 1px solid var(--border);
+}
+
+.customer-avatar {
+    width: 43px;
+    height: 43px;
+    flex: 0 0 43px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 50%;
+    background: var(--sage-light);
+    color: var(--forest);
+
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.customer-identity {
+    min-width: 0;
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.customer-identity strong {
+    overflow: hidden;
+    color: var(--forest);
+    font-size: 11px;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.customer-identity span {
+    overflow-wrap: anywhere;
+    color: var(--muted);
+    font-size: 9px;
+}
+
+.customer-identity a {
+    color: var(--muted);
+    font-size: 9px;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+}
+
+.customer-identity a:hover {
+    color: var(--forest);
+}
+
+/* =========================================================
+   MESSAGE META
+========================================================= */
+
+.message-meta {
+    padding: 14px 23px;
+
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    background: #fcfcf9;
+    border-bottom: 1px solid var(--border);
+}
+
+.message-meta span {
+    color: var(--muted);
+    font-size: 9px;
+}
+
+.message-meta strong {
+    color: var(--ink);
+    font-size: 9px;
+    font-weight: 600;
+}
+
+/* =========================================================
+   ORIGINAL CUSTOMER MESSAGE
+========================================================= */
+
+.message-original {
+    margin: 20px 23px;
+    padding: 18px;
+
+    background: var(--ivory);
+    border: 1px solid var(--border);
+}
+
+.message-content-label {
+    margin-bottom: 12px;
+}
+
+.message-original-content {
+    color: var(--ink);
+    font-size: 11px;
+    line-height: 1.9;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+}
+
+/* =========================================================
+   CONVERSATION HISTORY
+========================================================= */
+
+.message-history-section {
+    margin: 24px 23px 0;
+}
+
+.message-history-heading {
+    margin-bottom: 13px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.message-history-heading .message-content-label {
+    margin: 0;
+}
+
+.message-history-heading > span:last-child {
+    color: var(--muted);
+    font-size: 9px;
+}
+
+.reply-history {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.no-replies {
+    margin: 0;
+    padding: 17px;
+
+    background: #fcfcf9;
+    border: 1px dashed var(--border);
+
+    color: var(--muted);
+    font-size: 9px;
+    text-align: center;
+}
+
+.reply-entry {
+    padding: 15px;
+    background: #f5f7f2;
+    border: 1px solid var(--border);
+}
+
+.reply-entry-top {
+    margin-bottom: 9px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.reply-entry-top strong {
+    color: var(--forest);
+    font-size: 9px;
+}
+
+.reply-entry-top span {
+    color: var(--muted);
+    font-size: 8px;
+}
+
+.reply-entry p {
+    margin: 0;
+    color: var(--ink);
+    font-size: 10px;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+}
+
+/* =========================================================
+   REPLY FORM
+========================================================= */
+
+.message-reply-form {
+    margin: 24px 23px 23px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+}
+
+.message-reply-form label {
+    display: block;
+    margin-bottom: 10px;
+
+    color: var(--forest);
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.message-reply-form textarea {
+    display: block;
+    width: 100%;
+    min-height: 125px;
+    padding: 13px;
+    resize: vertical;
+
+    background: var(--ivory);
+    border: 1px solid var(--border);
+    border-radius: 0;
+    outline: none;
+
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 10px;
+    line-height: 1.8;
+}
+
+.message-reply-form textarea::placeholder {
+    color: #929b93;
+}
+
+.message-reply-form textarea:focus {
+    border-color: var(--sage);
+}
+
+.reply-form-footer {
+    margin-top: 13px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.reply-form-footer small {
+    color: var(--muted);
+    font-size: 8px;
+    line-height: 1.6;
+}
+
+.reply-form-footer button {
+    min-height: 39px;
+    padding: 0 16px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    background: var(--forest);
+    border: 1px solid var(--forest);
+    color: var(--white);
+
+    font-family: var(--body);
+    font-size: 9px;
+    font-weight: 700;
+
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.reply-form-footer button:hover:not(:disabled) {
+    background: var(--sage);
+    border-color: var(--sage);
+}
+
+.reply-form-footer button:disabled {
+    opacity: .55;
+    cursor: wait;
+}
+
+/* =========================================================
+   INITIAL EMPTY DETAIL STATE
+========================================================= */
+
+.message-empty-state {
+    min-height: 600px;
+    padding: 35px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+}
+
+.message-empty-icon {
+    width: 58px;
+    height: 58px;
+    margin-bottom: 18px;
+
+    display: grid;
+    place-items: center;
+
+    background: var(--sage-light);
+    color: var(--forest);
+    font-size: 23px;
+}
+
+.message-empty-state h3 {
+    margin: 0 0 8px;
+
+    color: var(--forest);
+    font-family: var(--heading);
+    font-size: 29px;
+    font-weight: 600;
+}
+
+.message-empty-state p {
+    max-width: 270px;
+    margin: 0;
+
+    color: var(--muted);
+    font-size: 10px;
+    line-height: 1.8;
+}
+
+/* =========================================================
+   SIDEBAR MESSAGE COUNT
+========================================================= */
+
+.messages-nav-count {
+    min-width: 19px;
+    height: 19px;
+    padding: 0 5px;
+    margin-left: auto;
+
+    display: inline-grid;
+    place-items: center;
+
+    background: var(--sage);
+    color: var(--white);
+    border-radius: 0;
+
+    font-size: 9px;
+    font-weight: 700;
+}
+
+/* =========================================================
+   TOAST NOTIFICATION
+========================================================= */
+
+.messages-toast {
+    position: fixed;
+    right: 25px;
+    bottom: 25px;
+    z-index: 3000;
+
+    max-width: min(380px, calc(100vw - 40px));
+    padding: 14px 19px;
+
+    background: var(--forest);
+    border: 1px solid var(--forest-dark);
+    box-shadow: 0 10px 35px rgba(16, 46, 40, .18);
+
+    color: var(--white);
+    font-family: var(--body);
+    font-size: 10px;
+    line-height: 1.6;
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(10px);
+    transition: .25s ease;
+}
+
+.messages-toast.show {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+.messages-toast.error {
+    background: #9b5148;
+    border-color: #9b5148;
+}
+
+/* =========================================================
+   FOCUS STATES
+========================================================= */
+
+.messages-page button:focus-visible,
+.messages-page input:focus-visible,
+.messages-page textarea:focus-visible {
+    outline: 2px solid var(--sage);
+    outline-offset: 3px;
+}
+
+/* =========================================================
+   RESPONSIVE — TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+
+    .messages-page {
+        padding-left: 3%;
+        padding-right: 3%;
+    }
+
+    .messages-workspace {
+        grid-template-columns: minmax(280px, .9fr) minmax(0, 1.2fr);
+        gap: 13px;
+    }
+
+    .message-details-header,
+    .message-customer-info {
+        padding-left: 17px;
+        padding-right: 17px;
+    }
+
+    .message-original,
+    .message-history-section,
+    .message-reply-form {
+        margin-left: 17px;
+        margin-right: 17px;
+    }
+}
+
+/* =========================================================
+   RESPONSIVE — MOBILE
+========================================================= */
+
+@media (max-width: 767px) {
+
+    .messages-page {
+        padding: 30px 20px 20px;
+    }
+
+    .messages-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .messages-heading h1 {
+        font-size: 48px;
+    }
+
+    .messages-refresh-button {
+        width: 100%;
+    }
+
+    .messages-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 9px;
+    }
+
+    .message-stat-card {
+        min-height: 95px;
+        padding: 14px;
+    }
+
+    .message-stat-card:last-child {
+        grid-column: 1 / -1;
+    }
+
+    .message-stat-card > strong {
+        font-size: 30px;
+    }
+
+    .messages-workspace {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .messages-list {
+        max-height: 430px;
+    }
+
+    .message-details-panel {
+        min-height: 420px;
+    }
+
+    .message-empty-state {
+        min-height: 380px;
+    }
+}
+
+/* =========================================================
+   RESPONSIVE — SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+    .messages-page {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .messages-heading h1 {
+        font-size: 43px;
+    }
+
+    .messages-heading p {
+        font-size: 10px;
+    }
+
+    .messages-stats {
+        gap: 8px;
+    }
+
+    .message-stat-card {
+        padding: 12px;
+    }
+
+    .message-stat-card > span {
+        font-size: 9px;
+    }
+
+    .message-stat-card > strong {
+        font-size: 27px;
+    }
+
+    .messages-panel-heading {
+        padding: 16px;
+    }
+
+    .messages-tabs {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .message-details-header {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 17px;
+    }
+
+    .message-customer-info {
+        flex-wrap: wrap;
+        padding: 16px;
+    }
+
+    .message-original {
+        margin: 16px;
+        padding: 14px;
+    }
+
+    .message-history-section {
+        margin: 20px 16px 0;
+    }
+
+    .message-reply-form {
+        margin: 20px 16px 16px;
+    }
+
+    .reply-form-footer {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .reply-form-footer button {
+        width: 100%;
+    }
+
+    .messages-pagination {
+        padding: 12px;
+    }
+
+    .messages-toast {
+        right: 12px;
+        bottom: 12px;
+    }
+}
+
+
+/* =========================================================
+   MIZUMI — MESSAGE LAYOUT FIXES
+   ========================================================= */
+
+/* Critical: author CSS must not override the HTML hidden attribute */
+.messages-page [hidden] {
+    display: none !important;
+}
+
+/* Keep the inbox and selected conversation aligned */
+.messages-workspace {
+    align-items: stretch;
+    min-width: 0;
+}
+
+.messages-inbox-panel {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+}
+
+/* Inbox list gets its own scrollbar */
+.messages-list {
+    flex: 1 1 auto;
+    min-height: 0;
+    max-height: none;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}
+
+/* Pagination stays at the bottom of the inbox */
+.messages-pagination {
+    flex: 0 0 auto;
+}
+
+/* Fixed-height conversation panel with independent scrolling */
+.message-details-panel {
+    height: 100%;
+    min-height: 0;
+    max-height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5c9 transparent;
+    scroll-behavior: smooth;
+}
+
+/* The empty state fills the panel only when no message is selected */
+.message-empty-state {
+    width: 100%;
+    min-height: 100%;
+    height: 100%;
+}
+
+/* Selected message content starts at the top */
+#messageDetails {
+    display: block;
+    min-width: 0;
+}
+
+#messageDetails[hidden] {
+    display: none !important;
+}
+
+/* Keep the subject and delete button aligned */
+.message-details-header {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: var(--white);
+}
+
+/* Make long customer messages readable */
+.message-original-content,
+.reply-entry p {
+    overflow-wrap: anywhere;
+    word-break: normal;
+}
+
+/* Keep customer information compact */
+.message-customer-info {
+    min-width: 0;
+}
+
+.customer-identity a {
+    display: block;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+}
+
+/* Make reply area visually distinct */
+.message-reply-form {
+    padding-bottom: 4px;
+}
+
+.message-reply-form textarea {
+    min-height: 115px;
+}
+
+/* Clear keyboard focus */
+.message-item:focus-visible,
+.messages-pagination button:focus-visible {
+    outline: 2px solid var(--sage);
+    outline-offset: -2px;
+}
+
+/* =========================================================
+   DESKTOP — FIT BOTH PANELS TO THE VIEWPORT
+   ========================================================= */
+
+@media (min-width: 768px) {
+    .messages-workspace {
+        height: clamp(420px, calc(100vh - 420px), 680px);
+        min-height: 420px;
+    }
+
+    .messages-inbox-panel,
+    .message-details-panel {
+        height: 100%;
+    }
+}
+
+/* =========================================================
+   MOBILE — USE NORMAL PAGE SCROLLING
+   ========================================================= */
+
+@media (max-width: 767px) {
+    .messages-workspace {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        height: auto;
+        min-height: 0;
+    }
+
+    .messages-inbox-panel {
+        height: auto;
+        min-height: 480px;
+    }
+
+    .messages-list {
+        flex: initial;
+        min-height: 180px;
+        max-height: 430px;
+    }
+
+    .message-details-panel {
+        height: auto;
+        min-height: 0;
+        max-height: none;
+        overflow: visible;
+    }
+
+    .message-empty-state {
+        min-height: 320px;
+        height: auto;
+    }
+
+    #messageDetails {
+        height: auto;
+    }
+
+    .message-details-header {
+        position: static;
+    }
+}

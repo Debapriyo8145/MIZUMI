@@ -27,14 +27,13 @@
     <!-- SIDEBAR -->
     <aside class="admin-sidebar" id="adminSidebar">
 
-        <a href="../index.html" class="admin-brand">
-            <span class="brand-mark">M</span>
-
-            <span class="brand-text">
-                <strong>MIZUMI</strong>
-                <small>AQUATICS</small>
-            </span>
-        </a>
+        <a href="index.html" class="brand" aria-label="MIZUMI Aquatics home">
+                <img
+                    src="../backend/img/logo/mizumi-logo-white.svg"
+                    alt="MIZUMI Aquatics"
+                    class="brand-logo"
+                >
+            </a>
 
         <div class="sidebar-divider"></div>
 
@@ -562,6 +561,31 @@
                     </div>
                 
                     <input type="hidden" id="productImage">
+                </div>
+
+                <div class="form-field form-field-full">
+                    <label for="productGalleryFiles">Additional fish photographs</label>
+                    <input type="file" id="productGalleryFiles" accept="image/jpeg,image/png,image/webp" multiple>
+                    <small>Choose up to 8 additional JPG, PNG or WEBP images per product. Maximum 5 MB each.</small>
+                    <div id="productGalleryExisting" class="product-gallery-admin" aria-live="polite"></div>
+                    <div id="productGallerySelected" class="product-gallery-admin"></div>
+                </div>
+
+                <div class="form-field form-field-full product-specifications-fieldset">
+                    <h3>Fish specifications</h3>
+                    <p>These details can be displayed on the customer-facing product page.</p>
+                    <div class="product-specifications-grid">
+                        <div class="form-field"><label for="specScientificName">Scientific name</label><input id="specScientificName" type="text" maxlength="120"></div>
+                        <div class="form-field"><label for="specOrigin">Origin</label><input id="specOrigin" type="text" maxlength="120"></div>
+                        <div class="form-field"><label for="specAdultSize">Adult size</label><input id="specAdultSize" type="text" maxlength="80"></div>
+                        <div class="form-field"><label for="specTemperament">Temperament</label><input id="specTemperament" type="text" maxlength="120"></div>
+                        <div class="form-field"><label for="specDiet">Diet</label><input id="specDiet" type="text" maxlength="120"></div>
+                        <div class="form-field"><label for="specWaterTemperature">Water temperature</label><input id="specWaterTemperature" type="text" maxlength="80" placeholder="e.g. 22–26 °C"></div>
+                        <div class="form-field"><label for="specPhRange">pH range</label><input id="specPhRange" type="text" maxlength="80"></div>
+                        <div class="form-field"><label for="specMinimumTankSize">Minimum tank size</label><input id="specMinimumTankSize" type="text" maxlength="80"></div>
+                        <div class="form-field"><label for="specCareLevel">Care level</label><input id="specCareLevel" type="text" maxlength="80"></div>
+                        <div class="form-field"><label for="specNotes">Additional notes</label><input id="specNotes" type="text" maxlength="250"></div>
+                    </div>
                 </div>
 
                 <div class="form-field form-field-full">

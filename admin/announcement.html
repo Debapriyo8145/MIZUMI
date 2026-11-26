@@ -1,0 +1,242 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="theme-color" content="#173d35">
+
+    <title>Announcement | MIZUMI Aquatics</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/announcement.css">
+
+    <script src="js/announcement.js" defer></script>
+</head>
+
+<body class="admin-body">
+
+<div class="admin-layout">
+
+    <aside class="admin-sidebar" id="adminSidebar">
+
+        <a href="index.html" class="brand" aria-label="MIZUMI Aquatics home">
+                <img
+                    src="../backend/img/logo/mizumi-logo-white.svg"
+                    alt="MIZUMI Aquatics"
+                    class="brand-logo"
+                >
+            </a>
+
+        <div class="sidebar-divider"></div>
+
+        <div class="sidebar-label">STORE MANAGEMENT</div>
+
+        <nav class="sidebar-nav">
+            <a href="index.html" class="sidebar-link">
+                <span class="nav-symbol">◈</span>
+                <span>Overview</span>
+            </a>
+
+            <a href="products.html" class="sidebar-link">
+                <span class="nav-symbol">▦</span>
+                <span>Products</span>
+            </a>
+
+            <a href="orders.html" class="sidebar-link">
+                <span class="nav-symbol">▤</span>
+                <span>Orders</span>
+            </a>
+
+            <a href="messages.html" class="sidebar-link">
+                <span class="nav-symbol">✉</span>
+                <span>Messages</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-label sidebar-label-secondary">BUSINESS</div>
+
+        <nav class="sidebar-nav">
+            <a href="announcement.html" class="sidebar-link active">
+                <span class="nav-symbol">▰</span>
+                <span>Announcement</span>
+            </a>
+
+            <a href="#" class="sidebar-link disabled" aria-disabled="true">
+                <span class="nav-symbol">▥</span>
+                <span>Analytics</span>
+                <small>SOON</small>
+            </a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <div class="sidebar-store-card">
+                <span class="store-status-dot"></span>
+                <div>
+                    <strong>MIZUMI Store</strong>
+                    <small>Administration panel</small>
+                </div>
+            </div>
+
+            <a href="../index.html" class="sidebar-website-link">
+                <span>↗</span>
+                View storefront
+            </a>
+        </div>
+
+    </aside>
+
+    <main class="admin-main">
+
+        <header class="admin-topbar">
+            <div class="topbar-left">
+                <button type="button"
+                        class="mobile-menu-button"
+                        id="mobileMenuButton"
+                        aria-label="Open navigation"
+                        aria-expanded="false">☰</button>
+
+                <div class="breadcrumb">
+                    <span>Administration</span>
+                    <span class="breadcrumb-separator">/</span>
+                    <strong>Announcement</strong>
+                </div>
+            </div>
+
+            <div class="topbar-right">
+                <div class="admin-user">
+                    <div class="admin-avatar">A</div>
+                    <div class="admin-user-info">
+                        <strong id="adminEmail">Administrator</strong>
+                        <small>Store Admin</small>
+                    </div>
+                </div>
+
+                <button type="button"
+                        class="logout-button"
+                        id="logoutButton">
+                    Sign out <span>↗</span>
+                </button>
+            </div>
+        </header>
+
+        <div class="announcement-content">
+
+            <section class="announcement-heading">
+                <div>
+                    <span class="section-eyebrow">STOREFRONT CONTENT</span>
+                    <h1>Announcement<span>.</span></h1>
+                    <p>Manage the announcement bar displayed at the top of your homepage.</p>
+                </div>
+
+                <span class="announcement-status" id="announcementStatus">
+                    Checking status...
+                </span>
+            </section>
+
+            <section class="announcement-editor">
+
+                <div class="announcement-panel-heading">
+                    <div>
+                        <span class="panel-eyebrow">HOMEPAGE SETTINGS</span>
+                        <h2>Announcement content</h2>
+                        <p>Changes will appear on your storefront after saving.</p>
+                    </div>
+
+                    <button type="button"
+                            class="announcement-refresh"
+                            id="refreshAnnouncement">
+                        ↻ Refresh
+                    </button>
+                </div>
+
+                <form id="announcementForm">
+
+                    <div class="announcement-field">
+                        <label for="primaryText">Main announcement</label>
+                        <input
+                            type="text"
+                            id="primaryText"
+                            maxlength="100"
+                            required
+                            placeholder="WELCOME TO MIZUMI AQUATICS"
+                        >
+                        <small><span id="primaryCount">0</span>/100 characters</small>
+                    </div>
+
+                    <div class="announcement-field">
+                        <label for="secondaryText">Supporting text</label>
+                        <input
+                            type="text"
+                            id="secondaryText"
+                            maxlength="150"
+                            placeholder="WHERE AQUATIC LIFE COMES ALIVE"
+                        >
+                        <small><span id="secondaryCount">0</span>/150 characters</small>
+                    </div>
+
+                    <div class="announcement-toggle-row">
+                        <div>
+                            <strong>Show announcement bar</strong>
+                            <p>Turn this off to hide the announcement from your homepage.</p>
+                        </div>
+
+                        <label class="announcement-switch">
+                            <input type="checkbox" id="isActive">
+                            <span class="announcement-switch-slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="announcement-preview-section">
+                        <span class="panel-eyebrow">LIVE PREVIEW</span>
+
+                        <div class="announcement-preview" id="announcementPreview">
+                            <strong id="previewPrimary">WELCOME TO MIZUMI AQUATICS</strong>
+                            <span id="previewDivider">&nbsp; | &nbsp;</span>
+                            <span id="previewSecondary">WHERE AQUATIC LIFE COMES ALIVE</span>
+                        </div>
+
+                        <small>This preview shows the announcement text and layout.</small>
+                    </div>
+
+                    <div class="announcement-message"
+                         id="announcementMessage"
+                         role="status"
+                         aria-live="polite"
+                         hidden></div>
+
+                    <div class="announcement-actions">
+                        <button type="button"
+                                class="announcement-reset"
+                                id="resetAnnouncement">
+                            Reset changes
+                        </button>
+
+                        <button type="submit"
+                                class="announcement-save"
+                                id="saveAnnouncement">
+                            Save announcement <span>→</span>
+                        </button>
+                    </div>
+
+                </form>
+            </section>
+
+            <footer class="admin-footer">
+                <span>© 2026 MIZUMI Aquatics. All rights reserved.</span>
+                <span>Made for aquatic enthusiasts.</span>
+            </footer>
+
+        </div>
+    </main>
+</div>
+
+<div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+</body>
+</html>

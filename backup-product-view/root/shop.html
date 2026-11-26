@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#173d35">
+  <title>Shop Freshwater Fish & Aquarium Essentials | MIZUMI Aquatics</title>
+  <meta name="description" content="Explore freshwater ornamental fish, aquatic plants, aquarium equipment and aquascaping essentials at MIZUMI Aquatics.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/shop-page.css">
+  <link rel="stylesheet" href="css/account-nav.css">
+</head>
+<body class="shop-page">
+
+  <div class="announcement">
+    WELCOME TO MIZUMI AQUATICS
+    <span> &nbsp; | &nbsp; WHERE AQUATIC LIFE COMES ALIVE</span>
+  </div>
+
+  <nav class="main-nav">
+    <div class="container-custom nav-inner">
+      <button class="mobile-toggle" id="shopMobileToggle" aria-label="Open navigation" aria-expanded="false">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+
+      <a href="index.html" class="brand" aria-label="MIZUMI Aquatics home">
+        <div class="brand-mark"><i class="fa-solid fa-fish-fins"></i></div>
+        <div>
+          <div class="brand-name">MIZUMI</div>
+          <div class="brand-subtitle">A Q U A T I C S</div>
+        </div>
+      </a>
+
+      <ul class="nav-links" id="shopNavLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a class="active" href="shop.html">Shop</a></li>
+        <li><a href="shop.html?category=fish">Freshwater Fish</a></li>
+        <li><a href="shop.html?category=plants">Aquatic Plants</a></li>
+        <li><a href="index.html#services">Aquascaping</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <button class="nav-icon" id="shopSearchToggle" aria-label="Show search"><i class="fa-solid fa-magnifying-glass"></i></button>
+<a class="nav-icon account-nav-button"
+   href="account.html"
+   aria-label="My Account">
+    <i class="fa-regular fa-user"></i>
+</a>
+        <a href="cart.html" class="nav-icon" aria-label="Shopping cart">
+  <i class="fa-solid fa-bag-shopping"></i>
+  <span class="cart-count" id="cartCount">0</span>
+</a>
+      </div>
+    </div>
+    <div class="container-custom shop-search-panel d-none" id="shopSearchPanel">
+      <label class="visually-hidden" for="shopSearchInput">Search products</label>
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="search" id="shopSearchInput" placeholder="Search fish, plants, filters and more..." autocomplete="off">
+      <button id="shopSearchClear" type="button" aria-label="Clear search"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+  </nav>
+
+  <main>
+    <section class="shop-intro">
+      <div class="container-custom">
+        <div class="shop-breadcrumb"><a href="index.html">Home</a><span>/</span><span>Shop</span></div>
+        <div class="shop-intro-content">
+          <div>
+            <div class="eyebrow">THE MIZUMI COLLECTION</div>
+            <h1>Find your <em>underwater</em> world.</h1>
+            <p>Thoughtfully selected freshwater life and essentials for aquariums that feel closer to nature.</p>
+          </div>
+          <div class="shop-intro-note">
+            <i class="fa-solid fa-leaf"></i>
+            <span>Explore. Create.<br>Keep aquatic life thriving.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="shop-category-section">
+      <div class="container-custom">
+        <div class="shop-section-heading">
+          <div><span class="eyebrow">BROWSE BY COLLECTION</span><h2>Explore the store</h2></div>
+          <span class="shop-category-hint">Choose a collection to get started</span>
+        </div>
+        <div class="shop-category-strip" id="shopCategoryStrip">
+          <button class="shop-category-card is-active" data-category="all" type="button">
+            <span class="shop-category-image"><img src="https://images.unsplash.com/photo-1524704654690-b56c05c78a00?auto=format&fit=crop&w=360&q=80" alt="Freshwater fish"></span>
+            <span class="shop-category-name">All Products</span><small>Explore everything</small>
+          </button>
+          <button class="shop-category-card" data-category="fish" type="button">
+            <span class="shop-category-image"><img src="https://images.unsplash.com/photo-1546026423-cc4642628d2b?auto=format&fit=crop&w=360&q=80" alt="Freshwater ornamental fish"></span>
+            <span class="shop-category-name">Live Fish</span><small>Freshwater species</small>
+          </button>
+          <button class="shop-category-card" data-category="goldfish" type="button">
+            <span class="shop-category-image"><img src="https://images.unsplash.com/photo-1530053969600-caed2596d242?auto=format&fit=crop&w=360&q=80" alt="Goldfish"></span>
+            <span class="shop-category-name">Goldfish</span><small>Fancy varieties</small>
+          </button>
+          <button class="shop-category-card" data-category="cichlid" type="button">
+            <span class="shop-category-image"><img src="https://images.unsplash.com/photo-1535591273668-578e31182c4f?auto=format&fit=crop&w=360&q=80" alt="Tropical aquarium fish"></span>
+            <span class="shop-category-name">Cichlids</span><small>Colourful & characterful</small>
+          </button>
+          <button class="shop-category-card" data-category="plants" type="button">
+            <span class="shop-category-image"><img src="https://images.unsplash.com/photo-1546026423-cc4642628d2b?auto=format&fit=crop&w=360&q=80" alt="Aquatic plants"></span>
+            <span class="shop-category-name">Aquatic Plants</span><small>Bring nature in</small>
+          </button>
+          <button class="shop-category-card" data-category="equipment" type="button">
+            <span class="shop-category-image"><img src="https://images.unsplash.com/photo-1583212292454-1fe6229603b7?auto=format&fit=crop&w=360&q=80" alt="Aquarium equipment"></span>
+            <span class="shop-category-name">Equipment</span><small>Care & filtration</small>
+          </button>
+          <button class="shop-category-card" data-category="food" type="button">
+            <span class="shop-category-image"><img src="https://images.unsplash.com/photo-1574269909862-7e1d70bb8078?auto=format&fit=crop&w=360&q=80" alt="Fish food"></span>
+            <span class="shop-category-name">Fish Food</span><small>Everyday nutrition</small>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="shop-main-section">
+      <div class="container-custom">
+        <div class="shop-toolbar-top">
+          <div>
+            <span class="eyebrow">CURATED FOR AQUARISTS</span>
+            <h2>Shop all products</h2>
+            <p>Find the right additions for your aquatic environment.</p>
+          </div>
+          <button class="shop-filter-mobile-toggle" id="shopFilterToggle" type="button"><i class="fa-solid fa-sliders"></i> Filters</button>
+        </div>
+
+        <div class="shop-layout">
+          <aside class="shop-sidebar" id="shopSidebar">
+            <div class="shop-sidebar-heading">
+              <h3>Refine your search</h3>
+              <button type="button" id="shopClearFilters">Clear all</button>
+            </div>
+
+            <div class="shop-filter-group">
+              <button class="shop-filter-title" type="button" data-bs-toggle="collapse" data-bs-target="#availabilityFilters" aria-expanded="true">
+                Availability <i class="fa-solid fa-chevron-down"></i>
+              </button>
+              <div class="collapse show" id="availabilityFilters">
+                <label class="shop-check"><input type="checkbox" id="filterInStock"> <span>In stock</span></label>
+                <label class="shop-check"><input type="checkbox" id="filterOutStock"> <span>Out of stock</span></label>
+              </div>
+            </div>
+
+            <div class="shop-filter-group">
+              <button class="shop-filter-title" type="button" data-bs-toggle="collapse" data-bs-target="#priceFilters" aria-expanded="true">
+                Price range <i class="fa-solid fa-chevron-down"></i>
+              </button>
+              <div class="collapse show" id="priceFilters">
+                <div class="shop-price-inputs">
+                  <label><span>₹</span><input type="number" id="minPrice" min="0" value="0" aria-label="Minimum price"></label>
+                  <span>to</span>
+                  <label><span>₹</span><input type="number" id="maxPrice" min="0" value="5000" aria-label="Maximum price"></label>
+                </div>
+                <input class="shop-range" type="range" id="priceRange" min="0" max="5000" step="50" value="5000" aria-label="Maximum price slider">
+                <p class="shop-filter-help">Prices shown in Indian Rupees (INR).</p>
+              </div>
+            </div>
+
+            <div class="shop-filter-group">
+              <button class="shop-filter-title" type="button" data-bs-toggle="collapse" data-bs-target="#typeFilters" aria-expanded="true">
+                Product type <i class="fa-solid fa-chevron-down"></i>
+              </button>
+              <div class="collapse show" id="typeFilters">
+                <label class="shop-check"><input type="checkbox" name="productType" value="fish"> <span>Freshwater fish</span></label>
+                <label class="shop-check"><input type="checkbox" name="productType" value="plants"> <span>Aquatic plants</span></label>
+                <label class="shop-check"><input type="checkbox" name="productType" value="equipment"> <span>Equipment</span></label>
+                <label class="shop-check"><input type="checkbox" name="productType" value="food"> <span>Fish food</span></label>
+                <label class="shop-check"><input type="checkbox" name="productType" value="hardscape"> <span>Hardscape</span></label>
+              </div>
+            </div>
+
+            <div class="shop-sidebar-note">
+              <i class="fa-solid fa-circle-info"></i>
+              <p><strong>Shopping for live fish?</strong><br>Availability and delivery suitability can vary by location. Please confirm before ordering.</p>
+            </div>
+          </aside>
+
+          <div class="shop-results">
+            <div class="shop-results-toolbar">
+              <div class="shop-result-count"><strong id="shopResultCount">0</strong> products</div>
+              <div class="shop-result-actions">
+                <label for="shopSort">Sort by</label>
+                <select id="shopSort" aria-label="Sort products">
+                  <option value="featured">Featured</option>
+                  <option value="newest">Newest</option>
+                  <option value="price-low">Price: low to high</option>
+                  <option value="price-high">Price: high to low</option>
+                  <option value="name">Alphabetically</option>
+                </select>
+                <button class="shop-view-toggle active" type="button" aria-label="Grid view"><i class="fa-solid fa-grip"></i></button>
+              </div>
+            </div>
+
+            <div class="shop-active-filters" id="shopActiveFilters"></div>
+            <div class="shop-product-grid" id="shopProductGrid" aria-live="polite"></div>
+
+            <div class="shop-empty-state d-none" id="shopEmptyState">
+              <i class="fa-solid fa-water"></i>
+              <h3>No products found</h3>
+              <p>Try changing your filters or searching for another item.</p>
+              <button class="btn-primary-custom" id="shopEmptyReset" type="button">Clear filters <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+
+            <nav class="shop-pagination" aria-label="Product pages" id="shopPagination"></nav>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="shop-care-banner">
+      <div class="container-custom">
+        <div class="shop-care-content">
+          <span class="eyebrow">A LITTLE GUIDANCE GOES A LONG WAY</span>
+          <h2>Healthy aquariums begin with thoughtful choices.</h2>
+          <p>Not sure which fish, plants or equipment are right for your setup? Talk to us before you buy.</p>
+          <a href="index.html#contact" class="btn-primary-custom">Get expert guidance <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" id="contact">
+    <div class="container-custom">
+      <div class="row g-5">
+        <div class="col-lg-4">
+          <a href="index.html" class="brand">
+            <div class="brand-mark"><i class="fa-solid fa-fish-fins"></i></div>
+            <div><div class="brand-name">MIZUMI</div><div class="brand-subtitle">A Q U A T I C S</div></div>
+          </a>
+          <p class="footer-about">A destination for freshwater aquatic life, aquarium essentials and nature-inspired underwater experiences.</p>
+          <div class="social-links mt-4">
+            <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+            <a href="#" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+          </div>
+        </div>
+        <div class="col-6 col-lg-2">
+          <h4>Explore</h4>
+          <ul class="footer-links">
+            <li><a href="shop.html">Shop All</a></li><li><a href="shop.html?category=fish">Freshwater Fish</a></li>
+            <li><a href="shop.html?category=plants">Aquatic Plants</a></li><li><a href="shop.html?category=equipment">Accessories</a></li>
+            <li><a href="index.html#services">Services</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-lg-2">
+          <h4>Information</h4>
+          <ul class="footer-links">
+            <li><a href="index.html#contact">About Us</a></li><li><a href="#">Shipping Policy</a></li>
+            <li><a href="#">Live Fish Policy</a></li><li><a href="#">Privacy Policy</a></li><li><a href="#">Terms & Conditions</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-4">
+          <h4>Join Our Aquatic Community</h4>
+          <p class="footer-about">Get updates on new arrivals, aquarium inspiration and useful tips for your aquatic journey.</p>
+          <form class="newsletter-input" id="shopNewsletterForm">
+            <input type="email" placeholder="Your email address" aria-label="Email address" required>
+            <button type="submit" aria-label="Subscribe"><i class="fa-solid fa-arrow-right"></i></button>
+          </form>
+          <small id="shopNewsletterMessage" class="mt-2 d-block"></small>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© <span id="shopCurrentYear"></span> MIZUMI Aquatics. All rights reserved.</span>
+        <span>Inspired by Nature. Created for Aquatic Life.</span>
+      </div>
+    </div>
+  </footer>
+
+
+  <div class="shop-toast" id="shopToast" role="status" aria-live="polite"><i class="fa-solid fa-check"></i><span>Added to your bag</span></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/shop.js"></script>
+  <script src="js/account-nav.js"></script>
+</body>
+</html>

@@ -1,9 +1,9 @@
+
 import mongoose from "mongoose";
 
 /* =========================================
    CONTACT MESSAGE MODEL
-   Stores customer enquiries submitted
-   through the public contact form.
+   Stores customer enquiries and admin replies.
 ========================================= */
 
 const contactMessageSchema = new mongoose.Schema(
@@ -56,6 +56,48 @@ const contactMessageSchema = new mongoose.Schema(
             index: true
         },
 
+        // Admin email reply history
+        replies: {
+            type: [
+                {
+                    message: {
+                        type: String,
+                        required: true,
+                        trim: true,
+                        maxlength: [5000, "Reply cannot exceed 5000 characters"]
+                    },
+
+                    sentAt: {
+                        type: Date,
+                        default: Date.now
+                    },
+
+                    sentBy: {
+                        type: String,
+                        default: "admin"
+                    },
+
+                    emailStatus: {
+                        type: String,
+                        enum: ["pending","sent", "failed"],
+                        default: "sent"
+                    },
+
+                    emailMessageId: {
+                        type: String,
+                        default: ""
+                    }
+                }
+            ],
+            default: []
+        },
+
+        // Most recent successful reply timestamp
+        lastRepliedAt: {
+            type: Date,
+            default: null
+        },
+
         ipAddress: {
             type: String,
             default: ""
@@ -72,8 +114,9 @@ const contactMessageSchema = new mongoose.Schema(
     }
 );
 
-// Compound index for admin list ordering.
+// Indexes for admin message inbox
 contactMessageSchema.index({ status: 1, createdAt: -1 });
+contactMessageSchema.index({ email: 1 });
 
 const ContactMessage = mongoose.model(
     "ContactMessage",

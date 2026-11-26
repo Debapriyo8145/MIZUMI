@@ -1,0 +1,567 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Messages | MIZUMI Aquatics</title>
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="theme-color" content="#173d35">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/messages.css">
+</head>
+
+<body class="admin-body">
+
+<div class="admin-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar" id="adminSidebar">
+
+        <a href="index.html" class="brand" aria-label="MIZUMI Aquatics home">
+                <img
+                    src="../backend/img/logo/mizumi-logo-white.svg"
+                    alt="MIZUMI Aquatics"
+                    class="brand-logo"
+                >
+            </a>
+
+        <div class="sidebar-divider"></div>
+
+        <div class="sidebar-label">STORE MANAGEMENT</div>
+
+        <nav class="sidebar-nav">
+
+            <a href="index.html" class="sidebar-link">
+                <span class="nav-symbol">◈</span>
+                <span>Overview</span>
+            </a>
+
+            <a href="products.html" class="sidebar-link">
+                <span class="nav-symbol">▦</span>
+                <span>Products</span>
+            </a>
+
+            <a href="orders.html" class="sidebar-link">
+                <span class="nav-symbol">▤</span>
+                <span>Orders</span>
+            </a>
+
+            <a href="messages.html" class="sidebar-link active" aria-current="page">
+                <span class="nav-symbol">✉</span>
+                <span>Messages</span>
+                <span class="messages-nav-count" id="sidebarNewMessages"></span>
+            </a>
+
+            <a href="#" class="sidebar-link disabled" aria-disabled="true">
+                <span class="nav-symbol">♙</span>
+                <span>Customers</span>
+                <small>SOON</small>
+            </a>
+
+        </nav>
+
+        <div class="sidebar-label sidebar-label-secondary">
+            BUSINESS
+        </div>
+
+        <nav class="sidebar-nav">
+
+            <a href="#" class="sidebar-link disabled" aria-disabled="true">
+                <span class="nav-symbol">▥</span>
+                <span>Analytics</span>
+                <small>SOON</small>
+            </a>
+
+            <a href="#" class="sidebar-link disabled" aria-disabled="true">
+                <span class="nav-symbol">⚙</span>
+                <span>Settings</span>
+                <small>SOON</small>
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <div class="sidebar-store-card">
+                <span class="store-status-dot"></span>
+                <div>
+                    <strong>MIZUMI Store</strong>
+                    <small>Administration panel</small>
+                </div>
+            </div>
+
+            <a href="../index.html" class="sidebar-website-link">
+                <span>↗</span>
+                View storefront
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="admin-main">
+
+        <!-- TOPBAR -->
+        <header class="admin-topbar">
+
+            <div class="topbar-left">
+
+                <button
+                    type="button"
+                    class="mobile-menu-button"
+                    id="mobileMenuButton"
+                    aria-label="Open navigation"
+                    aria-expanded="false"
+                    aria-controls="adminSidebar"
+                >
+                    ☰
+                </button>
+
+                <div class="breadcrumb">
+                    <span>Administration</span>
+                    <span class="breadcrumb-separator">/</span>
+                    <strong>Messages</strong>
+                </div>
+
+            </div>
+
+            <div class="topbar-right">
+
+                <div class="admin-user">
+                    <div class="admin-avatar">A</div>
+
+                    <div class="admin-user-info">
+                        <strong id="adminEmail">Administrator</strong>
+                        <small>Store Admin</small>
+                    </div>
+                </div>
+
+                <button
+                    type="button"
+                    class="logout-button"
+                    id="logoutButton"
+                >
+                    Sign out <span>↗</span>
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <!-- PAGE CONTENT -->
+        <div class="messages-page">
+
+            <!-- PAGE HEADING -->
+            <section class="messages-heading">
+
+                <div>
+                    <span class="messages-eyebrow">CUSTOMER SUPPORT</span>
+
+                    <h1>Messages<span>.</span></h1>
+
+                    <p>
+                        Manage customer enquiries and communicate
+                        directly with your customers.
+                    </p>
+                </div>
+
+                <button
+                    type="button"
+                    class="messages-refresh-button"
+                    id="refreshMessages"
+                >
+                    ↻ <span>Refresh inbox</span>
+                </button>
+
+            </section>
+
+
+            <!-- SUMMARY CARDS -->
+            <section class="messages-stats">
+
+                <article class="message-stat-card">
+                    <span>Total enquiries</span>
+                    <strong id="totalMessages">—</strong>
+                    <small>All customer messages</small>
+                </article>
+
+                <article class="message-stat-card">
+                    <span>New messages</span>
+                    <strong id="newMessages">—</strong>
+                    <small>Awaiting your attention</small>
+                </article>
+
+                <article class="message-stat-card">
+                    <span>Replied</span>
+                    <strong id="repliedMessages">—</strong>
+                    <small>Messages with replies</small>
+                </article>
+
+            </section>
+
+
+            <!-- INBOX + MESSAGE VIEW -->
+            <section class="messages-workspace">
+
+                <!-- INBOX -->
+                <section class="messages-inbox-panel">
+
+                    <div class="messages-panel-heading">
+
+                        <div>
+                            <span class="messages-section-label">
+                                CUSTOMER COMMUNICATION
+                            </span>
+
+                            <h2>Inbox</h2>
+                        </div>
+
+                        <span id="messageResultCount">
+                            Loading...
+                        </span>
+
+                    </div>
+
+
+                    <!-- FILTER TABS -->
+                    <div class="messages-tabs" id="messageTabs">
+
+                        <button
+                            type="button"
+                            class="message-tab active"
+                            data-status="all"
+                            aria-pressed="true"
+                        >
+                            All
+                        </button>
+
+                        <button
+                            type="button"
+                            class="message-tab"
+                            data-status="new"
+                            aria-pressed="false"
+                        >
+                            New
+                            <span id="newTabCount">0</span>
+                        </button>
+
+                        <button
+                            type="button"
+                            class="message-tab"
+                            data-status="read"
+                            aria-pressed="false"
+                        >
+                            Read
+                        </button>
+
+                        <button
+                            type="button"
+                            class="message-tab"
+                            data-status="replied"
+                            aria-pressed="false"
+                        >
+                            Replied
+                        </button>
+
+                    </div>
+
+
+                    <!-- SEARCH -->
+                    <div class="messages-search">
+
+                        <span aria-hidden="true">⌕</span>
+
+                        <input
+                            type="search"
+                            id="messageSearch"
+                            placeholder="Search name, email or message..."
+                            autocomplete="off"
+                            aria-label="Search customer messages"
+                        >
+
+                    </div>
+
+
+                    <!-- MESSAGE LIST -->
+                    <div
+                        class="messages-list"
+                        id="messagesList"
+                        aria-live="polite"
+                        aria-busy="true"
+                    >
+                        <div class="messages-loading">
+                            Loading customer enquiries...
+                        </div>
+                    </div>
+
+
+                    <!-- PAGINATION -->
+                    <div class="messages-pagination">
+
+                        <span id="messagesPaginationInfo">
+                            Page 1
+                        </span>
+
+                        <div>
+                            <button
+                                type="button"
+                                id="previousMessagesPage"
+                                aria-label="Previous page"
+                                disabled
+                            >
+                                ←
+                            </button>
+
+                            <button
+                                type="button"
+                                id="nextMessagesPage"
+                                aria-label="Next page"
+                                disabled
+                            >
+                                →
+                            </button>
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- MESSAGE DETAILS PANEL -->
+                <section
+                    class="message-details-panel"
+                    id="messageDetailsPanel"
+                    aria-label="Selected customer message"
+                >
+
+                    <!-- EMPTY STATE -->
+                    <div
+                        class="message-empty-state"
+                        id="messageEmptyState"
+                    >
+
+                        <div class="message-empty-icon">✉</div>
+
+                        <h3>Select a message</h3>
+
+                        <p>
+                            Choose a customer enquiry from your inbox
+                            to read the message and reply.
+                        </p>
+
+                    </div>
+
+
+                    <!-- SELECTED MESSAGE -->
+                    <div id="messageDetails" hidden>
+
+                        <!-- MESSAGE HEADER -->
+                        <div class="message-details-header">
+
+                            <div>
+                                <span class="messages-section-label">
+                                    CUSTOMER ENQUIRY
+                                </span>
+
+                                <h2 id="detailSubject">—</h2>
+                            </div>
+
+                            <button
+                                type="button"
+                                id="deleteMessageButton"
+                                class="message-delete-button"
+                            >
+                                Delete
+                            </button>
+
+                        </div>
+
+
+                        <!-- CUSTOMER DETAILS -->
+                        <div class="message-customer-info">
+
+                            <div
+                                class="customer-avatar"
+                                id="customerAvatar"
+                            >
+                                C
+                            </div>
+
+                            <div class="customer-identity">
+
+                                <strong id="detailName">—</strong>
+
+                                <a
+                                    id="detailEmail"
+                                    href="#"
+                                    aria-label="Email customer"
+                                >
+                                    —
+                                </a>
+
+                                <a
+                                    id="detailPhone"
+                                    href="#"
+                                    aria-label="Call customer"
+                                ></a>
+
+                            </div>
+
+                            <span
+                                class="message-status-badge"
+                                id="detailStatus"
+                            >
+                                New
+                            </span>
+
+                        </div>
+
+
+                        <!-- RECEIVED DATE -->
+                        <div class="message-meta">
+                            <span>Received</span>
+                            <strong id="detailDate">—</strong>
+                        </div>
+
+
+                        <!-- ORIGINAL CUSTOMER MESSAGE -->
+                        <div class="message-original">
+
+                            <span class="message-content-label">
+                                CUSTOMER MESSAGE
+                            </span>
+
+                            <div
+                                class="message-original-content"
+                                id="detailMessage"
+                            ></div>
+
+                        </div>
+
+
+                        <!-- CONVERSATION HISTORY -->
+                        <section class="message-history-section">
+
+                            <div class="message-history-heading">
+
+                                <span class="message-content-label">
+                                    CONVERSATION HISTORY
+                                </span>
+
+                                <span id="replyCount">0 replies</span>
+
+                            </div>
+
+                            <div
+                                id="replyHistory"
+                                class="reply-history"
+                                aria-live="polite"
+                            >
+                                <p class="no-replies">
+                                    No replies have been sent yet.
+                                </p>
+                            </div>
+
+                        </section>
+
+
+                        <!-- REPLY FORM -->
+                        <form
+                            id="messageReplyForm"
+                            class="message-reply-form"
+                        >
+
+                            <label for="replyMessage">
+                                Write a reply
+                            </label>
+
+                            <textarea
+                                id="replyMessage"
+                                name="message"
+                                rows="5"
+                                minlength="2"
+                                maxlength="5000"
+                                placeholder="Write your response to the customer..."
+                                required
+                            ></textarea>
+
+                            <div class="reply-form-footer">
+
+                                <small>
+                                    Reply will be sent to the customer's email.
+                                </small>
+
+                                <button
+                                    type="submit"
+                                    id="sendReplyButton"
+                                >
+                                    Send reply <span>→</span>
+                                </button>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </section>
+
+            </section>
+
+
+            <!-- FOOTER -->
+            <footer class="admin-footer">
+
+                <span>
+                    © 2026 MIZUMI Aquatics. All rights reserved.
+                </span>
+
+                <span>
+                    Customer communication
+                </span>
+
+            </footer>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- MOBILE SIDEBAR BACKDROP -->
+<div
+    class="sidebar-backdrop"
+    id="sidebarBackdrop"
+></div>
+
+
+<!-- TOAST NOTIFICATION -->
+<div
+    class="messages-toast"
+    id="messagesToast"
+    role="status"
+    aria-live="polite"
+>
+    <span id="messagesToastMessage"></span>
+</div>
+
+
+<script src="js/messages.js" defer></script>
+
+</body>
+</html>

@@ -20,12 +20,31 @@
 </head>
 
 <body>
+    <!-- MIZUMI PAGE LOADER -->
+<div id="pageLoader" class="page-loader">
+    <div class="loader-content">
+        <img
+            src="backend/img/logo/mizumi-logo-white.svg"
+            alt="MIZUMI Aquatics"
+            class="loader-logo"
+        >
+
+        <div class="loader-line">
+            <span></span>
+        </div>
+
+        <p>PREPARING YOUR AQUATIC EXPERIENCE</p>
+    </div>
+</div>
 
     <!-- ANNOUNCEMENT -->
-    <div class="announcement">
-        WELCOME TO MIZUMI AQUATICS
-        <span>&nbsp; | &nbsp; WHERE AQUATIC LIFE COMES ALIVE</span>
-    </div>
+<!-- ANNOUNCEMENT -->
+<div class="announcement" id="announcementBar">
+    <span id="announcementPrimary">WELCOME TO MIZUMI AQUATICS</span>
+    <span id="announcementSecondary">
+        &nbsp; | &nbsp; WHERE AQUATIC LIFE COMES ALIVE
+    </span>
+</div>
 
     <!-- NAVIGATION -->
     <nav class="main-nav">
@@ -38,13 +57,11 @@
             </button>
 
             <a href="index.html" class="brand" aria-label="MIZUMI Aquatics home">
-                <div class="brand-mark">
-                    <i class="fa-solid fa-fish-fins"></i>
-                </div>
-                <div>
-                    <div class="brand-name"><img src="" alt="MIZUMI"></div>
-                    <div class="brand-subtitle">A Q U A T I C S</div>
-                </div>
+                <img
+                    src="backend/img/logo/mizumi_logo_svg.svg"
+                    alt="MIZUMI Aquatics"
+                    class="brand-logo"
+                >
             </a>
 
             <ul class="nav-links" id="navLinks">
@@ -93,38 +110,41 @@
     <main>
 
         <!-- HERO -->
-        <section class="hero">
-            <div class="container-custom">
-                <div class="hero-content">
-                    <div class="eyebrow">A WORLD BENEATH THE SURFACE</div>
-
-                    <h1>
-                        Bring Nature<br>
-                        <em>Into Your</em><br>
-                        Living Space.
-                    </h1>
-
-                    <p>
-                        Discover extraordinary freshwater fish, thoughtfully
-                        selected aquarium essentials and everything you need
-                        to create your own underwater world.
-                    </p>
-
-                    <a href="shop.html" class="btn-primary-custom">
-                        Explore Our Collection
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </a>
-
-                    <a href="#services" class="btn-outline-custom">
-                        Our Services
-                    </a>
-                </div>
+        
+<section class="hero" id="homepageHero">
+    <div class="container-custom">
+        <div class="hero-content">
+            <div class="eyebrow" id="heroEyebrow">
+                A WORLD BENEATH THE SURFACE
             </div>
 
-            <div class="hero-note">
-                INSPIRED BY NATURE. CREATED FOR AQUATIC LIFE.
-            </div>
-        </section>
+            <h1 id="heroHeading">Bring Nature
+                <em>Into Your</em>
+                Living Space.
+            </h1>
+
+            <p id="heroDescription">
+                Discover extraordinary freshwater fish, thoughtfully
+                selected aquarium essentials and everything you need
+                to create your own underwater world.
+            </p>
+
+            <a href="shop.html" class="btn-primary-custom" id="heroPrimaryButton">
+                Explore Our Collection
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
+
+            <a href="#services" class="btn-outline-custom" id="heroSecondaryButton">
+                Our Services
+            </a>
+        </div>
+    </div>
+
+    <div class="hero-note" id="heroNote">
+        INSPIRED BY NATURE. CREATED FOR AQUATIC LIFE.
+    </div>
+</section>
+
 
         <!-- BENEFITS -->
         <section class="benefits">
@@ -474,82 +494,56 @@
     </main>
 
     <!-- FOOTER -->
-    <footer class="footer" id="contact">
-        <div class="container-custom">
-
-            <div class="row g-5">
-
-                <div class="col-lg-4">
-                    <a href="index.html" class="brand" aria-label="MIZUMI Aquatics home">
-                        <div class="brand-mark">
-                            <i class="fa-solid fa-fish-fins"></i>
-                        </div>
-                        <div>
-                            <div class="brand-name">MIZUMI</div>
-                            <div class="brand-subtitle">A Q U A T I C S</div>
-                        </div>
-                    </a>
-
-                    <p class="footer-about">
-                        A destination for freshwater aquatic life,
-                        aquarium essentials and nature-inspired
-                        underwater experiences.
-                    </p>
-
-                    <p class="footer-about mb-0">
-                        <i class="fa-solid fa-location-dot me-2"></i>
-                        Ranaghat, Nadia, West Bengal
-                    </p>
-
-                    <a href="contact.html" class="text-link d-inline-block mt-3">
-                        CONTACT MIZUMI →
-                    </a>
-                </div>
-
-                <div class="col-6 col-lg-2">
-                    <h4>Explore</h4>
-                    <ul class="footer-links">
-                        <li><a href="shop.html">Shop All</a></li>
-                        <li><a href="shop.html?category=fish">Freshwater Fish</a></li>
-                        <li><a href="shop.html?category=plants">Aquatic Plants</a></li>
-                        <li><a href="shop.html?category=equipment">Equipment</a></li>
-                        <li><a href="shop.html?category=food">Fish Food</a></li>
-                        <li><a href="#services">Our Services</a></li>
-                    </ul>
-                </div>
-
-                <div class="col-6 col-lg-2">
-                    <h4>Customer Care</h4>
-                    <ul class="footer-links">
-                        <li><a href="account.html">My Account</a></li>
-                        <li><a href="cart.html">Shopping Cart</a></li>
-                        <li><a href="contact.html">Contact Us</a></li>
-                        <li><a href="#about">About MIZUMI</a></li>
-                    </ul>
-                </div>
-
-                <div class="col-lg-4">
-                    <h4>Need Aquarium Guidance?</h4>
-                    <p class="footer-about">
-                        Have a question about fish, aquarium equipment,
-                        custom tanks or aquascaping? Get in touch with us.
-                    </p>
-
-                    <a href="contact.html" class="btn-primary-custom">
-                        Talk to Us
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </a>
-                </div>
-
-            </div>
-
-            <div class="footer-bottom">
-                <span>© <span id="currentYear"></span> MIZUMI Aquatics. All rights reserved.</span>
-                <span>Inspired by Nature. Created for Aquatic Life.</span>
-            </div>
-
+  <footer class="footer" id="contact">
+    <div class="container-custom">
+      <div class="row g-5">
+        <div class="col-lg-4">
+          <a href="index.html" class="brand" aria-label="MIZUMI Aquatics home">
+                <img
+                    src="backend/img/logo/mizumi-logo-white.svg"
+                    alt="MIZUMI Aquatics"
+                    class="brand-logo"
+                >
+            </a>
+          <p class="footer-about">A destination for freshwater aquatic life, aquarium essentials and nature-inspired underwater experiences.</p>
+          <div class="social-links mt-4">
+            <a href="https://www.instagram.com/mizumiaquatics_/" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://www.facebook.com/profile.php?id=61596954680273" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+            <a href="https://wa.me/81453794358" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+          </div>
         </div>
-    </footer>
+        <div class="col-6 col-lg-2">
+          <h4>Explore</h4>
+          <ul class="footer-links">
+            <li><a href="shop.html">Shop All</a></li><li><a href="shop.html?category=fish">Freshwater Fish</a></li>
+            <li><a href="shop.html?category=plants">Aquatic Plants</a></li><li><a href="shop.html?category=equipment">Accessories</a></li>
+            <li><a href="index.html#services">Services</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-lg-2">
+          <h4>Information</h4>
+          <ul class="footer-links">
+            <li><a href="index.html#contact">About Us</a></li><li><a href="#">Shipping Policy</a></li>
+            <li><a href="#">Live Fish Policy</a></li><li><a href="#">Privacy Policy</a></li><li><a href="#">Terms & Conditions</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-4">
+          <h4>Join Our Aquatic Community</h4>
+          <p class="footer-about">Get updates on new arrivals, aquarium inspiration and useful tips for your aquatic journey.</p>
+          <form class="newsletter-input" id="shopNewsletterForm">
+            <input type="email" placeholder="Your email address" aria-label="Email address" required>
+            <button type="submit" aria-label="Subscribe"><i class="fa-solid fa-arrow-right"></i></button>
+          </form>
+          <small id="shopNewsletterMessage" class="mt-2 d-block"></small>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>Â© <span id="shopCurrentYear"></span> MIZUMI Aquatics. All rights reserved.</span>
+        <span>Inspired by Nature. Created for Aquatic Life.</span>
+      </div>
+    </div>
+  </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/main.js"></script>

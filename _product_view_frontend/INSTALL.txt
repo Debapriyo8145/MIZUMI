@@ -1,0 +1,13 @@
+MIZUMI PRODUCT VIEW FRONTEND
+
+Copy these files into C:\MIZUMI preserving folders:
+- product_view.html -> project root
+- css\product-view.css -> css\
+- css\shop-product-link.css -> css\
+- js\product-view.js -> js\
+- js\shop.js -> replace existing js\shop.js (backup first)
+
+Then add this stylesheet link to shop.html after css/shop-page.css:
+<link rel="stylesheet" href="css/shop-product-link.css">
+
+Product cards now link to product_view.html?id=PRODUCT_ID. Product detail page calls GET http://localhost:5000/api/v1/products/:id and reads product.image, product.gallery, product.specifications. Cart uses the existing mizumi_cart localStorage item shape.

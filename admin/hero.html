@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="theme-color" content="#173d35">
+
+    <title>Hero Manager | MIZUMI Aquatics</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/hero.css">
+
+    <script src="js/hero.js" defer></script>
+</head>
+
+<body class="admin-body">
+
+<div class="admin-layout">
+
+    <aside class="admin-sidebar" id="adminSidebar">
+
+        <a href="index.html" class="brand" aria-label="MIZUMI Aquatics home">
+                <img
+                    src="../backend/img/logo/mizumi-logo-white.svg"
+                    alt="MIZUMI Aquatics"
+                    class="brand-logo"
+                >
+            </a>
+
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">STORE MANAGEMENT</div>
+
+        <nav class="sidebar-nav">
+            <a href="index.html" class="sidebar-link">
+                <span class="nav-symbol">◈</span>
+                <span>Overview</span>
+            </a>
+
+            <a href="products.html" class="sidebar-link">
+                <span class="nav-symbol">▦</span>
+                <span>Products</span>
+            </a>
+
+            <a href="orders.html" class="sidebar-link">
+                <span class="nav-symbol">▤</span>
+                <span>Orders</span>
+            </a>
+
+            <a href="messages.html" class="sidebar-link">
+                <span class="nav-symbol">✉</span>
+                <span>Messages</span>
+            </a>
+
+            <a href="#" class="sidebar-link disabled" aria-disabled="true">
+                <span class="nav-symbol">♙</span>
+                <span>Customers</span>
+                <small>SOON</small>
+            </a>
+        </nav>
+
+        <div class="sidebar-label sidebar-label-secondary">BUSINESS</div>
+
+        <nav class="sidebar-nav">
+            <a href="announcement.html" class="sidebar-link">
+                <span class="nav-symbol">▰</span>
+                <span>Announcement</span>
+            </a>
+
+            <a href="hero.html" class="sidebar-link active">
+                <span class="nav-symbol">▧</span>
+                <span>Hero Manager</span>
+            </a>
+
+            <a href="#" class="sidebar-link disabled" aria-disabled="true">
+                <span class="nav-symbol">▥</span>
+                <span>Analytics</span>
+                <small>SOON</small>
+            </a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <div class="sidebar-store-card">
+                <span class="store-status-dot"></span>
+                <div>
+                    <strong>MIZUMI Store</strong>
+                    <small>Administration panel</small>
+                </div>
+            </div>
+
+            <a href="../index.html" class="sidebar-website-link">
+                <span>↗</span> View storefront
+            </a>
+        </div>
+    </aside>
+
+    <main class="admin-main">
+
+        <header class="admin-topbar">
+            <div class="topbar-left">
+                <button type="button"
+                        class="mobile-menu-button"
+                        id="mobileMenuButton"
+                        aria-label="Open navigation"
+                        aria-expanded="false">
+                    ☰
+                </button>
+
+                <div class="breadcrumb">
+                    <span>Administration</span>
+                    <span class="breadcrumb-separator">/</span>
+                    <strong>Hero Manager</strong>
+                </div>
+            </div>
+
+            <div class="topbar-right">
+                <div class="admin-user">
+                    <div class="admin-avatar">A</div>
+                    <div class="admin-user-info">
+                        <strong id="adminEmail">Administrator</strong>
+                        <small>Store Admin</small>
+                    </div>
+                </div>
+
+                <button type="button"
+                        class="logout-button"
+                        id="logoutButton">
+                    Sign out <span>↗</span>
+                </button>
+            </div>
+        </header>
+
+        <div class="hero-manager-page">
+
+            <section class="hero-manager-heading">
+                <div>
+                    <span class="hero-manager-eyebrow">STOREFRONT CUSTOMIZATION</span>
+                    <h1>Hero Manager<span>.</span></h1>
+                    <p>Control the first impression visitors see on your homepage.</p>
+                </div>
+
+                <div class="hero-status" id="heroStatus">
+                    <span class="status-dot"></span>
+                    <span id="heroStatusText">Loading settings...</span>
+                </div>
+            </section>
+
+            <form id="heroForm" novalidate>
+
+                <div class="hero-manager-grid">
+
+                    <!-- LEFT: CONTENT SETTINGS -->
+                    <div class="hero-settings-column">
+
+                        <section class="hero-admin-card">
+
+                            <div class="hero-card-heading">
+                                <div>
+                                    <span class="hero-section-label">01 / CONTENT</span>
+                                    <h2>Hero content</h2>
+                                    <p>Write the text visitors will see.</p>
+                                </div>
+                                <i class="fa-regular fa-pen-to-square"></i>
+                            </div>
+
+                            <div class="hero-field">
+                                <label for="heroEyebrow">Eyebrow text</label>
+                                <input type="text" id="heroEyebrow"
+                                       maxlength="100"
+                                       placeholder="A WORLD BENEATH THE SURFACE">
+                                <small>Short introductory line above the heading.</small>
+                            </div>
+
+                            <div class="hero-field">
+                                <label for="heroHeading">Main heading</label>
+                                <textarea id="heroHeading" rows="3"
+                                          maxlength="180"
+                                          placeholder="Bring Nature Into Your Living Space."></textarea>
+                                <small>Use line breaks to control how the heading appears.</small>
+                            </div>
+
+                            <div class="hero-field">
+                                <label for="heroDescription">Description</label>
+                                <textarea id="heroDescription" rows="4"
+                                          maxlength="500"
+                                          placeholder="Describe your store and products..."></textarea>
+                                <div class="hero-field-footer">
+                                    <small>Keep it clear and concise.</small>
+                                    <span id="descriptionCounter">0 / 500</span>
+                                </div>
+                            </div>
+
+                        </section>
+
+                        <section class="hero-admin-card">
+
+                            <div class="hero-card-heading">
+                                <div>
+                                    <span class="hero-section-label">02 / ACTIONS</span>
+                                    <h2>Call-to-action buttons</h2>
+                                    <p>Choose where each button takes visitors.</p>
+                                </div>
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                            </div>
+
+                            <div class="hero-button-fields">
+                                <div class="hero-field">
+                                    <label for="primaryButtonText">Primary button text</label>
+                                    <input type="text" id="primaryButtonText" maxlength="60">
+                                </div>
+
+                                <div class="hero-field">
+                                    <label for="primaryButtonUrl">Primary button URL</label>
+                                    <input type="text" id="primaryButtonUrl" maxlength="300"
+                                           placeholder="shop.html">
+                                </div>
+                            </div>
+
+                            <div class="hero-button-fields">
+                                <div class="hero-field">
+                                    <label for="secondaryButtonText">Secondary button text</label>
+                                    <input type="text" id="secondaryButtonText" maxlength="60">
+                                </div>
+
+                                <div class="hero-field">
+                                    <label for="secondaryButtonUrl">Secondary button URL</label>
+                                    <input type="text" id="secondaryButtonUrl" maxlength="300"
+                                           placeholder="#services">
+                                </div>
+                            </div>
+
+                            <div class="hero-field">
+                                <label for="heroNote">Hero note</label>
+                                <input type="text" id="heroNote" maxlength="150">
+                                <small>Small statement displayed at the bottom of the hero.</small>
+                            </div>
+
+                        </section>
+
+                        <section class="hero-admin-card">
+
+                            <div class="hero-card-heading">
+                                <div>
+                                    <span class="hero-section-label">03 / DISPLAY</span>
+                                    <h2>Visibility</h2>
+                                    <p>Control whether the homepage hero is displayed.</p>
+                                </div>
+                                <i class="fa-regular fa-eye"></i>
+                            </div>
+
+                            <label class="hero-toggle-row" for="heroIsActive">
+                                <span>
+                                    <strong>Show homepage hero</strong>
+                                    <small>Turn this off to hide the entire hero section.</small>
+                                </span>
+
+                                <span class="hero-switch">
+                                    <input type="checkbox" id="heroIsActive" checked>
+                                    <span class="hero-switch-track"></span>
+                                </span>
+                            </label>
+
+                        </section>
+
+                    </div>
+
+                    <!-- RIGHT: IMAGE SETTINGS -->
+                    <div class="hero-image-column">
+
+                        <section class="hero-admin-card">
+
+                            <div class="hero-card-heading">
+                                <div>
+                                    <span class="hero-section-label">04 / BACKGROUND</span>
+                                    <h2>Hero image</h2>
+                                    <p>One image adapts to desktop and mobile screens.</p>
+                                </div>
+                                <i class="fa-regular fa-image"></i>
+                            </div>
+
+                            <div class="hero-upload-area" id="heroUploadArea">
+                                <div class="hero-upload-placeholder" id="heroUploadPlaceholder">
+                                    <span class="hero-upload-icon">
+                                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                                    </span>
+                                    <strong>Upload hero image</strong>
+                                    <span>JPG, PNG or WebP · Maximum 8 MB</span>
+                                </div>
+
+                                <img src="" alt="Selected hero background"
+                                     id="heroImagePreview" hidden>
+                            </div>
+
+                            <input type="file" id="heroImageFile"
+                                   accept="image/jpeg,image/png,image/webp" hidden>
+
+                            <div class="hero-upload-actions">
+                                <button type="button" class="hero-secondary-button"
+                                        id="chooseHeroImage">
+                                    <i class="fa-solid fa-upload"></i>
+                                    Choose image
+                                </button>
+
+                                <button type="button" class="hero-text-button"
+                                        id="removeHeroImage" hidden>
+                                    Remove selection
+                                </button>
+                            </div>
+
+                            <p class="hero-upload-message" id="heroUploadMessage">
+                                Recommended: wide landscape image, ideally 1920 × 900 px or larger.
+                            </p>
+
+                            <div class="hero-field">
+                                <label for="imagePositionX">
+                                    Horizontal image position
+                                    <strong id="positionXValue">50%</strong>
+                                </label>
+                                <input type="range" id="imagePositionX"
+                                       min="0" max="100" value="50">
+                                <div class="range-labels">
+                                    <span>Left</span><span>Center</span><span>Right</span>
+                                </div>
+                            </div>
+
+                            <div class="hero-field">
+                                <label for="imagePositionY">
+                                    Vertical image position
+                                    <strong id="positionYValue">48%</strong>
+                                </label>
+                                <input type="range" id="imagePositionY"
+                                       min="0" max="100" value="48">
+                                <div class="range-labels">
+                                    <span>Top</span><span>Center</span><span>Bottom</span>
+                                </div>
+                            </div>
+
+                            <div class="hero-field">
+                                <label for="overlayOpacity">
+                                    Image overlay darkness
+                                    <strong id="overlayValue">65%</strong>
+                                </label>
+                                <input type="range" id="overlayOpacity"
+                                       min="0" max="100" value="65">
+                                <div class="range-labels">
+                                    <span>Light</span><span>Balanced</span><span>Dark</span>
+                                </div>
+                            </div>
+
+                        </section>
+
+                        <section class="hero-admin-card hero-save-card">
+                            <div>
+                                <strong>Ready to publish?</strong>
+                                <p>Your changes will update the homepage after saving.</p>
+                            </div>
+
+                            <button type="submit" class="hero-save-button"
+                                    id="saveHeroButton">
+                                <i class="fa-regular fa-floppy-disk"></i>
+                                Save hero settings
+                            </button>
+
+                            <button type="button" class="hero-reset-button"
+                                    id="resetHeroButton">
+                                Reset unsaved changes
+                            </button>
+                        </section>
+
+                    </div>
+                </div>
+
+            </form>
+
+            <!-- LIVE PREVIEW -->
+            <section class="hero-preview-section">
+
+                <div class="hero-preview-heading">
+                    <div>
+                        <span class="hero-section-label">LIVE PREVIEW</span>
+                        <h2>Homepage appearance</h2>
+                    </div>
+                    <span class="preview-device-label">
+                        <i class="fa-solid fa-desktop"></i>
+                        Responsive preview
+                    </span>
+                </div>
+
+                <div class="hero-live-preview" id="heroLivePreview">
+
+                    <div class="hero-preview-inner">
+                        <div class="hero-preview-eyebrow" id="previewEyebrow">
+                            A WORLD BENEATH THE SURFACE
+                        </div>
+
+                        <h3 id="previewHeading">Bring Nature Into Your Living Space.</h3>
+
+                        <p id="previewDescription">
+                            Discover extraordinary freshwater fish, thoughtfully selected aquarium essentials and everything you need to create your own underwater world.
+                        </p>
+
+                        <div class="hero-preview-buttons">
+                            <span class="hero-preview-primary" id="previewPrimaryButton">
+                                Explore Our Collection
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </span>
+
+                            <span class="hero-preview-secondary" id="previewSecondaryButton">
+                                Our Services
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="hero-preview-note" id="previewNote">
+                        INSPIRED BY NATURE. CREATED FOR AQUATIC LIFE.
+                    </div>
+
+                </div>
+
+                <p class="hero-preview-disclaimer">
+                    Preview is an approximation. Actual cropping and text wrapping vary by screen size.
+                </p>
+
+            </section>
+
+            <footer class="admin-footer">
+                <span>© 2026 MIZUMI Aquatics. All rights reserved.</span>
+                <span>Homepage customization</span>
+            </footer>
+
+        </div>
+    </main>
+</div>
+
+<div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+<div class="hero-toast" id="heroToast" role="status" aria-live="polite"></div>
+
+</body>
+</html>

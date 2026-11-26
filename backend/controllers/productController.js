@@ -209,7 +209,8 @@ export const createProduct = async (req, res) => {
             description,
             image,
             size,
-            care
+            care,
+            specifications
         } = req.body;
 
         if (
@@ -253,7 +254,8 @@ export const createProduct = async (req, res) => {
             description: description.trim(),
             image: image || "",
             size,
-            care
+            care,
+            specifications: specifications || {}
         });
 
         return res.status(201).json({
@@ -362,6 +364,7 @@ export const updateProduct = async (req, res) => {
             "tag",
             "description",
             "image",
+            "specifications",
             "size",
             "care"
         ];
@@ -718,5 +721,149 @@ export const uploadProductImage = async (req, res) => {
             success: false,
             message: "Unable to upload product image."
         });
+    }
+};
+
+
+/* =========================================
+   UPLOAD PRODUCT GALLERY
+   POST /api/v1/products/:id/gallery
+   Admin only. Field name: images (max 8 total).
+========================================= */
+
+const removeLocalProductImage = async imageUrl => {
+    if (!imageUrl) return;
+
+    try {
+        const parsedUrl = new URL(imageUrl);
+        const baseUrl = new URL(publicApiUrl);
+
+        if (
+            parsedUrl.origin !== baseUrl.origin ||
+            !parsedUrl.pathname.startsWith("/uploads/products/")
+        ) return;
+
+        const filename = path.basename(parsedUrl.pathname);
+        if (!/^[a-f0-9-]+\.webp$/i.test(filename)) return;
+
+        const targetPath = path.resolve(uploadDirectory, filename);
+        const safeDirectory = path.resolve(uploadDirectory);
+        if (!targetPath.startsWith(safeDirectory + path.sep)) return;
+
+        await fs.unlink(targetPath).catch(error => {
+            if (error.code !== "ENOENT") throw error;
+        });
+    } catch (error) {
+        console.warn("Product gallery image cleanup skipped:", error.message);
+    }
+};
+
+export const uploadProductGallery = async (req, res) => {
+    const createdFiles = [];
+
+    try {
+        const { id } = req.params;
+        if (!mongoose.isValidObjectId(id)) {
+            return res.status(400).json({ success: false, message: "Invalid product ID." });
+        }
+        if (!req.files?.length) {
+            return res.status(400).json({ success: false, message: "Select at least one gallery image." });
+        }
+
+        const product = await Product.findOne({ _id: id, isActive: true });
+        if (!product) {
+            return res.status(404).json({ success: false, message: "Product not found." });
+        }
+
+        if (product.gallery.length + req.files.length > 8) {
+            return res.status(400).json({
+                success: false,
+                message: `You can add only ${8 - product.gallery.length} more image(s). Maximum gallery size is 8.`
+            });
+        }
+
+        for (const file of req.files) {
+            const metadata = await sharp(file.buffer, { limitInputPixels: 40000000 }).metadata();
+            if (!["jpeg", "png", "webp"].includes(metadata.format)) {
+                throw new Error("One of the files is not a valid JPG, PNG or WEBP image.");
+            }
+
+            const filename = `${randomUUID()}.webp`;
+            const destination = path.join(uploadDirectory, filename);
+
+            await sharp(file.buffer, { limitInputPixels: 40000000 })
+                .rotate()
+                .resize({ width: 1200, height: 1200, fit: "inside", withoutEnlargement: true })
+                .webp({ quality: 82, effort: 5 })
+                .toFile(destination);
+
+            const stats = await fs.stat(destination);
+            if (stats.size > 5 * 1024 * 1024) {
+                await fs.unlink(destination).catch(() => {});
+                throw new Error("An optimized gallery image exceeds the 5 MB limit.");
+            }
+
+            const imageUrl = `${publicApiUrl}/uploads/products/${filename}`;
+            createdFiles.push({ path: destination, url: imageUrl });
+        }
+
+        product.gallery.push(...createdFiles.map(file => file.url));
+        await product.save();
+
+        return res.status(201).json({
+            success: true,
+            message: `${createdFiles.length} gallery image(s) uploaded successfully.`,
+            gallery: product.gallery,
+            product
+        });
+    } catch (error) {
+        await Promise.all(createdFiles.map(file => fs.unlink(file.path).catch(() => {})));
+        console.error("Product gallery upload error:", error);
+        return res.status(400).json({
+            success: false,
+            message: error.message || "Unable to upload gallery images."
+        });
+    }
+};
+
+/* =========================================
+   DELETE PRODUCT GALLERY IMAGE
+   DELETE /api/v1/products/:id/gallery/:index
+   Admin only. Index is zero-based.
+========================================= */
+
+export const deleteProductGalleryImage = async (req, res) => {
+    try {
+        const { id, index } = req.params;
+        if (!mongoose.isValidObjectId(id)) {
+            return res.status(400).json({ success: false, message: "Invalid product ID." });
+        }
+        if (!/^\d+$/.test(index)) {
+            return res.status(400).json({ success: false, message: "Invalid gallery image index." });
+        }
+
+        const product = await Product.findOne({ _id: id, isActive: true });
+        if (!product) {
+            return res.status(404).json({ success: false, message: "Product not found." });
+        }
+
+        const imageIndex = Number(index);
+        if (imageIndex < 0 || imageIndex >= product.gallery.length) {
+            return res.status(404).json({ success: false, message: "Gallery image not found." });
+        }
+
+        const [removedImage] = product.gallery.splice(imageIndex, 1);
+        await product.save();
+        await removeLocalProductImage(removedImage);
+
+        return res.status(200).json({
+            success: true,
+            message: "Gallery image removed successfully.",
+            gallery: product.gallery,
+            product
+        });
+    } catch (error) {
+        console.error("Delete gallery image error:", error);
+        return res.status(500).json({ success: false, message: "Unable to remove gallery image." });
     }
 };

@@ -5,7 +5,7 @@
 .contact-page .nav-links a.active { color:var(--sage); }
 .contact-breadcrumb { display:flex; gap:10px; align-items:center; color:rgba(255,255,255,.7); font-size:10px; margin-bottom:54px; }
 .contact-breadcrumb a:hover { color:#fff; }
-.contact-hero { min-height:540px; position:relative; display:flex; align-items:center; color:#fff; background:url('backend/img/ststic_img/fishtank01.jpg') center 48%/cover no-repeat; }
+.contact-hero { min-height:540px; position:relative; display:flex; align-items:center; color:#fff; background:url('../backend/img/ststic_img/fishtank01.jpg') center 48%/cover no-repeat; }
 .contact-hero-shade { position:absolute; inset:0; background:linear-gradient(90deg,rgba(9,31,25,.88),rgba(9,31,25,.57) 55%,rgba(9,31,25,.13)); }
 .contact-hero-inner { position:relative; z-index:1; padding:54px 0 75px; }
 .contact-hero .eyebrow { color:#c7d8b9; }
@@ -50,7 +50,7 @@
 .contact-form-feedback.is-info { background:var(--ivory); color:var(--forest); border-left:3px solid var(--sage); }
 .contact-form-feedback.is-error { background:#fbefed; color:#914d43; border-left:3px solid #b66c5f; }
 .contact-details-panel { background:var(--forest); color:#fff; }
-.contact-details-image { height:205px; background:url('backend/img/ststic_img/ram01.jpg') center/cover no-repeat; }
+.contact-details-image { height:205px; background:url('../backend/img/ststic_img/ram01.jpg') center/cover no-repeat; }
 .contact-details-content { padding:29px 30px 32px; }
 .contact-details-content .eyebrow { color:#c4d6b5; font-size:8px; letter-spacing:2px; }
 .contact-details-content h3 { color:#fff; font:600 36px/.98 var(--heading); margin:14px 0 12px; }
