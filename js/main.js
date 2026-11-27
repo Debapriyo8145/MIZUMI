@@ -947,15 +947,36 @@ if (document.readyState === "loading") {
 }
 
 
-// MIZUMI PAGE LOADER
-window.addEventListener("load", function () {
+
+// =========================================
+// MIZUMI AQUATICS — PAGE LOADER
+// =========================================
+
+(function () {
     const loader = document.getElementById("pageLoader");
 
     if (!loader) return;
 
-    loader.classList.add("loaded");
+    let loaderRemoved = false;
 
-    setTimeout(() => {
-        loader.remove();
-    }, 650);
-});
+    function hidePageLoader() {
+        if (loaderRemoved) return;
+
+        loaderRemoved = true;
+
+        loader.classList.add("loaded");
+
+        setTimeout(() => {
+            loader.remove();
+        }, 600);
+    }
+
+    // Wait until the complete page has loaded.
+    if (document.readyState === "complete") {
+        hidePageLoader();
+    } else {
+        window.addEventListener("load", hidePageLoader, {
+            once: true
+        });
+    }
+})();

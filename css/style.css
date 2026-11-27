@@ -1336,9 +1336,11 @@
     }
 }
 
-/* ==========================
-   MIZUMI PAGE LOADER
-========================== */
+
+
+/* =========================================
+   MIZUMI AQUATICS — PAGE LOADER
+========================================= */
 
 .page-loader {
     position: fixed;
@@ -1349,15 +1351,30 @@
     align-items: center;
     justify-content: center;
 
-    background: #173F35;
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+
+    padding: 24px;
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            ellipse at 50% 48%,
+            rgba(48, 105, 91, 0.35) 0%,
+            rgba(23, 63, 53, 0) 65%
+        ),
+        #173F35;
 
     opacity: 1;
     visibility: visible;
 
     transition:
-        opacity 0.6s ease,
-        visibility 0.6s ease;
+        opacity 0.55s ease,
+        visibility 0.55s ease;
 }
+
+/* Loader exit */
 
 .page-loader.loaded {
     opacity: 0;
@@ -1365,56 +1382,134 @@
     pointer-events: none;
 }
 
+/* Main content group */
+
 .loader-content {
-    width: min(260px, 75%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    max-width: 320px;
+
+    margin: 0 auto;
     text-align: center;
 }
 
+/* Brand logo */
+
 .loader-logo {
-    width: 155px;
+    display: block;
+
+    width: clamp(135px, 24vw, 170px);
     max-width: 100%;
     height: auto;
-    margin-bottom: 35px;
+
+    margin: 0;
+    padding: 0;
+
+    object-fit: contain;
 }
 
+/* Animated progress line */
+
 .loader-line {
+    position: relative;
+
+    display: block;
+
     width: 100%;
-    height: 2px;
+    height: 1px;
+
+    margin: 26px 0 0;
+    padding: 0;
+
     overflow: hidden;
-    background: rgba(255,255,255,0.18);
+
+    background: rgba(247, 247, 241, 0.22);
 }
 
 .loader-line span {
-    display: block;
-    width: 40%;
-    height: 100%;
-    background: #D9DED8;
+    position: absolute;
+    top: 0;
+    left: 0;
 
-    animation: loaderProgress 1.4s ease-in-out infinite;
+    display: block;
+
+    width: 38%;
+    height: 100%;
+
+    background: #F7F7F1;
+
+    animation: mizumiLoaderProgress 1.6s
+        cubic-bezier(0.65, 0, 0.35, 1) infinite;
 }
+
+/* Loading message */
 
 .loader-content p {
-    margin-top: 17px;
-    color: #D9DED8;
-    font-size: 8px;
-    letter-spacing: 2px;
-    font-weight: 500;
+    display: block;
+
+    width: 100%;
+    margin: 16px 0 0;
+    padding: 0;
+
+    color: #F7F7F1;
+
+    font-family: inherit;
+    font-size: 9px;
+    font-weight: 600;
+
+    line-height: 1.5;
+    letter-spacing: 2.2px;
+
+    text-align: center;
+    text-transform: uppercase;
+
+    opacity: 0.88;
 }
 
-@keyframes loaderProgress {
+/* Animation */
+
+@keyframes mizumiLoaderProgress {
     0% {
         transform: translateX(-110%);
     }
 
     100% {
-        transform: translateX(260%);
+        transform: translateX(270%);
     }
 }
 
+/* Small screens */
+
+@media (max-width: 480px) {
+    .loader-content {
+        max-width: 270px;
+    }
+
+    .loader-logo {
+        width: 145px;
+    }
+
+    .loader-line {
+        margin-top: 23px;
+    }
+
+    .loader-content p {
+        margin-top: 14px;
+        font-size: 8px;
+        letter-spacing: 1.8px;
+    }
+}
+
+/* Reduced motion accessibility */
+
 @media (prefers-reduced-motion: reduce) {
     .loader-line span {
-        animation: none;
         width: 100%;
+        animation: none;
     }
 
     .page-loader {

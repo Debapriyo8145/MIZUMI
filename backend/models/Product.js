@@ -1,20 +1,5 @@
-import mongoose from "mongoose";
 
-const productSpecificationsSchema = new mongoose.Schema(
-    {
-        scientificName: { type: String, trim: true, default: "" },
-        origin: { type: String, trim: true, default: "" },
-        adultSize: { type: String, trim: true, default: "" },
-        temperament: { type: String, trim: true, default: "" },
-        diet: { type: String, trim: true, default: "" },
-        waterTemperature: { type: String, trim: true, default: "" },
-        phRange: { type: String, trim: true, default: "" },
-        minimumTankSize: { type: String, trim: true, default: "" },
-        careLevel: { type: String, trim: true, default: "" },
-        notes: { type: String, trim: true, default: "" }
-    },
-    { _id: false }
-);
+import mongoose from "mongoose";
 
 const productSchema = new mongoose.Schema(
     {
@@ -25,22 +10,68 @@ const productSchema = new mongoose.Schema(
             trim: true,
             uppercase: true
         },
+
         name: {
             type: String,
             required: [true, "Product name is required"],
-            trim: true
+            trim: true,
+            maxlength: 120
         },
+
         category: {
             type: String,
-            required: true,
-            enum: ["fish", "cichlid", "goldfish", "plants", "equipment", "food", "hardscape"]
+            required: [true, "Product category is required"],
+            enum: [
+                "fish",
+                "cichlid",
+                "goldfish",
+                "plants",
+                "equipment",
+                "food",
+                "hardscape"
+            ],
+            lowercase: true,
+            trim: true
         },
-        subcategory: { type: String, required: true, trim: true },
-        price: { type: Number, required: true, min: 0 },
-        stock: { type: Number, default: 0, min: 0 },
-        tag: { type: String, default: "" },
-        description: { type: String, required: true, trim: true },
-        image: { type: String, default: "" },
+
+        subcategory: {
+            type: String,
+            trim: true,
+            default: "",
+            maxlength: 80
+        },
+
+        price: {
+            type: Number,
+            required: [true, "Product price is required"],
+            min: 0
+        },
+
+        stock: {
+            type: Number,
+            default: 0,
+            min: 0
+        },
+
+        tag: {
+            type: String,
+            trim: true,
+            default: "",
+            maxlength: 40
+        },
+
+        description: {
+            type: String,
+            trim: true,
+            default: "",
+            maxlength: 2000
+        },
+
+        image: {
+            type: String,
+            default: ""
+        },
+
         gallery: {
             type: [{ type: String, trim: true }],
             default: [],
@@ -49,16 +80,31 @@ const productSchema = new mongoose.Schema(
                 message: "A product can have up to 8 gallery images."
             }
         },
+
+        // Flexible category-specific specifications.
         specifications: {
-            type: productSpecificationsSchema,
+            type: mongoose.Schema.Types.Mixed,
             default: () => ({})
         },
-        size: { type: String, default: "" },
-        care: { type: String, default: "Beginner" },
-        isActive: { type: Boolean, default: true }
+
+        size: {
+            type: String,
+            default: ""
+        },
+
+        care: {
+            type: String,
+            default: "Beginner"
+        },
+
+        isActive: {
+            type: Boolean,
+            default: true
+        }
     },
     { timestamps: true }
 );
 
 const Product = mongoose.model("Product", productSchema);
+
 export default Product;

@@ -86,20 +86,132 @@ const elements = {
     removeImage: document.getElementById("removeProductImage"),
     galleryFiles: document.getElementById("productGalleryFiles"),
     galleryExisting: document.getElementById("productGalleryExisting"),
-    gallerySelected: document.getElementById("productGallerySelected"),
-    specifications: {
-        scientificName: document.getElementById("specScientificName"),
-        origin: document.getElementById("specOrigin"),
-        adultSize: document.getElementById("specAdultSize"),
-        temperament: document.getElementById("specTemperament"),
-        diet: document.getElementById("specDiet"),
-        waterTemperature: document.getElementById("specWaterTemperature"),
-        phRange: document.getElementById("specPhRange"),
-        minimumTankSize: document.getElementById("specMinimumTankSize"),
-        careLevel: document.getElementById("specCareLevel"),
-        notes: document.getElementById("specNotes")
+    gallerySelected: document.getElementById("productGallerySelected"),  
+    specificationsContainer: document.getElementById("productSpecificationsContainer"),
+    specificationsTitle: document.getElementById("specificationsTitle"),
+
+    };
+
+const SPECIFICATION_TEMPLATES = {
+    fish: {
+        title: "Fish specifications",
+        fields: [
+            ["scientificName", "Scientific name", 120],
+            ["origin", "Origin", 120],
+            ["size", "Size", 80],
+            ["temperament", "Temperament", 120],
+            ["diet", "Diet", 120],
+            ["waterTemperature", "Water temperature", 80],
+            ["phRange", "pH range", 80],
+            ["minimumTankSize", "Minimum tank size", 80],
+            ["careLevel", "Care level", 80]
+        ]
+    },
+
+    plants: {
+        title: "Plant specifications",
+        fields: [
+            ["scientificName", "Scientific name", 120],
+            ["origin", "Origin", 120],
+            ["growthRate", "Growth rate", 80],
+            ["lightRequirement", "Light requirement", 100],
+            ["co2Requirement", "CO₂ requirement", 100],
+            ["placement", "Placement", 100],
+            ["temperature", "Temperature", 80],
+            ["phRange", "pH range", 80]
+        ]
+    },
+
+    food: {
+        title: "Food specifications",
+        fields: [
+            ["brand", "Brand", 120],
+            ["foodType", "Food type", 100],
+            ["suitableSpecies", "Suitable species", 200],
+            ["pelletSize", "Pellet size", 80],
+            ["feedingInstructions", "Feeding instructions", 250],
+            ["netWeight", "Net weight", 80],
+            ["expiryInformation", "Expiry information", 100]
+        ]
+    },
+
+    equipment: {
+        title: "Equipment specifications",
+        fields: [
+            ["brand", "Brand", 120],
+            ["modelName", "Model name", 120],
+            ["equipmentType", "Equipment type", 100],
+            ["powerConsumption", "Power consumption", 80],
+            ["voltage", "Voltage", 80],
+            ["dimensions", "Dimensions", 100],
+            ["compatibility", "Compatibility", 200]
+        ]
+    },
+
+    hardscape: {
+        title: "Hardscape specifications",
+        fields: [
+            ["material", "Material", 100],
+            ["typeName", "Type name", 100],
+            ["weight", "Weight", 80],
+            ["colour", "Colour", 80],
+            ["suitableAquariumType", "Suitable aquarium type", 150]
+        ]
     }
 };
+
+function getSpecificationTemplate(category) {
+    if (["fish", "cichlid", "goldfish"].includes(category)) {
+        return SPECIFICATION_TEMPLATES.fish;
+    }
+
+    return SPECIFICATION_TEMPLATES[category] || null;
+}
+
+function renderSpecificationFields(category, values = {}) {
+    const template = getSpecificationTemplate(category);
+
+    elements.specificationsContainer.innerHTML = "";
+
+    if (!template) {
+        elements.specificationsTitle.textContent = "Product specifications";
+
+        elements.specificationsContainer.innerHTML = `
+            <p class="specifications-placeholder">
+                Select a category to see its specifications.
+            </p>
+        `;
+        return;
+    }
+
+    elements.specificationsTitle.textContent = template.title;
+
+    elements.specificationsContainer.innerHTML = template.fields.map(
+        ([key, label, maxLength]) => `
+            <div class="form-field">
+                <label for="spec_${key}">${label}</label>
+                <input
+                    type="text"
+                    id="spec_${key}"
+                    data-spec-key="${key}"
+                    maxlength="${maxLength}"
+                    value="${escapeHTML(values[key] || "")}"
+                >
+            </div>
+        `
+    ).join("");
+}
+
+function getSpecificationValues() {
+    const fields = elements.specificationsContainer.querySelectorAll("[data-spec-key]");
+
+    return Object.fromEntries(
+        Array.from(fields).map(input => [
+            input.dataset.specKey,
+            input.value.trim()
+        ])
+    );
+}
 
 
 // =====================================================
@@ -340,11 +452,11 @@ async function removeGalleryImage(index) {
     }
 }
 
-function setSpecificationFields(specifications = {}) {
-    Object.entries(elements.specifications).forEach(([key, input]) => {
-        input.value = specifications[key] || "";
-    });
+
+function setSpecificationFields(category, specifications = {}) {
+    renderSpecificationFields(category, specifications);
 }
+
 
 function renderSelectedGalleryPreviews(files) {
     elements.gallerySelected.innerHTML = "";
@@ -631,7 +743,6 @@ function openProductModal(product = null) {
     elements.galleryFiles.value = "";
     elements.gallerySelected.innerHTML = "";
     renderAdminGallery([]);
-    setSpecificationFields({});
     showProductImagePreview(null);
     elements.productId.value = "";
 
@@ -652,8 +763,10 @@ function openProductModal(product = null) {
         showProductImagePreview(product.image || null);
         elements.description.value = product.description || "";
         renderAdminGallery(product.gallery || []);
-        setSpecificationFields(product.specifications || {});
-
+        setSpecificationFields(
+            product.category,
+            product.specifications || {}
+        );
         elements.sku.readOnly = true;
         elements.sku.placeholder = "Existing SKU";
         elements.sku.title = "SKU cannot be changed.";
@@ -709,16 +822,27 @@ function closeProductModal() {
 // =====================================================
 
 
+
 function getProductFormData() {
+    const name = elements.name.value.trim();
+    const category = elements.categoryInput.value;
     const priceValue = elements.price.value.trim();
     const stockValue = elements.stock.value.trim();
 
-    if (priceValue === "" || stockValue === "") {
-        throw new Error("Please provide both price and stock quantity.");
+    if (!name) {
+        throw new Error("Product name is required.");
+    }
+
+    if (!category) {
+        throw new Error("Please select a product category.");
+    }
+
+    if (priceValue === "") {
+        throw new Error("Product price is required.");
     }
 
     const price = Number(priceValue);
-    const stock = Number(stockValue);
+    const stock = stockValue === "" ? 0 : Number(stockValue);
 
     if (!Number.isFinite(price) || price < 0) {
         throw new Error("Enter a valid non-negative price.");
@@ -745,8 +869,8 @@ function getProductFormData() {
     }
 
     return {
-        name: elements.name.value.trim(),
-        category: elements.categoryInput.value,
+        name,
+        category,
         subcategory: elements.subcategory.value.trim(),
         price,
         stock,
@@ -755,11 +879,10 @@ function getProductFormData() {
         tag: elements.tag.value.trim(),
         image,
         description: elements.description.value.trim(),
-        specifications: Object.fromEntries(
-            Object.entries(elements.specifications).map(([key, input]) => [key, input.value.trim()])
-        )
+        specifications: getSpecificationValues()
     };
 }
+
 
 
 
@@ -1031,8 +1154,11 @@ elements.closeModal.addEventListener("click", closeProductModal);
 elements.cancelForm.addEventListener("click", closeProductModal);
 elements.modalBackdrop.addEventListener("click", closeProductModal);
 elements.name.addEventListener("input", updateSkuPreview);
-elements.categoryInput.addEventListener("change", updateSkuPreview);
-
+elements.categoryInput.addEventListener("change", () => {
+    // Clear old category-specific values when category changes.
+    renderSpecificationFields(elements.categoryInput.value);
+    updateSkuPreview();
+});
 elements.imageFile.addEventListener("change", () => {
     const file = elements.imageFile.files[0];
 

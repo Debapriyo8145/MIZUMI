@@ -213,18 +213,20 @@ export const createProduct = async (req, res) => {
             specifications
         } = req.body;
 
+        
         if (
             !name?.trim() ||
             !category ||
-            !subcategory ||
             price === undefined ||
-            !description?.trim()
+            price === null ||
+            price === ""
         ) {
             return res.status(400).json({
                 success: false,
-                message: "Please provide all required product fields."
+                message: "Product name, category and price are required."
             });
         }
+
 
         const numericPrice = Number(price);
         const numericStock = stock === undefined ? 0 : Number(stock);
@@ -243,20 +245,25 @@ export const createProduct = async (req, res) => {
 
         const sku = await generateProductSku(name, category);
 
+
         const product = await Product.create({
             sku,
             name: name.trim(),
-            category,
-            subcategory,
+            category: category.toLowerCase().trim(),
+            subcategory: subcategory?.trim() || "",
             price: numericPrice,
             stock: numericStock,
-            tag,
-            description: description.trim(),
+            tag: tag?.trim() || "",
+            description: description?.trim() || "",
             image: image || "",
-            size,
-            care,
-            specifications: specifications || {}
+            size: size || "",
+            care: care || "Beginner",
+            specifications:
+                specifications && typeof specifications === "object" && !Array.isArray(specifications)
+                    ? specifications
+                    : {}
         });
+
 
         return res.status(201).json({
             success: true,
@@ -433,19 +440,18 @@ export const updateProduct = async (req, res) => {
             updates.name = updates.name.trim();
         }
 
+
         if ("description" in updates) {
-            if (
-                typeof updates.description !== "string" ||
-                !updates.description.trim()
-            ) {
+            if (typeof updates.description !== "string") {
                 return res.status(400).json({
                     success: false,
-                    message: "Product description cannot be empty."
+                    message: "Description must be text."
                 });
             }
-
+        
             updates.description = updates.description.trim();
         }
+        
 
         const product = await Product.findOneAndUpdate(
             {
