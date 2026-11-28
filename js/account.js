@@ -108,7 +108,9 @@ async function apiRequest(endpoint, options = {}) {
     }
 
     if (!response.ok) {
-        throw new Error(result.message || "Something went wrong.");
+        const error = new Error(result.message || "Something went wrong.");
+        error.code = result.code;
+        throw error;
     }
 
     return result;
@@ -120,6 +122,78 @@ function setLoading(button, loading, originalText) {
     button.innerHTML = loading
         ? '<i class="fa-solid fa-spinner fa-spin"></i> Please wait...'
         : originalText;
+}
+
+
+/* =================================
+   EMAIL VERIFICATION NOTICE
+================================= */
+
+function showVerificationPending(email, message) {
+    document.getElementById("authSidebar").classList.remove("hidden");
+    loggedInPanel.classList.add("hidden");
+    loginForm.classList.add("hidden");
+    registerForm.classList.add("hidden");
+    document.querySelector(".account-intro").classList.add("hidden");
+
+    loginTab.classList.remove("active");
+    registerTab.classList.remove("active");
+
+    const notice = document.createElement("section");
+    notice.className = "account-form";
+    notice.setAttribute("aria-live", "polite");
+
+    const heading = document.createElement("h2");
+    heading.textContent = "Verify your email";
+
+    const paragraph = document.createElement("p");
+    paragraph.textContent = message;
+
+    const address = document.createElement("p");
+    address.textContent = email
+        ? `Verification link requested for: ${email}`
+        : "Enter your registered email address to request another verification link.";
+
+    const resendButton = document.createElement("button");
+    resendButton.type = "button";
+    resendButton.className = "account-submit";
+    resendButton.textContent = "Resend verification email";
+
+    const loginButton = document.createElement("button");
+    loginButton.type = "button";
+    loginButton.className = "account-switch";
+    loginButton.textContent = "Back to sign in";
+
+    resendButton.addEventListener("click", async () => {
+        const targetEmail = email || window.prompt("Enter your registered email address:");
+        if (!targetEmail) return;
+
+        resendButton.disabled = true;
+        resendButton.textContent = "Sending...";
+
+        try {
+            const result = await apiRequest("/customer-auth/resend-verification", {
+                method: "POST",
+                body: JSON.stringify({ email: targetEmail })
+            });
+            paragraph.textContent = result.message;
+        } catch (error) {
+            paragraph.textContent = error.message;
+        } finally {
+            resendButton.disabled = false;
+            resendButton.textContent = "Resend verification email";
+        }
+    });
+
+    loginButton.addEventListener("click", showLogin);
+    notice.append(heading, paragraph, address, resendButton, loginButton);
+
+    const previousNotice = document.getElementById("verificationNotice");
+    if (previousNotice) previousNotice.remove();
+    notice.id = "verificationNotice";
+
+    accountMessage.insertAdjacentElement("afterend", notice);
+    clearMessage();
 }
 
 
@@ -157,17 +231,9 @@ registerForm.addEventListener("submit", async event => {
         });
 
         registerForm.reset();
-
-        if (result.customer) {
-            renderCustomer(result.customer);
-        } else {
-            const profile = await apiRequest("/customer-auth/me");
-            renderCustomer(profile.customer);
-        }
-
-        showMessage(
-            result.message || "Account created successfully.",
-            "success"
+        showVerificationPending(
+            body.email,
+            result.message || "Account created. Check your inbox for the verification link."
         );
 
     } catch (error) {
@@ -221,6 +287,10 @@ loginForm.addEventListener("submit", async event => {
 
     } catch (error) {
         showMessage(error.message);
+
+        if (error.code === "EMAIL_NOT_VERIFIED") {
+            showVerificationPending(body.email, error.message);
+        }
 
     } finally {
         setLoading(button, false, originalText);
