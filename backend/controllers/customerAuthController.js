@@ -305,9 +305,10 @@ export const loginCustomer = async (req, res) => {
         }).select("+password");
 
         if (!customer) {
-            return res.status(401).json({
+            return res.status(404).json({
                 success: false,
-                message: "Invalid email or password."
+                code: "ACCOUNT_NOT_FOUND",
+                message: "No account is registered with this email. Please create an account first."
             });
         }
 
