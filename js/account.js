@@ -24,6 +24,7 @@ function clearMessage() {
 }
 
 function showLogin() {
+    document.getElementById("verificationNotice")?.remove();
     clearMessage();
 
     document.getElementById("authSidebar").classList.remove("hidden");
@@ -39,6 +40,7 @@ function showLogin() {
 }
 
 function showRegister() {
+    document.getElementById("verificationNotice")?.remove();
     clearMessage();
 
     document.getElementById("authSidebar").classList.remove("hidden");
@@ -110,6 +112,7 @@ async function apiRequest(endpoint, options = {}) {
     if (!response.ok) {
         const error = new Error(result.message || "Something went wrong.");
         error.code = result.code;
+        error.accountCreated = result.accountCreated === true;
         throw error;
     }
 
@@ -237,7 +240,12 @@ registerForm.addEventListener("submit", async event => {
         );
 
     } catch (error) {
-        showMessage(error.message);
+        if (error.accountCreated) {
+            registerForm.reset();
+            showVerificationPending(body.email, error.message);
+        } else {
+            showMessage(error.message);
+        }
 
     } finally {
         setLoading(button, false, originalText);
