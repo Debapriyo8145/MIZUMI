@@ -40,6 +40,13 @@ export const protectCustomer = async (req, res, next) => {
         ).select("_id name email phone addresses accountStatus emailVerified");
 
         if (!customer || customer.accountStatus !== "active" || !customer.emailVerified) {
+            res.clearCookie("mizumi_customer_token", {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === "production",
+                sameSite: "lax",
+                path: "/api/v1"
+            });
+
             return res.status(401).json({
                 success: false,
                 message: "Customer account is unavailable. Please log in again."
@@ -113,7 +120,7 @@ export const optionalProtectCustomer = async (req, res, next) => {
 
         const customer = await Customer.findById(
             decoded.customerId
-        ).select("_id name email phone addresses accountStatus");
+        ).select("_id name email phone addresses accountStatus emailVerified");
 
         if (customer && customer.accountStatus === "active" && customer.emailVerified) {
             req.customer = customer;
