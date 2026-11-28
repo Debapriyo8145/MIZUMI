@@ -1,7 +1,40 @@
 
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import crypto from "crypto";
 import Customer from "../models/Customer.js";
+import { sendVerificationEmail } from "../config/mailer.js";
+
+const VERIFICATION_TTL_MS = 30 * 60 * 1000;
+
+const createVerificationToken = () => crypto.randomBytes(32).toString("hex");
+
+const hashVerificationToken = token =>
+    crypto.createHash("sha256").update(token).digest("hex");
+
+const getVerificationUrl = token => {
+    const frontendUrl = process.env.FRONTEND_URL;
+
+    if (!frontendUrl) {
+        throw new Error("FRONTEND_URL is not configured.");
+    }
+
+    return `${frontendUrl.replace(/\\/$/, "")}/verify-email.html?token=${encodeURIComponent(token)}`;
+};
+
+const issueVerificationEmail = async customer => {
+    const rawToken = createVerificationToken();
+
+    customer.emailVerificationTokenHash = hashVerificationToken(rawToken);
+    customer.emailVerificationExpiresAt = new Date(Date.now() + VERIFICATION_TTL_MS);
+    await customer.save();
+
+    await sendVerificationEmail({
+        to: customer.email,
+        name: customer.name,
+        verificationUrl: getVerificationUrl(rawToken)
+    });
+};
 
 const COOKIE_NAME = "mizumi_customer_token";
 const COOKIE_MAX_AGE = 7 * 24 * 60 * 60 * 1000;
@@ -107,22 +140,25 @@ export const registerCustomer = async (req, res) => {
             name: cleanName,
             email: cleanEmail,
             phone: cleanPhone,
-            password: hashedPassword
+            password: hashedPassword,
+            emailVerified: false
         });
 
-        setCustomerCookie(res, customer);
+        try {
+            await issueVerificationEmail(customer);
+        } catch (mailError) {
+            console.error("Verification email delivery failed:", mailError.message);
+            return res.status(503).json({
+                success: false,
+                accountCreated: true,
+                message: "Your account was created, but the verification email could not be sent. Please use Resend verification email."
+            });
+        }
 
         return res.status(201).json({
             success: true,
-            message: "Customer account created successfully.",
-            customer: {
-                id: customer._id,
-                name: customer.name,
-                email: customer.email,
-                phone: customer.phone,
-                addresses: customer.addresses,
-                createdAt: customer.createdAt
-            }
+            verificationRequired: true,
+            message: "Account created. Check your inbox for the verification link."
         });
 
     } catch (error) {
@@ -138,6 +174,91 @@ export const registerCustomer = async (req, res) => {
         return res.status(500).json({
             success: false,
             message: "Unable to create customer account."
+        });
+    }
+};
+
+
+/* -------------------- VERIFY CUSTOMER EMAIL -------------------- */
+
+export const verifyCustomerEmail = async (req, res) => {
+    try {
+        const token = String(req.body.token || "").trim();
+
+        if (!/^[a-f0-9]{64}$/i.test(token)) {
+            return res.status(400).json({
+                success: false,
+                message: "This verification link is invalid or incomplete."
+            });
+        }
+
+        const customer = await Customer.findOne({
+            emailVerificationTokenHash: hashVerificationToken(token),
+            emailVerificationExpiresAt: { $gt: new Date() },
+            emailVerified: false
+        }).select("+emailVerificationTokenHash +emailVerificationExpiresAt");
+
+        if (!customer) {
+            return res.status(400).json({
+                success: false,
+                message: "This verification link is invalid or has expired. Request a new one."
+            });
+        }
+
+        customer.emailVerified = true;
+        customer.emailVerificationTokenHash = undefined;
+        customer.emailVerificationExpiresAt = undefined;
+        await customer.save();
+
+        return res.status(200).json({
+            success: true,
+            message: "Your email has been verified. You can now sign in."
+        });
+    } catch (error) {
+        console.error("Customer email verification error:", error.message);
+        return res.status(500).json({
+            success: false,
+            message: "Unable to verify your email address."
+        });
+    }
+};
+
+
+/* -------------------- RESEND VERIFICATION EMAIL -------------------- */
+
+export const resendCustomerVerification = async (req, res) => {
+    try {
+        const email = String(req.body.email || "").trim().toLowerCase();
+
+        if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)) {
+            return res.status(400).json({
+                success: false,
+                message: "Please enter a valid email address."
+            });
+        }
+
+        const customer = await Customer.findOne({ email })
+            .select("+emailVerificationTokenHash +emailVerificationExpiresAt");
+
+        // Keep the response identical to avoid revealing registered addresses.
+        if (!customer || customer.emailVerified || customer.accountStatus !== "active") {
+            return res.status(200).json({
+                success: true,
+                message: "If an unverified account exists for that email, a new verification link will be sent."
+            });
+        }
+
+        await issueVerificationEmail(customer);
+
+        return res.status(200).json({
+            success: true,
+            message: "If an unverified account exists for that email, a new verification link will be sent."
+        });
+    } catch (error) {
+        console.error("Resend verification email error:", error.message);
+        return res.status(503).json({
+            success: false,
+            message: "Unable to send the verification email right now. Please try again later."
         });
     }
 };
@@ -185,6 +306,14 @@ export const loginCustomer = async (req, res) => {
             return res.status(403).json({
                 success: false,
                 message: "Your account is currently unavailable."
+            });
+        }
+
+        if (!customer.emailVerified) {
+            return res.status(403).json({
+                success: false,
+                code: "EMAIL_NOT_VERIFIED",
+                message: "Please verify your email address before signing in."
             });
         }
 
