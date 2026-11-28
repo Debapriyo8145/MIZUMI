@@ -27,6 +27,7 @@ const issueVerificationEmail = async customer => {
 
     customer.emailVerificationTokenHash = hashVerificationToken(rawToken);
     customer.emailVerificationExpiresAt = new Date(Date.now() + VERIFICATION_TTL_MS);
+    customer.emailVerificationLastSentAt = new Date();
     await customer.save();
 
     await sendVerificationEmail({
@@ -238,10 +239,20 @@ export const resendCustomerVerification = async (req, res) => {
         }
 
         const customer = await Customer.findOne({ email })
-            .select("+emailVerificationTokenHash +emailVerificationExpiresAt");
+            .select("+emailVerificationTokenHash +emailVerificationExpiresAt +emailVerificationLastSentAt");
 
         // Keep the response identical to avoid revealing registered addresses.
         if (!customer || customer.emailVerified || customer.accountStatus !== "active") {
+            return res.status(200).json({
+                success: true,
+                message: "If an unverified account exists for that email, a new verification link will be sent."
+            });
+        }
+
+        if (
+            customer.emailVerificationLastSentAt &&
+            Date.now() - customer.emailVerificationLastSentAt.getTime() < 60 * 1000
+        ) {
             return res.status(200).json({
                 success: true,
                 message: "If an unverified account exists for that email, a new verification link will be sent."
