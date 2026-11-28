@@ -19,7 +19,7 @@ const getVerificationUrl = token => {
         throw new Error("FRONTEND_URL is not configured.");
     }
 
-    return `${frontendUrl.replace(/\\/$/, "")}/verify-email.html?token=${encodeURIComponent(token)}`;
+    return `${frontendUrl.replace(/\/$/, "")}/verify-email.html?token=${encodeURIComponent(token)}`;
 };
 
 const issueVerificationEmail = async customer => {
@@ -230,7 +230,7 @@ export const resendCustomerVerification = async (req, res) => {
     try {
         const email = String(req.body.email || "").trim().toLowerCase();
 
-        if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)) {
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
             return res.status(400).json({
                 success: false,
                 message: "Please enter a valid email address."
