@@ -21,13 +21,13 @@
         <h1>MIZUMI Aquatics</h1>
         <p id="status" role="status" aria-live="polite">Ready to verify your email address.</p>
         <button id="verifyButton" type="button">Verify email address</button>
-        <p><a id="loginLink" href="account.html" hidden>Continue to sign in</a></p>
+        <p><a id="accountLink" href="account.html" hidden>Open my account</a></p>
     </main>
     <script>
         const API_BASE_URL = "http://localhost:5000/api/v1";
         const statusElement = document.getElementById("status");
         const verifyButton = document.getElementById("verifyButton");
-        const loginLink = document.getElementById("loginLink");
+        const accountLink = document.getElementById("accountLink");
         const token = new URLSearchParams(window.location.search).get("token");
 
         verifyButton.addEventListener("click", async () => {
@@ -44,15 +44,19 @@
                 const response = await fetch(`${API_BASE_URL}/customer-auth/verify-email`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json", Accept: "application/json" },
+                    credentials: "include",
                     body: JSON.stringify({ token })
                 });
                 const result = await response.json();
 
                 if (!response.ok) throw new Error(result.message || "Verification failed.");
 
-                statusElement.textContent = result.message || "Email verified successfully.";
+                statusElement.textContent = result.message || "Email verified. Signing you in...";
                 verifyButton.hidden = true;
-                loginLink.hidden = false;
+                accountLink.hidden = false;
+                window.setTimeout(() => {
+                    window.location.replace("account.html");
+                }, 1200);
             } catch (error) {
                 statusElement.textContent = error.message;
                 verifyButton.disabled = false;
