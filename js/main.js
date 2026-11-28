@@ -257,13 +257,25 @@ let cart = loadStoredCart();
 
 /* -------------------- PRODUCT NORMALIZATION -------------------- */
 
+
 function normalizeProduct(product) {
+    const rawSubcategory = String(product.subcategory || "")
+        .trim()
+        .toLowerCase();
+
+    // Keep homepage filter values consistent.
+    const subcategoryAliases = {
+        "molly": "mollies",
+        "tetras": "tetra",
+        "cichlids": "cichlid"
+    };
+
     return {
         id: String(product._id || product.id || product.sku || ""),
         sku: product.sku || "",
         name: product.name || "Unnamed product",
-        category: String(product.category || "").toLowerCase(),
-        subcategory: product.subcategory || "",
+        category: String(product.category || "").trim().toLowerCase(),
+        subcategory: subcategoryAliases[rawSubcategory] || rawSubcategory,
         description: product.description || "",
         price: Number(product.price) || 0,
         image: product.image || "",
@@ -272,6 +284,7 @@ function normalizeProduct(product) {
         isActive: product.isActive !== false
     };
 }
+
 
 /* -------------------- SECTION MESSAGES -------------------- */
 
@@ -505,46 +518,76 @@ function renderProducts(products, containerId) {
 
 /* -------------------- CATEGORY FILTERS -------------------- */
 
+
+/* -------------------- FRESHWATER COLLECTION FILTERS -------------------- */
+
 function setupCategoryFilters() {
-    const buttons = $$(".filter-btn");
+    const filterContainer = $("#fishFilters");
+
+    if (!filterContainer) return;
+
+    const buttons = $$(".filter-btn", filterContainer);
 
     if (!buttons.length) return;
 
-    buttons.forEach(button => {
-        button.addEventListener("click", () => {
+    let activeFilter = "all";
 
-            buttons.forEach(item => {
-                item.classList.remove("active");
-            });
+    function applyFishFilter(category) {
+        activeFilter = category;
 
-            button.classList.add("active");
+        buttons.forEach(button => {
+            const isActive = button.dataset.filter === category;
 
-            const category = (
-                button.dataset.filter || "all"
-            ).toLowerCase();
+            button.classList.toggle("active", isActive);
 
-            const filtered = allProducts.filter(product => {
-                if (!product.isActive || !isFishProduct(product)) {
-                    return false;
-                }
-
-                if (category === "all" || category === "fish") {
-                    return true;
-                }
-
-                return (
-                    product.category === category ||
-                    product.subcategory.toLowerCase() === category
-                );
-            });
-
-            renderProducts(
-                filtered.slice(0, MIZUMI_CONFIG.productsPerSection),
-                "fishProducts"
+            button.setAttribute(
+                "aria-pressed",
+                String(isActive)
             );
         });
+
+        const filteredProducts = allProducts.filter(product => {
+
+            // Only show active fish products.
+            if (!product.isActive || !isFishProduct(product)) {
+                return false;
+            }
+
+            // Show every fish product.
+            if (category === "all") {
+                return true;
+            }
+
+            // Match the selected fish family.
+            return (
+                product.subcategory === category ||
+                product.category === category
+            );
+        });
+
+        renderProducts(
+            filteredProducts.slice(
+                0,
+                MIZUMI_CONFIG.productsPerSection
+            ),
+            "fishProducts"
+        );
+    }
+
+    buttons.forEach(button => {
+        button.addEventListener("click", () => {
+            const category = String(
+                button.dataset.filter || "all"
+            ).trim().toLowerCase();
+
+            applyFishFilter(category);
+        });
     });
+
+    // Default selection.
+    applyFishFilter(activeFilter);
 }
+
 
 /* -------------------- CART TOAST -------------------- */
 
