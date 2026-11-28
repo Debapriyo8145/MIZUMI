@@ -294,10 +294,14 @@ loginForm.addEventListener("submit", async event => {
         );
 
     } catch (error) {
-        showMessage(error.message);
-
-        if (error.code === "EMAIL_NOT_VERIFIED") {
+        if (error.code === "ACCOUNT_NOT_FOUND") {
+            showRegister();
+            document.getElementById("registerEmail").value = body.email;
+            showMessage(error.message);
+        } else if (error.code === "EMAIL_NOT_VERIFIED") {
             showVerificationPending(body.email, error.message);
+        } else {
+            showMessage(error.message);
         }
 
     } finally {
