@@ -124,6 +124,11 @@ const customerSchema = new mongoose.Schema(
         emailVerificationExpiresAt: {
             type: Date,
             select: false
+        },
+
+        emailVerificationLastSentAt: {
+            type: Date,
+            select: false
         }
     },
     {
