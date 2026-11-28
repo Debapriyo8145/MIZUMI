@@ -211,9 +211,19 @@ export const verifyCustomerEmail = async (req, res) => {
         customer.emailVerificationExpiresAt = undefined;
         await customer.save();
 
+        // Create the customer session immediately after successful verification.
+        setCustomerCookie(res, customer);
+
         return res.status(200).json({
             success: true,
-            message: "Your email has been verified. You can now sign in."
+            message: "Your email has been verified. Signing you in...",
+            customer: {
+                id: customer._id,
+                name: customer.name,
+                email: customer.email,
+                phone: customer.phone,
+                addresses: customer.addresses
+            }
         });
     } catch (error) {
         console.error("Customer email verification error:", error.message);
