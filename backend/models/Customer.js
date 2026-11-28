@@ -114,6 +114,16 @@ const customerSchema = new mongoose.Schema(
         emailVerified: {
             type: Boolean,
             default: false
+        },
+
+        emailVerificationTokenHash: {
+            type: String,
+            select: false
+        },
+
+        emailVerificationExpiresAt: {
+            type: Date,
+            select: false
         }
     },
     {
